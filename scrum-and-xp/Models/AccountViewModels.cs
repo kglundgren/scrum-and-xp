@@ -79,6 +79,20 @@ namespace scrum_and_xp.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+        [Required]
+        // [RegularExpression("^([a-zA-Zåäö]{2,}\s[a-zA-zåäö]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Zåäö]{1,})?)", ErrorMessage = "Write a correct first name!")]
+        [Display(Name = "First name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        // [RegularExpression("^([a-zA-Zåäö]{2,}\s[a-zA-zåäö]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Zåäö]{1,})?)", ErrorMessage = "Write a correct last name!")]
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "PhoneNumber")]
+        public string PhoneNumber { get; set; }
+
     }
 
     public class ResetPasswordViewModel

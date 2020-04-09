@@ -181,6 +181,10 @@
     <Compile Include="Migrations\202004080812157_first_and_lastname.Designer.cs">
       <DependentUpon>202004080812157_first_and_lastname.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004090842133_TelephoneNumber.cs" />
+    <Compile Include="Migrations\202004090842133_TelephoneNumber.Designer.cs">
+      <DependentUpon>202004090842133_TelephoneNumber.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -267,6 +271,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004080812157_first_and_lastname.resx">
       <DependentUpon>202004080812157_first_and_lastname.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004090842133_TelephoneNumber.resx">
+      <DependentUpon>202004090842133_TelephoneNumber.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
