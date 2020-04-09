@@ -194,6 +194,10 @@
     <Compile Include="Migrations\202004090938225_postProps.Designer.cs">
       <DependentUpon>202004090938225_postProps.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004091838283_posts_dateTime.cs" />
+    <Compile Include="Migrations\202004091838283_posts_dateTime.Designer.cs">
+      <DependentUpon>202004091838283_posts_dateTime.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FormalCategory.cs" />
@@ -296,6 +300,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004090938225_postProps.resx">
       <DependentUpon>202004090938225_postProps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004091838283_posts_dateTime.resx">
+      <DependentUpon>202004091838283_posts_dateTime.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

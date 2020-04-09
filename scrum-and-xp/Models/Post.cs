@@ -13,7 +13,7 @@ namespace scrum_and_xp.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
-        
+        public DateTime postTime { get; set; }
 
         public ApplicationUser AuthorId { get; set; }
     }

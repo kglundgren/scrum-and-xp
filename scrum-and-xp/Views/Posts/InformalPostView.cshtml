@@ -1,7 +1,32 @@
-﻿
+﻿@using scrum_and_xp.Models
+@model PostListViewModel
 @{
     ViewBag.Title = "InformalPostView";
 }
 
-<h2>InformalPostView</h2>
+<h2>Informal Posts</h2>
 
+@if (Model != null)
+{
+    <div class="row">
+
+
+        @foreach (var post in Model.PostList)
+        {
+
+
+            <div class="jumbotron">
+                <div style="max-width: 290px; max-height: 340px; min-height: 340px; min-width:290px;">
+
+                    <div class="caption">
+                        <h2>@post.Title</h2>
+                        <p>@post.Content</p>
+                        <br>
+                        <h4>Posted:</h4>
+                        <p>@post.postTime</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    }
