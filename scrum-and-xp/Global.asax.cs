@@ -1,4 +1,3 @@
-using scrum_and_xp.App_Start;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,7 +17,6 @@ namespace scrum_and_xp
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            Database.SetInitializer(new MyContextInitializer());
         }
     }
 }
