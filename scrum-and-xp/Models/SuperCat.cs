@@ -5,8 +5,9 @@ using System.Web;
 
 namespace scrum_and_xp.Models
 {
-    public class FormalCategory : SuperCat
+    public abstract class SuperCat
     {
-       
+        public virtual int Id { get; set; }
+        public virtual string Name { get; set; }
     }
 }
