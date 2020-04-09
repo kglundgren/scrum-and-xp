@@ -9,7 +9,7 @@ namespace scrum_and_xp.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(scrum_and_xp.Models.ApplicationDbContext context)
