@@ -3,4 +3,4 @@ scrum-and-xp/bin
 scrum-and-xp/obj
 Shared\ Model/bin
 Shared\ Model/obj
-scrum-and-xp/App_Data/*.ldf
+scrum-and-xp/App_Data
