@@ -30,6 +30,7 @@ namespace scrum_and_xp.Controllers
             var userId = User.Identity.GetUserId();
             var user = db.Users.FirstOrDefault(a => a.Id == userId);
             var _post = new Post();
+            _post.Title = post.Title;
             _post.Content = post.Content;
             _post.AuthorId = user;
 
