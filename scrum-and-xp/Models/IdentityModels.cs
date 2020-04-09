@@ -23,6 +23,9 @@ namespace scrum_and_xp.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<FormalCategory> FormalCategories { get; set; }
+        public DbSet<InformalCategory> InformalCategories { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
