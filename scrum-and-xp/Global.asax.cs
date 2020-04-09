@@ -1,4 +1,3 @@
-using scrum_and_xp.App_Start;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
