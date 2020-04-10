@@ -12,4 +12,10 @@ namespace scrum_and_xp.Models
         
         public string Content { get; set; }
     }
+
+    public class PostListViewModel 
+    {
+        public List<Post> PostList { get; set; }
+    }
+    
 }
