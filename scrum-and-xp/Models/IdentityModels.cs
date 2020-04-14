@@ -23,7 +23,8 @@ namespace scrum_and_xp.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Post> Posts { get; set; }
+       public DbSet<InformalPost> InformalPosts { get; set; }
+        public DbSet<FormalPost> FormalPosts { get; set; }
         public DbSet<FormalCategory> FormalCategories { get; set; }
         
         public DbSet<InformalCategory> InformalCategories { get; set; }
