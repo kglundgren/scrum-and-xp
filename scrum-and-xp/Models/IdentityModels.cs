@@ -25,7 +25,13 @@ namespace scrum_and_xp.Models
     {
         public DbSet<Post> Posts { get; set; }
         public DbSet<FormalCategory> FormalCategories { get; set; }
+        
         public DbSet<InformalCategory> InformalCategories { get; set; }
+       
+
+            public DbSet<FormalCustom> FormalCustoms { get; set; }
+            public DbSet<InformalCustom> InformalCustoms { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

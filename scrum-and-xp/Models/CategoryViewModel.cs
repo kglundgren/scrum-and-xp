@@ -5,8 +5,10 @@ using System.Web;
 
 namespace scrum_and_xp.Models
 {
-    public class FormalCategory : SuperCat
+    public class CategoryViewModel
     {
-       
+        public string Name { get; set; }
+        public string Type { get; set; }
+        
     }
 }
