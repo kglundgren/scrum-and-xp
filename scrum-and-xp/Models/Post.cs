@@ -20,10 +20,10 @@ namespace scrum_and_xp.Models
 
     public class InformalPost : Post
     {
-        public  InformalCategory Category { get; set; }
+        public  InformalCategory InformalCat { get; set; }
     }
     public class FormalPost : Post
     {
-        public FormalCategory Category { get; set; }
+        public FormalCategory FormalCat { get; set; }
     }
 }

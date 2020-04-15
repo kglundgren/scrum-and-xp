@@ -7,13 +7,13 @@ namespace scrum_and_xp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class InfFormPosts : IMigrationMetadata
+    public sealed partial class postDb : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InfFormPosts));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(postDb));
         
         string IMigrationMetadata.Id
         {
-            get { return "202004141220393_InfFormPosts"; }
+            get { return "202004150747394_postDb"; }
         }
         
         string IMigrationMetadata.Source

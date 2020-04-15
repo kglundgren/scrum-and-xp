@@ -211,9 +211,9 @@
     <Compile Include="Migrations\202004121923541_commentMiss.Designer.cs">
       <DependentUpon>202004121923541_commentMiss.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004141220393_InfFormPosts.cs" />
-    <Compile Include="Migrations\202004141220393_InfFormPosts.Designer.cs">
-      <DependentUpon>202004141220393_InfFormPosts.cs</DependentUpon>
+    <Compile Include="Migrations\202004150747394_postDb.cs" />
+    <Compile Include="Migrations\202004150747394_postDb.Designer.cs">
+      <DependentUpon>202004150747394_postDb.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -334,8 +334,8 @@
     <EmbeddedResource Include="Migrations\202004121923541_commentMiss.resx">
       <DependentUpon>202004121923541_commentMiss.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004141220393_InfFormPosts.resx">
-      <DependentUpon>202004141220393_InfFormPosts.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202004150747394_postDb.resx">
+      <DependentUpon>202004150747394_postDb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
