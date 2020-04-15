@@ -170,6 +170,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PictureUploadController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -190,14 +191,20 @@
     <Compile Include="Migrations\202004081253517_categories.Designer.cs">
       <DependentUpon>202004081253517_categories.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004151115251_bilder.cs" />
+    <Compile Include="Migrations\202004151115251_bilder.Designer.cs">
+      <DependentUpon>202004151115251_bilder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\FormalCategory.cs" />
     <Compile Include="Models\InformalCategory.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PictureUploadModel.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\PostViewModel.cs" />
+    <Compile Include="Models\UserIndexViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -259,9 +266,11 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Posts\InformalPostView.cshtml" />
     <Content Include="Views\Posts\CreatePostView.cshtml" />
+    <Content Include="Views\PictureUpload\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\UserIndexViewModel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -288,6 +297,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004081253517_categories.resx">
       <DependentUpon>202004081253517_categories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004151115251_bilder.resx">
+      <DependentUpon>202004151115251_bilder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
