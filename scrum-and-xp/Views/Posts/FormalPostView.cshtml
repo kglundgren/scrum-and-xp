@@ -1,0 +1,39 @@
+﻿@model scrum_and_xp.Models.FormalPostListViewModel
+@{
+    ViewBag.Title = "FormalPostView";
+}
+
+
+
+
+@{
+    ViewBag.Title = "InformalPostView";
+}
+
+<h2>Formal Posts</h2>
+
+@if (Model != null)
+{
+    <div class="row">
+
+
+        @foreach (var post in Model.FormalPostList)
+        {
+
+
+            <div class="jumbotron">
+                <div style="width: 60%; height: 60%;">
+
+                    <div class="caption">
+                        <h2>@post.Title</h2>
+                        <p>@post.Content</p>
+                        <br>
+                        <h4>Posted:</h4>
+                        <p>@post.postTime</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+

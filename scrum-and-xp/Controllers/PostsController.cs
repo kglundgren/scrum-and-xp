@@ -80,8 +80,12 @@ namespace scrum_and_xp.Controllers
             }
                 db.SaveChanges();
             
+            if(post.Type == "informal") { return RedirectToAction("InformalPostView", "Posts"); }
+            else
+            {
+                return RedirectToAction("FormalPostView", "Posts");
+            }
 
-            return RedirectToAction("InformalPostView", "Posts");
         }
     }
    

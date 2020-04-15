@@ -287,6 +287,7 @@
     <Content Include="Views\Posts\CreatePostView.cshtml" />
     <Content Include="Views\Categories\NewCategoryView.cshtml" />
     <Content Include="Views\Categories\NewParentCategoryView.cshtml" />
+    <Content Include="Views\Posts\FormalPostView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
