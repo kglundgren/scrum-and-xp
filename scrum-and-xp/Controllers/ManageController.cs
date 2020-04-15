@@ -213,6 +213,31 @@ namespace scrum_and_xp.Controllers
             return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
         }
 
+        public ActionResult ChangeName(ChangeNameViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+
+            }
+
+            var db = new ApplicationDbContext();
+
+            var UserId = User.Identity.GetUserId();
+
+            var user = db.Users.FirstOrDefault(a => a.Id == UserId);
+
+            user.LastName = model.LastName;
+            user.FirstName = model.FirstName;
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index", new { Message = "Ditt namn har ändrats!" });
+        }
+
+        
+
+
         //
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
@@ -220,6 +245,7 @@ namespace scrum_and_xp.Controllers
             return View();
         }
 
+        
         //
         // POST: /Manage/ChangePassword
         [HttpPost]
@@ -229,8 +255,10 @@ namespace scrum_and_xp.Controllers
             if (!ModelState.IsValid)
             {
                 return View(model);
+
             }
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -243,6 +271,42 @@ namespace scrum_and_xp.Controllers
             AddErrors(result);
             return View(model);
         }
+        //
+        // GET: /Manage/ChangePhoneNumberView
+        public ActionResult ChangePhoneNumberView()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Manage/ChangePhoneNumberView
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangePhoneNumberView(ChangePhoneNumberViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+
+            }
+            var i = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), model.NewPhoneNumber);
+
+            var result = await UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId(), model.NewPhoneNumber, i);
+
+            if (result.Succeeded)
+            {
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user != null)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                }
+                return RedirectToAction("Index", new { Message = "PhoneNumber has changed!" });
+            }
+            AddErrors(result);
+            return View(model);
+        }
+
+
 
         //
         // GET: /Manage/SetPassword

@@ -282,6 +282,8 @@
     <Content Include="Views\Posts\CreatePostView.cshtml" />
     <Content Include="Views\Categories\NewCategoryView.cshtml" />
     <Content Include="Views\Categories\NewParentCategoryView.cshtml" />
+    <Content Include="Views\Manage\ChangePhoneNumberView.cshtml" />
+    <Content Include="Views\Manage\ChangeName.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
