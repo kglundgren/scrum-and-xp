@@ -10,11 +10,26 @@ namespace scrum_and_xp.Controllers
 {
     public class PostsController : Controller
     {
-        // GET: Posts
+        //GET: Posts
         public ActionResult InformalPostView()
         {
             var db = new ApplicationDbContext();
-            var model = new InformalPostListViewModel() { InformalPostList = db.InformalPosts.OrderByDescending(p => p.PostTime).ToList() };
+            //var typ = db.Categories.Where(c => c.Type == "informal").Select();
+            var model = new PostListViewModel();
+            var listCat = db.Categories.Where(p => p.Type == "informal").ToList();
+            var listPost = db.Posts.ToList();
+            
+            foreach(var post in listPost)
+            {
+                for(int i = 0; i < listCat.Count; i++)
+                {
+                    if (post.CategoryId == listCat[i].Id)
+                    {
+                        model.PostList.Add(post);
+                        break;
+                    }
+                }
+            }
 
             if (model != null)
             {
@@ -28,7 +43,21 @@ namespace scrum_and_xp.Controllers
         public ActionResult FormalPostView()
         {
             var db = new ApplicationDbContext();
-            var model = new FormalPostListViewModel() { FormalPostList = db.FormalPosts.OrderByDescending(p => p.PostTime).ToList() };
+            var model = new PostListViewModel(); /*{ PostList = db.Posts.Where(p => p.Type == "formal").OrderByDescending(p => p.PostTime).ToList() };*/
+            var listCat = db.Categories.Where(p => p.Type == "formal").ToList();
+            var listPost = db.Posts.ToList();
+
+            foreach (var post in listPost)
+            {
+                for (int i = 0; i < listCat.Count; i++)
+                {
+                    if (post.CategoryId == listCat[i].Id)
+                    {
+                        model.PostList.Add(post);
+                        
+                    }
+                }
+            }
 
             if (model != null)
             {
@@ -56,26 +85,20 @@ namespace scrum_and_xp.Controllers
             var user = db.Users.FirstOrDefault(a => a.Id == userId);
 
             var newPost = new Post();
-            newPost.Title = newPost.Title;
-            newPost.Content = newPost.Content;
+            newPost.Title = post.Title;
+            newPost.Content = post.Content;
             newPost.PostTime = DateTime.Now;
             newPost.AuthorFirstName = user.FirstName;
             newPost.AuthorLastName = user.LastName;
             newPost.AuthorId = user;
-
-            if (post.Type == "informal")
-            {
-                var infPost = new InformalPost(newPost);
-                db.InformalPosts.Add(infPost);
-            }
-            else
-            {
-                var formPost = new FormalPost(newPost);
-                db.FormalPosts.Add(formPost);
-            }
-                db.SaveChanges();
+            newPost.CategoryId = post.CategoryId;
             
-            if(post.Type == "informal") { return RedirectToAction("InformalPostView", "Posts"); }
+
+
+            db.Posts.Add(newPost);    
+            db.SaveChanges();
+            
+            if(post.CategoryId == 1) { return RedirectToAction("InformalPostView", "Posts"); }
             else
             {
                 return RedirectToAction("FormalPostView", "Posts");

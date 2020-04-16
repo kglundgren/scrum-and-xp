@@ -6,21 +6,17 @@ using System.Web;
 
 namespace scrum_and_xp.Models
 {
-    public class PostViewModel
+    public class PostListViewModel
     {
-        public string Title { get; set; }
+        public PostListViewModel()
+        {
+            PostList = new List<Post>();
+        }
+        public List<Post> PostList { get; set; }
         
-        public string Content { get; set; }
     }
 
-    public class InformalPostListViewModel 
-    {
-        public List<InformalPost> InformalPostList { get; set; }
-    }
-    public class FormalPostListViewModel
-    {
-        public List<FormalPost> FormalPostList { get; set; }
-    }
+    
 
     public class NewPostViewModel
     {
@@ -28,11 +24,13 @@ namespace scrum_and_xp.Models
         [MinLength(1)]
         [MaxLength(100)]
         public string Title { get; set; }
-        public string Type { get; set; }
+        
+        public int CategoryId { get; set; }
 
         [Required(ErrorMessage ="Content must be atleast 1 character long.")]
         [MinLength(1)]
         public string Content { get; set; }
+        
     }
     
 }

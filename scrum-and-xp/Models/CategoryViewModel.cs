@@ -11,4 +11,9 @@ namespace scrum_and_xp.Models
         public string Type { get; set; }
         
     }
+
+    public class CategorySubViewModel
+    {
+        public List<Category> sub { get; set; }
+    }
 }

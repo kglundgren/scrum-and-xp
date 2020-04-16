@@ -1,17 +1,16 @@
-﻿@using scrum_and_xp.Models
-@model InformalPostListViewModel
+﻿@model scrum_and_xp.Models.PostListViewModel
 @{
     ViewBag.Title = "InformalPostView";
 }
 
 <h2>Informal Posts</h2>
 
-@if (Model != null)
+@if (Model.PostList != null)
 {
     <div class="row">
 
 
-        @foreach (var post in Model.InformalPostList)
+        @foreach (var post in Model.PostList)
         {
 
 
@@ -30,3 +29,4 @@
         }
     </div>
     }
+else{<h2>No posts here</h2>}

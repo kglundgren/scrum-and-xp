@@ -1,4 +1,4 @@
-﻿@model scrum_and_xp.Models.FormalPostListViewModel
+﻿@model scrum_and_xp.Models.PostListViewModel
 @{
     ViewBag.Title = "FormalPostView";
 }
@@ -12,12 +12,12 @@
 
 <h2>Formal Posts</h2>
 
-@if (Model != null)
+@if (Model.PostList != null)
 {
     <div class="row">
 
 
-        @foreach (var post in Model.FormalPostList)
+        @foreach (var post in Model.PostList)
         {
 
 
@@ -29,11 +29,12 @@
                         <p>@post.Content</p>
                         <br>
                         <h4>Posted:</h4>
-                        <p>@post.postTime</p>
+                        <p>@post.PostTime</p>
                     </div>
                 </div>
             </div>
         }
     </div>
 }
+else{<h2>No posts</h2>}
 
