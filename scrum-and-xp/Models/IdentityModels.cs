@@ -37,7 +37,5 @@ namespace scrum_and_xp.Models
         {
             return new ApplicationDbContext();
         }
-
-        //public System.Data.Entity.DbSet<scrum_and_xp.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

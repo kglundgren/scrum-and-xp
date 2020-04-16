@@ -8,7 +8,7 @@ namespace scrum_and_xp.Models
 {
     public class Post
     {
-       public int Id { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public DateTime PostTime { get; set; }
@@ -18,10 +18,18 @@ namespace scrum_and_xp.Models
 
     public class InformalPost : Post
     {
+        public InformalPost()
+        {
+            InformalCategories = new List<InformalCategory>();
+        }
         public virtual ICollection<InformalCategory> InformalCategories { get; set; }
     }
     public class FormalPost : Post
     {
+        public FormalPost()
+        {
+            FormalCategories = new List<FormalCategory>();
+        }
         public virtual ICollection<FormalCategory> FormalCategories { get; set; }
     }
 }
