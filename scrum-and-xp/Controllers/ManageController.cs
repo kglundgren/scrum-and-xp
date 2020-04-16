@@ -64,6 +64,20 @@ namespace scrum_and_xp.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+
+            var user = UserManager.FindById(User.Identity.GetUserId());
+
+            var Profile = new ProfileViewModel
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email
+            };
+
+            ViewBag.FirstName = Profile.FirstName;
+            ViewBag.LastName = Profile.LastName;
+            ViewBag.Email = Profile.Email;
+
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
@@ -72,8 +86,25 @@ namespace scrum_and_xp.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
+
             return View(model);
+            
         }
+
+        //public ActionResult Index()
+        //{
+        //    var user = UserManager.FindById(User.Identity.GetUserId());
+        //    var Profile = new ProfileViewModel
+        //    {
+        //        FirstName = user.FirstName,
+        //        LastName = user.LastName,
+        //        Email = user.Email
+        //    };
+
+
+
+        //    return View(Profile);
+        //}
 
         //
         // POST: /Manage/RemoveLogin

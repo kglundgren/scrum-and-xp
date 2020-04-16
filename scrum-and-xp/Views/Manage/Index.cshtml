@@ -1,11 +1,32 @@
 ﻿@model scrum_and_xp.Models.IndexViewModel
 @{
-    ViewBag.Title = "Manage";
+    ViewBag.Title = "Your Account";
 }
 
 <h2>@ViewBag.Title.</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
+
+<dl class="dl-horizontal">
+    <dt>Firstname:</dt>
+    <dd>
+        @ViewBag.FirstName
+    </dd>
+
+    <dt>Lastname:</dt>
+    <dd>
+        @ViewBag.LastName
+    </dd>
+
+    <dt>Email:</dt>
+    <dd>
+        @ViewBag.Email
+
+    </dd>
+
+
+</dl>
+
 <div>
     <h4>Change your account settings</h4>
     <hr />
@@ -23,16 +44,17 @@
             }
             ]
         </dd>
-        <dt>External Logins:</dt>
+
+        @*<dt>External Logins:</dt>
         <dd>
             @Model.Logins.Count [
             @Html.ActionLink("Manage", "ManageLogins") ]
-        </dd>
+        </dd>*@
 
         <dt>Change phone number:</dt>
         <dd>
             [@Html.ActionLink("Change your phone number", "ChangePhoneNumberView")]
-            
+
         </dd>
 
         <dt>Change your name:</dt>
@@ -41,13 +63,13 @@
         </dd>
         @*
             Phone Numbers can used as a second factor of verification in a two-factor authentication system.
-             
+
              See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
                 for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-             
+
              Uncomment the following block after you have set up two-factor authentication
         *@
-        @*  
+        @*
             <dt>Phone Number:</dt>
             <dd>
                 @(Model.PhoneNumber ?? "None")
@@ -67,5 +89,5 @@
                 }
             </dd>
         *@
-       
+    </dl>
 </div>
