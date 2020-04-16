@@ -168,8 +168,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -189,13 +191,35 @@
     <Compile Include="Migrations\202004081253517_categories.Designer.cs">
       <DependentUpon>202004081253517_categories.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004090938225_postProps.cs" />
+    <Compile Include="Migrations\202004090938225_postProps.Designer.cs">
+      <DependentUpon>202004090938225_postProps.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004091838283_posts_dateTime.cs" />
+    <Compile Include="Migrations\202004091838283_posts_dateTime.Designer.cs">
+      <DependentUpon>202004091838283_posts_dateTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004121123066_dbCatChange.cs" />
+    <Compile Include="Migrations\202004121123066_dbCatChange.Designer.cs">
+      <DependentUpon>202004121123066_dbCatChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004121808376_customTree.cs" />
+    <Compile Include="Migrations\202004121808376_customTree.Designer.cs">
+      <DependentUpon>202004121808376_customTree.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004121923541_commentMiss.cs" />
+    <Compile Include="Migrations\202004121923541_commentMiss.Designer.cs">
+      <DependentUpon>202004121923541_commentMiss.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\FormalCategory.cs" />
-    <Compile Include="Models\InformalCategory.cs" />
+    <Compile Include="Models\CategoryViewModel.cs" />
+    <Compile Include="Models\Categories.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\PostViewModel.cs" />
+    <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -255,9 +279,17 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Posts\InformalPostView.cshtml" />
+    <Content Include="Views\Posts\CreatePostView.cshtml" />
+    <Content Include="Views\Categories\NewCategoryView.cshtml" />
+    <Content Include="Views\Categories\NewParentCategoryView.cshtml" />
+    <Content Include="Views\Manage\ChangePhoneNumberView.cshtml" />
+    <Content Include="Views\Manage\ChangeName.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Categories\FormalCategories\" />
+    <Folder Include="Views\Categories\InformalCategories\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -284,6 +316,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004081253517_categories.resx">
       <DependentUpon>202004081253517_categories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004090938225_postProps.resx">
+      <DependentUpon>202004090938225_postProps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004091838283_posts_dateTime.resx">
+      <DependentUpon>202004091838283_posts_dateTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004121123066_dbCatChange.resx">
+      <DependentUpon>202004121123066_dbCatChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004121808376_customTree.resx">
+      <DependentUpon>202004121808376_customTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004121923541_commentMiss.resx">
+      <DependentUpon>202004121923541_commentMiss.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

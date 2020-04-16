@@ -11,6 +11,7 @@ namespace scrum_and_xp.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -24,7 +25,13 @@ namespace scrum_and_xp.Models
     {
         public DbSet<Post> Posts { get; set; }
         public DbSet<FormalCategory> FormalCategories { get; set; }
+        
         public DbSet<InformalCategory> InformalCategories { get; set; }
+       
+
+            public DbSet<FormalCustom> FormalCustoms { get; set; }
+            public DbSet<InformalCustom> InformalCustoms { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
@@ -34,5 +41,7 @@ namespace scrum_and_xp.Models
         {
             return new ApplicationDbContext();
         }
+
+        //public System.Data.Entity.DbSet<scrum_and_xp.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }
