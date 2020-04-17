@@ -192,6 +192,9 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CreateFormalCategoryViewModel.cs" />
     <Compile Include="ViewModels\CreatePostViewModel.cs" />
+    <Compile Include="ViewModels\FormalCategoryViewModel.cs" />
+    <Compile Include="ViewModels\FormalPostViewModel.cs" />
+    <Compile Include="ViewModels\InformalPostViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
