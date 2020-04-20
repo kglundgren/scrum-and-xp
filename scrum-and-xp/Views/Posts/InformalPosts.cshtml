@@ -11,7 +11,7 @@
     @Html.ActionLink("Create New", "Create", routeValues: new { type = "Informal" })
 </p>
 
-@Html.DropDownListFor(m => m.SelectedCategoryId, Model.InformalCategories, "Please select informal category", new { @class = "form-control", @onchange = "FilterInformalPosts()" })
+@Html.DropDownListFor(m => m.SelectedCategoryId, Model.InformalCategories, "Please select informal category", new { @class = "form-control", @onchange = "FilterPosts()" })
 
 <br />
 
@@ -81,7 +81,7 @@
 
 @section Scripts {
     <script>
-        function FilterInformalPosts() {
+        function FilterPosts() {
             var catId = $('#SelectedCategoryId').val();
             $.ajax({
                 url: '/Posts/FilterInformalPosts',
