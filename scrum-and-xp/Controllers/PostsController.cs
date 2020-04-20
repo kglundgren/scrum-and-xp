@@ -1,32 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 using scrum_and_xp.Models;
 using scrum_and_xp.ViewModels;
+using System;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net.Http;
+using System.Web.Mvc;
 
 namespace scrum_and_xp.Controllers
 {
+    [Authorize]
     public class PostsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
 
         // GET: Posts
         public ActionResult InformalPosts()
         {
-            return View(db.InformalPosts.Include("InformalCategories").ToList());
+            var model = new InformalPostViewModel();
+            model.InformalPosts = db.InformalPosts.Include("InformalCategories").Include("AuthorId").ToList();
+            model.InformalCategories = new SelectList(db.InformalCategories, "Id", "Name");
+            return View(model);
         }
         // GET: Posts
         public ActionResult FormalPosts()
         {
-            return View(db.FormalPosts.ToList());
+            return View(db.FormalPosts.Include("FormalCategories.Type").Include("AuthorId").ToList());
         }
 
         //// GET: Posts/Details/5
@@ -48,7 +50,7 @@ namespace scrum_and_xp.Controllers
         public ActionResult Create(string type)
         {
             var model = new CreatePostViewModel();
-            if (type is null || type.Equals("Formal")) 
+            if (type is null || type.Equals("Formal"))
             {
                 model.Type = "Formal";
                 model.FormalCategories = new SelectList(db.FormalCategories, "Id", "Name");
@@ -121,6 +123,15 @@ namespace scrum_and_xp.Controllers
         {
             var categories = db.FormalCategories.Include("Type").Where(c => c.Type.Id == type);
             return Json(new SelectList(categories.ToArray(), "Id", "Name"), JsonRequestBehavior.AllowGet);
+        }
+
+        // GET: Posts/FilterInformalPosts
+        public ActionResult FilterInformalPosts(int category)
+        {
+            var posts = db.InformalPosts.Include("AuthorId")
+                .Where(p => p.InformalCategories.Any(c => c.Id == category)).ToArray();
+            var json = JsonConvert.SerializeObject(posts, jsonSerializerSettings);
+            return Content(json, "application/json");
         }
 
         //// GET: Posts/Edit/5

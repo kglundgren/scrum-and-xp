@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<scrum_and_xp.Models.FormalPost>
+@*@model scrum_and_xp.ViewModels.InformalPostViewModel*@
 
 @{
     ViewBag.Title = "Index";
@@ -20,26 +21,55 @@
         <th>
             @Html.DisplayNameFor(model => model.PostTime)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AuthorId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FormalCategories)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FormalCategories.FirstOrDefault().Type)
+        </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Content)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostTime)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostTime)
+            </td>
+            <td>
+                @{
+                    var author = item.AuthorId.FirstName + " " + item.AuthorId.LastName;
+                }
+                @author
+            </td>
+            <td>
+                @foreach (var cat in item.FormalCategories)
+                {
+                    <span>@cat.Name</span>
+                }
+            </td>
+            <td>
+                @*@foreach (var type in item.FormalCategories)
+                    {
+                        <span>@type.Type</span>
+                    }*@
+                <span>@item.FormalCategories.FirstOrDefault().Type.Name</span>
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+            </td>
+        </tr>
+    }
 
 </table>

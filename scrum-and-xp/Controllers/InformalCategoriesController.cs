@@ -10,6 +10,7 @@ using scrum_and_xp.Models;
 
 namespace scrum_and_xp.Controllers
 {
+    [Authorize]
     public class InformalCategoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
