@@ -129,7 +129,20 @@ namespace scrum_and_xp.Controllers
         public ActionResult FilterInformalPosts(int category)
         {
             var posts = db.InformalPosts.Include("AuthorId")
-                .Where(p => p.InformalCategories.Any(c => c.Id == category)).ToArray();
+                .Where(p => p.InformalCategories.Any(c => c.Id == category))
+                .OrderByDescending(x => x.PostTime)
+                .ToArray();
+            var json = JsonConvert.SerializeObject(posts, jsonSerializerSettings);
+            return Content(json, "application/json");
+        }
+
+        // GET: Posts/FilterFormalPosts
+        public ActionResult FilterFormalPosts(int category)
+        {
+            var posts = db.FormalPosts.Include("AuthorId")
+                .Where(p => p.FormalCategories.Any(c => c.Id == category))
+                .OrderByDescending(x => x.PostTime)
+                .ToArray();
             var json = JsonConvert.SerializeObject(posts, jsonSerializerSettings);
             return Content(json, "application/json");
         }
