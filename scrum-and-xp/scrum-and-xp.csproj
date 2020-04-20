@@ -181,6 +181,10 @@
     <Compile Include="Migrations\202004161728521_init.Designer.cs">
       <DependentUpon>202004161728521_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004200855469_hejsa1111.cs" />
+    <Compile Include="Migrations\202004200855469_hejsa1111.Designer.cs">
+      <DependentUpon>202004200855469_hejsa1111.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
@@ -281,6 +285,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -298,6 +303,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202004161728521_init.resx">
       <DependentUpon>202004161728521_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004200855469_hejsa1111.resx">
+      <DependentUpon>202004200855469_hejsa1111.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

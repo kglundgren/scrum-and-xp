@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -52,7 +53,7 @@ namespace scrum_and_xp.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public async Task<ActionResult> Index(ManageMessageId? message, HttpPostedFileBase file)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
@@ -65,18 +66,51 @@ namespace scrum_and_xp.Controllers
 
             var userId = User.Identity.GetUserId();
 
-            var user = UserManager.FindById(User.Identity.GetUserId());
+            var user1 = UserManager.FindById(User.Identity.GetUserId());
 
             var Profile = new ProfileViewModel
             {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email
+                FirstName = user1.FirstName,
+                LastName = user1.LastName,
+                Email = user1.Email,
+                PId = user1.Id,
+                Img = user1.Img
+
+                
             };
 
             ViewBag.FirstName = Profile.FirstName;
             ViewBag.LastName = Profile.LastName;
             ViewBag.Email = Profile.Email;
+            ViewBag.id = Profile.PId;
+            ViewBag.Img = Profile.Img;
+
+            try
+            {
+                if(file!= null)
+                {
+
+                    var u = User.Identity.Name;
+
+                    ApplicationUser applicationUser = UserManager.Users.Where(user => user.Email == u).First();
+
+                    string p = applicationUser.Id;
+                    string path = Path.Combine(Server.MapPath("~/Images"), p);
+                    file.SaveAs(path + ".jpg");
+                    applicationUser.Img = 1;
+
+                    IdentityResult result = UserManager.Update(applicationUser);
+
+                }
+                else
+                {
+                    ViewBag.fileStatus = "Error";
+                }
+            }
+            catch(Exception)
+            {
+                ViewBag.fileStatus = "Error";
+            }
 
             var model = new IndexViewModel
             {
@@ -85,6 +119,7 @@ namespace scrum_and_xp.Controllers
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                
             };
 
             return View(model);

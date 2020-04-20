@@ -8,6 +8,17 @@
 <p class="text-success">@ViewBag.StatusMessage</p>
 
 <dl class="dl-horizontal">
+
+    <dt>Profile Picture</dt>
+    <dd>
+        
+        @if (ViewBag.Img == 1)
+        {
+        string p = ViewBag.Pid + ".jpg";
+        string path = Path.Combine("~/Images/", p);
+        <img src="@Url.Content(path)" alt="Image" style="height:200px;width:175px;" />
+        }
+    </dd>
     <dt>Firstname:</dt>
     <dd>
         @ViewBag.FirstName
@@ -31,6 +42,39 @@
     <h4>Change your account settings</h4>
     <hr />
     <dl class="dl-horizontal">
+
+        <dt>File Upload</dt>
+        <dd>
+            @using (Html.BeginForm("Index", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.file, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.file, new { htmlAttributes = new { @class = "form-control", @type = "file" } })
+                            @Html.ValidationMessageFor(model => model.file, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Upload" class="btn btn-primary" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10 text-success">
+                            @ViewBag.FileStatus
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </dd>
         <dt>Password:</dt>
         <dd>
             [
