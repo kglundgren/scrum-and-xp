@@ -14,10 +14,17 @@
         
         @if (ViewBag.Img == 1)
         {
-        string p = ViewBag.Pid + ".jpg";
+        string p = ViewBag.id + ".jpg";
         string path = Path.Combine("~/Images/", p);
-        <img src="@Url.Content(path)" alt="Image" style="height:200px;width:175px;" />
+        <img src="@Url.Content(path)" alt="Image" style="height:200px;width:175px"; />
         }
+        else
+        {
+            @ViewBag.BildCheck
+        }
+
+
+
     </dd>
     <dt>Firstname:</dt>
     <dd>
@@ -54,7 +61,7 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
                         @Html.LabelFor(model => model.file, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
+                        <div>
                             @Html.EditorFor(model => model.file, new { htmlAttributes = new { @class = "form-control", @type = "file" } })
                             @Html.ValidationMessageFor(model => model.file, "", new { @class = "text-danger" })
                         </div>
@@ -135,3 +142,28 @@
         *@
     </dl>
 </div>
+@*<script>
+    $('#upload').bind('change', function () {
+            if (this.files[0].size > 5000000) {
+                $('#save-btn').prop('disabled', true);
+                $('#file-size-error').show();
+            }
+            else {
+                $('#save-btn').prop('disabled', false);
+                $('#file-size-error').hide();
+            }
+            CheckExtension();
+        });
+
+        function CheckExtension() {
+            var file = document.querySelector("#upload");
+            if (/.(jpe?g|png)$/i.test(file.files[0].name) === false) {
+                $('#save-btn').prop('disabled', true);
+                $('#file-ext-error').show();
+            }
+            else {
+                $('#save-btn').prop('disabled', false);
+                $('#file-ext-error').hide();
+            }
+        }
+</script>*@

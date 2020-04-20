@@ -16,6 +16,7 @@ namespace scrum_and_xp.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db;
 
         public ManageController()
         {
@@ -85,34 +86,35 @@ namespace scrum_and_xp.Controllers
             ViewBag.id = Profile.PId;
             ViewBag.Img = Profile.Img;
 
-            try
+            if (ModelState.IsValid)
             {
-                if(file!= null)
+                try
                 {
+                    if (file != null)
+                    {
+                        var u = User.Identity.Name;
 
-                    var u = User.Identity.Name;
+                        ApplicationUser applicationUser = UserManager.Users.Where(user => user.Email == u).First();
 
-                    ApplicationUser applicationUser = UserManager.Users.Where(user => user.Email == u).First();
+                        string p = applicationUser.Id;
 
-                    string p = applicationUser.Id;
-                    string path = Path.Combine(Server.MapPath("~/Images"), p);
-                    file.SaveAs(path + ".jpg");
-                    applicationUser.Img = 1;
+                        string path = Path.Combine(Server.MapPath("~/Images"), p);
+                        file.SaveAs(path + ".jpg");
 
-                    IdentityResult result = UserManager.Update(applicationUser);
+                        applicationUser.Img = 1;
 
+                        IdentityResult result = UserManager.Update(applicationUser);
+
+                    }
+                    ViewBag.fileStatus = " Filen överfördes utan problem";
                 }
-                else
+                catch (Exception)
                 {
-                    ViewBag.fileStatus = "Error";
+                    ViewBag.fileStatus = "Error when uploading";
                 }
             }
-            catch(Exception)
-            {
-                ViewBag.fileStatus = "Error";
-            }
 
-            var model = new IndexViewModel
+                var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
@@ -126,21 +128,9 @@ namespace scrum_and_xp.Controllers
             
         }
 
-        //public ActionResult Index()
-        //{
-        //    var user = UserManager.FindById(User.Identity.GetUserId());
-        //    var Profile = new ProfileViewModel
-        //    {
-        //        FirstName = user.FirstName,
-        //        LastName = user.LastName,
-        //        Email = user.Email
-        //    };
 
-
-
-        //    return View(Profile);
-        //}
-
+       
+        
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]
