@@ -11,9 +11,7 @@ namespace scrum_and_xp.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
-        public byte Img { get; set; }
-
+        
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -25,7 +23,9 @@ namespace scrum_and_xp.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Post> Posts { get; set; }
+        public DbSet<FormalPost> FormalPosts { get; set; }
+        public DbSet<InformalPost> InformalPosts { get; set; }
+        public DbSet<FormalType> FormalTypes { get; set; }
         public DbSet<FormalCategory> FormalCategories { get; set; }
         public DbSet<InformalCategory> InformalCategories { get; set; }
         public ApplicationDbContext()

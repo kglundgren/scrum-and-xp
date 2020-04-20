@@ -168,45 +168,33 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FormalCategoriesController.cs" />
+    <Compile Include="Controllers\FormalTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InformalCategoriesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\PictureUploadController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004080810412_initial_commit.cs" />
-    <Compile Include="Migrations\202004080810412_initial_commit.Designer.cs">
-      <DependentUpon>202004080810412_initial_commit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004080812157_first_and_lastname.cs" />
-    <Compile Include="Migrations\202004080812157_first_and_lastname.Designer.cs">
-      <DependentUpon>202004080812157_first_and_lastname.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004081246516_posts.cs" />
-    <Compile Include="Migrations\202004081246516_posts.Designer.cs">
-      <DependentUpon>202004081246516_posts.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004081253517_categories.cs" />
-    <Compile Include="Migrations\202004081253517_categories.Designer.cs">
-      <DependentUpon>202004081253517_categories.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004151115251_bilder.cs" />
-    <Compile Include="Migrations\202004151115251_bilder.Designer.cs">
-      <DependentUpon>202004151115251_bilder.cs</DependentUpon>
+    <Compile Include="Migrations\202004161728521_init.cs" />
+    <Compile Include="Migrations\202004161728521_init.Designer.cs">
+      <DependentUpon>202004161728521_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\FormalCategory.cs" />
-    <Compile Include="Models\InformalCategory.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\PictureUploadModel.cs" />
     <Compile Include="Models\Post.cs" />
-    <Compile Include="Models\PostViewModel.cs" />
-    <Compile Include="Models\UserIndexViewModel.cs" />
+    <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CreateFormalCategoryViewModel.cs" />
+    <Compile Include="ViewModels\CreatePostViewModel.cs" />
+    <Compile Include="ViewModels\FormalCategoryViewModel.cs" />
+    <Compile Include="ViewModels\FormalPostViewModel.cs" />
+    <Compile Include="ViewModels\InformalPostViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -266,11 +254,33 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Posts\InformalPostView.cshtml" />
     <Content Include="Views\Posts\CreatePostView.cshtml" />
-    <Content Include="Views\PictureUpload\Index.cshtml" />
+    <Content Include="Views\Manage\ChangePhoneNumberView.cshtml" />
+    <Content Include="Views\Manage\ChangeName.cshtml" />
+    <Content Include="Views\InformalCategories\Create.cshtml" />
+    <Content Include="Views\InformalCategories\Delete.cshtml" />
+    <Content Include="Views\InformalCategories\Details.cshtml" />
+    <Content Include="Views\InformalCategories\Edit.cshtml" />
+    <Content Include="Views\InformalCategories\Index.cshtml" />
+    <Content Include="Views\FormalCategories\Create.cshtml" />
+    <Content Include="Views\FormalCategories\Delete.cshtml" />
+    <Content Include="Views\FormalCategories\Details.cshtml" />
+    <Content Include="Views\FormalCategories\Edit.cshtml" />
+    <Content Include="Views\FormalCategories\Index.cshtml" />
+    <Content Include="Views\FormalTypes\Create.cshtml" />
+    <Content Include="Views\FormalTypes\Delete.cshtml" />
+    <Content Include="Views\FormalTypes\Details.cshtml" />
+    <Content Include="Views\FormalTypes\Edit.cshtml" />
+    <Content Include="Views\FormalTypes\Index.cshtml" />
+    <Content Include="Views\Posts\Create.cshtml" />
+    <Content Include="Views\Posts\Delete.cshtml" />
+    <Content Include="Views\Posts\Details.cshtml" />
+    <Content Include="Views\Posts\Edit.cshtml" />
+    <Content Include="Views\Posts\Index.cshtml" />
+    <Content Include="Views\Posts\InformalPosts.cshtml" />
+    <Content Include="Views\Posts\FormalPosts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\UserIndexViewModel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -286,20 +296,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202004080810412_initial_commit.resx">
-      <DependentUpon>202004080810412_initial_commit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004080812157_first_and_lastname.resx">
-      <DependentUpon>202004080812157_first_and_lastname.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004081246516_posts.resx">
-      <DependentUpon>202004081246516_posts.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004081253517_categories.resx">
-      <DependentUpon>202004081253517_categories.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004151115251_bilder.resx">
-      <DependentUpon>202004151115251_bilder.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202004161728521_init.resx">
+      <DependentUpon>202004161728521_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

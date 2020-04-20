@@ -1,43 +1,192 @@
-﻿using Microsoft.AspNet.Identity;
-using scrum_and_xp.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using scrum_and_xp.Models;
+using scrum_and_xp.ViewModels;
 
 namespace scrum_and_xp.Controllers
 {
     public class PostsController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         // GET: Posts
-        public ActionResult InformalPostView()
+        public ActionResult InformalPosts()
         {
-            return View();
+            return View(db.InformalPosts.Include("InformalCategories").ToList());
+        }
+        // GET: Posts
+        public ActionResult FormalPosts()
+        {
+            return View(db.FormalPosts.ToList());
         }
 
-        public ActionResult CreatePostView()
-        {
-            return View();
-        }
-        
+        //// GET: Posts/Details/5
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Post post = db.Posts.Find(id);
+        //    if (post == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(post);
+        //}
 
+        // GET: Posts/Create
+        public ActionResult Create(string type)
+        {
+            var model = new CreatePostViewModel();
+            if (type is null || type.Equals("Formal")) 
+            {
+                model.Type = "Formal";
+                model.FormalCategories = new SelectList(db.FormalCategories, "Id", "Name");
+                model.FormalTypes = new SelectList(db.FormalTypes, "Id", "Name");
+            }
+            else if (type.Equals("Informal"))
+            {
+                model.Type = "Informal";
+                model.InformalCategories = new SelectList(db.InformalCategories, "Id", "Name");
+            }
+
+            return View(model);
+        }
+
+        // POST: Posts/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult CreatePostView(PostViewModel post)
+        [ValidateAntiForgeryToken]
+        //public ActionResult Create([Bind(Include = "Id,Title,Content,PostTime")] Post post)
+        public ActionResult Create(CreatePostViewModel model)
         {
+            var authorId = db.Users.Find(User.Identity.GetUserId());
+            if (model.Type == "Formal")
+            {
+                var formPost = new FormalPost
+                {
+                    Title = model.Title,
+                    Content = model.Content,
+                    PostTime = DateTime.Now,
+                    AuthorId = authorId
+                };
+                var formCat = db.FormalCategories.FirstOrDefault(cat => cat.Id == model.SelectedFormalCategoryId);
+                formPost.FormalCategories.Add(formCat);
 
-            var db = new ApplicationDbContext();
-            var userId = User.Identity.GetUserId();
-            var userInfo = db.Users.FirstOrDefault(a => a.Id == userId);
-            var _post = new Post();
-            _post.Content = post.Content;
+                if (ModelState.IsValid)
+                {
+                    db.FormalPosts.Add(formPost);
+                    db.SaveChanges();
+                    return RedirectToAction("FormalPosts");
+                }
+            }
+            else if (model.Type == "Informal")
+            {
+                var infPost = new InformalPost
+                {
+                    Title = model.Title,
+                    Content = model.Content,
+                    PostTime = DateTime.Now,
+                    AuthorId = authorId
+                };
+                var infCategory = db.InformalCategories.FirstOrDefault(cat => cat.Id == model.SelectedInformalCategoryId);
 
-                db.Posts.Add(_post);
+                infPost.InformalCategories.Add(infCategory);
+
+                if (ModelState.IsValid)
+                {
+                    db.InformalPosts.Add(infPost);
+                    db.SaveChanges();
+                    return RedirectToAction("InformalPosts");
+                }
+            }
+
+
+            return RedirectToAction("Index");
+        }
+
+        // GET: Posts/FillCategory
+        public ActionResult FillCategory(int type)
+        {
+            var categories = db.FormalCategories.Include("Type").Where(c => c.Type.Id == type);
+            return Json(new SelectList(categories.ToArray(), "Id", "Name"), JsonRequestBehavior.AllowGet);
+        }
+
+        //// GET: Posts/Edit/5
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Post post = db.Posts.Find(id);
+        //    if (post == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(post);
+        //}
+
+        // POST: Posts/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,Title,Content,PostTime")] Post post)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(post).State = EntityState.Modified;
                 db.SaveChanges();
-            
+                return RedirectToAction("Index");
+            }
+            return View(post);
+        }
 
-            return View();
+        //// GET: Posts/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Post post = db.Posts.Find(id);
+        //    if (post == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(post);
+        //}
+
+        //// POST: Posts/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Post post = db.Posts.Find(id);
+        //    db.Posts.Remove(post);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
-   
 }
