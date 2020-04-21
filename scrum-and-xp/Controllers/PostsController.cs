@@ -22,7 +22,7 @@ namespace scrum_and_xp.Controllers
         public ActionResult InformalPosts()
         {
             var model = new InformalPostViewModel();
-            model.InformalPosts = db.InformalPosts.Include("InformalCategories").Include("AuthorId").ToList();
+            model.InformalPosts = db.InformalPosts.Include("InformalCategories").Include("AuthorId").OrderByDescending(x => x.PostTime).ToList();
             model.InformalCategories = new SelectList(db.InformalCategories, "Id", "Name");
             return View(model);
         }
@@ -30,7 +30,7 @@ namespace scrum_and_xp.Controllers
         public ActionResult FormalPosts()
         {
             var model = new FormalPostViewModel();
-            model.FormalPosts = db.FormalPosts.Include("FormalCategories").Include("AuthorId").ToList();
+            model.FormalPosts = db.FormalPosts.Include("FormalCategories").Include("AuthorId").OrderByDescending(x => x.PostTime).ToList();
             model.FormalCategories = new SelectList(db.FormalCategories, "Id", "Name");
             model.FormalTypes = new SelectList(db.FormalTypes, "Id", "Name");
             return View(model);
@@ -164,6 +164,16 @@ namespace scrum_and_xp.Controllers
             return Content(json, "application/json");
         }
 
+        // GET: Posts/FilterPostsOnType
+        public ActionResult FilterPostsOnType(int type)
+        {
+            var posts = db.FormalPosts.Include("AuthorId").Include("FormalCategories.Type")
+                .Where(p => p.FormalCategories.Any(c => c.Type.Id == type))
+                .OrderByDescending(x => x.PostTime)
+                .ToArray();
+            var json = JsonConvert.SerializeObject(posts, jsonSerializerSettings);
+            return Content(json, "application/json");
+        }
 
         // GET: Posts/FilterFormalPosts
         public ActionResult FilterFormalPosts(int category)
@@ -171,11 +181,11 @@ namespace scrum_and_xp.Controllers
             List<FormalPost> posts = new List<FormalPost>();
             if (category == 0)
             {
-                posts = db.FormalPosts.Include("AuthorId").ToList();
+                posts = db.FormalPosts.Include("AuthorId").Include("FormalCategories.Type").ToList();
             }
             else
             {
-                posts = db.FormalPosts.Include("AuthorId")
+                posts = db.FormalPosts.Include("AuthorId").Include("FormalCategories.Type")
                     .Where(p => p.FormalCategories.Any(c => c.Id == category))
                     .OrderByDescending(x => x.PostTime)
                     .ToList();
