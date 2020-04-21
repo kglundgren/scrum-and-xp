@@ -11,7 +11,7 @@
     @Html.ActionLink("Create New", "Create", routeValues: new { type = "Informal" })
 </p>
 
-@Html.DropDownListFor(m => m.SelectedCategoryId, Model.InformalCategories, "Please select informal category", new { @class = "form-control", @onchange = "FilterInformalPosts()" })
+@Html.DropDownListFor(m => m.SelectedCategoryId, Model.InformalCategories, "Please select informal category", new { @class = "form-control", @onchange = "FilterPosts()" })
 
 <br />
 
@@ -81,7 +81,7 @@
 
 @section Scripts {
     <script>
-        function FilterInformalPosts() {
+        function FilterPosts() {
             var catId = $('#SelectedCategoryId').val();
             $.ajax({
                 url: '/Posts/FilterInformalPosts',
@@ -91,21 +91,37 @@
                 success: function (data) {
                     $("#d1").html(""); // clear before appending new list
                     $.each(data, function (index, item) {
-                        $("#d1").append($("<p style='border-style: ridge; border-color: #cccccc; padding: 5px'>").append([
-                            "Title: " + item.Title + '<br />',
-                            "Content: " + item.Content + '<br />',
-                            "Author: " + item.AuthorId.FirstName + " " + item.AuthorId.LastName + '<br />',
-                            "Post time: " + item.PostTime
-                        ]));
+
+                        var $panelPrimary = $('<div id=panel-primary' + index + ' class="panel panel-primary"></div>'),
+                            $panelHeading = $('<div class="panel-heading"></div>'),
+                            $panelTitle = $('<h3 class="panel-title"></h3>'),
+                            $panelBody = $('<div class="panel-body"></div>');
+
+                        $('#d1').append($panelPrimary);
+                        $('#panel-primary' + index).append([
+                            $panelHeading
+                                .append($panelTitle)
+                                .text(item.Title),
+                            $panelBody
+                                .text(item.Content)
+                                .append('<br /><br />')
+                                .append('<span class=text-info>Tag: ' + item.InformalCategories[0].Name + '</span>')
+                                .append('<hr>')
+                                .append(item.AuthorId.FirstName + ' ' + item.AuthorId.LastName)
+                                .append('<br />')
+                                .append(item.PostTime)
+                        ]);
                     });
-                    //alert(data);
-                    //$.each(posts, function (i, post) {
-                    //    alert(posts[i]);
-                    //});
                 }
             });
         }
 
+//$("#d1").append($("<p style='border-style: ridge; border-color: #cccccc; padding: 5px'>").append([
+//    "Title: " + item.Title + '<br />',
+//    "Content: " + item.Content + '<br />',
+//    "Author: " + item.AuthorId.FirstName + " " + item.AuthorId.LastName + '<br />',
+//    "Post time: " + item.PostTime
+//]));
 
     </script>
 }

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using scrum_and_xp.Models;
 using scrum_and_xp.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -28,7 +29,11 @@ namespace scrum_and_xp.Controllers
         // GET: Posts
         public ActionResult FormalPosts()
         {
-            return View(db.FormalPosts.Include("FormalCategories.Type").Include("AuthorId").ToList());
+            var model = new FormalPostViewModel();
+            model.FormalPosts = db.FormalPosts.Include("FormalCategories").Include("AuthorId").ToList();
+            model.FormalCategories = new SelectList(db.FormalCategories, "Id", "Name");
+            model.FormalTypes = new SelectList(db.FormalTypes, "Id", "Name");
+            return View(model);
         }
 
         //// GET: Posts/Details/5
@@ -122,14 +127,36 @@ namespace scrum_and_xp.Controllers
         public ActionResult FillCategory(int type)
         {
             var categories = db.FormalCategories.Include("Type").Where(c => c.Type.Id == type);
-            return Json(new SelectList(categories.ToArray(), "Id", "Name"), JsonRequestBehavior.AllowGet);
+            var defaultOption = new SelectListItem() { Value = "null", Text = "Please select formal category" };
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+            selectListItems.Add(defaultOption);
+            foreach (var item in categories)
+            {
+                selectListItems.Add( new SelectListItem() { Value = item.Id.ToString(), Text = item.Name });
+            }
+            //categories.ToArray(), "Id", "Name")
+            return Json(new SelectList(selectListItems, "Id", "Name"), JsonRequestBehavior.AllowGet);
         }
 
         // GET: Posts/FilterInformalPosts
         public ActionResult FilterInformalPosts(int category)
         {
             var posts = db.InformalPosts.Include("AuthorId")
-                .Where(p => p.InformalCategories.Any(c => c.Id == category)).ToArray();
+                .Where(p => p.InformalCategories.Any(c => c.Id == category))
+                .OrderByDescending(x => x.PostTime)
+                .ToArray();
+            var json = JsonConvert.SerializeObject(posts, jsonSerializerSettings);
+            return Content(json, "application/json");
+        }
+        
+
+        // GET: Posts/FilterFormalPosts
+        public ActionResult FilterFormalPosts(int category)
+        {
+            var posts = db.FormalPosts.Include("AuthorId")
+                .Where(p => p.FormalCategories.Any(c => c.Id == category))
+                .OrderByDescending(x => x.PostTime)
+                .ToArray();
             var json = JsonConvert.SerializeObject(posts, jsonSerializerSettings);
             return Content(json, "application/json");
         }
