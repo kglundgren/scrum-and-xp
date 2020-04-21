@@ -1,0 +1,90 @@
+﻿@model scrum_and_xp.ViewModels.CreatePostViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@{
+    if (Model.Type == "Informal")
+    {
+        <p>Informal type heyo!</p>
+    }
+    else if (Model.Type == "Formal")
+    {
+        <p>FOOOORMAAALLLLL!</p>
+    }
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Post</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                <br />
+                @{
+                    if (Model.Type == "Informal")
+                    {
+                        @Html.DropDownListFor(m => m.SelectedInformalCategoryId, Model.InformalCategories, "Please select informal category", new { @class = "form-control" })
+                    }
+                    else if (Model.Type == "Formal")
+                    {
+                        @Html.DropDownListFor(m => m.SelectedFormalType, Model.FormalTypes, "Please select formal type", new { @class = "form-control", @onchange = "FillCategory()" })
+                        <br />
+                        @Html.DropDownListFor(m => m.SelectedFormalCategoryId, Model.FormalCategories, "Please select formal category", new { @class = "form-control" })
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    <script>
+        function FillCategory() {
+            var typeId = $('#SelectedFormalType').val();
+            $.ajax({
+                url: '/Posts/FillCategory',
+                type: "GET",
+                dataType: "JSON",
+                data: { Type: typeId },
+                success: function (categories) {
+                    $("#SelectedFormalCategoryId").html(""); // clear before appending new list
+                    $.each(categories, function (i, category) {
+                        $("#SelectedFormalCategoryId").append(
+                            $('<option></option>').val(category.Value).html(category.Text));
+                    });
+                }
+            });
+        }
+
+         
+    </script>
+}

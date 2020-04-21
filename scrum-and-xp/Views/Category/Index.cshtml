@@ -1,0 +1,14 @@
+﻿@model scrum_and_xp.Models.CategoryViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@{ 
+    foreach (var item in Model.InformalCategories)
+    {
+        <p>@item.Name</p>
+    }
+}
+
