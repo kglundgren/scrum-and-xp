@@ -191,18 +191,6 @@
     <Compile Include="Migrations\202004161728521_init.Designer.cs">
       <DependentUpon>202004161728521_init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004150747394_postDb.cs" />
-    <Compile Include="Migrations\202004150747394_postDb.Designer.cs">
-      <DependentUpon>202004150747394_postDb.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004151641287_post_cat_foreignKey.cs" />
-    <Compile Include="Migrations\202004151641287_post_cat_foreignKey.Designer.cs">
-      <DependentUpon>202004151641287_post_cat_foreignKey.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004160754188_db2000.cs" />
-    <Compile Include="Migrations\202004160754188_db2000.Designer.cs">
-      <DependentUpon>202004160754188_db2000.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
@@ -322,15 +310,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202004161728521_init.resx">
       <DependentUpon>202004161728521_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004150747394_postDb.resx">
-      <DependentUpon>202004150747394_postDb.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004151641287_post_cat_foreignKey.resx">
-      <DependentUpon>202004151641287_post_cat_foreignKey.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004160754188_db2000.resx">
-      <DependentUpon>202004160754188_db2000.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -7,13 +7,13 @@ namespace scrum_and_xp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class db2000 : IMigrationMetadata
+    public sealed partial class db20200421 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(db2000));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(db20200421));
         
         string IMigrationMetadata.Id
         {
-            get { return "202004160754188_db2000"; }
+            get { return "202004210924309_db20200421"; }
         }
         
         string IMigrationMetadata.Source
