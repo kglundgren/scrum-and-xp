@@ -1,4 +1,5 @@
-﻿@{
+﻿@model scrum_and_xp.ViewModels.Chat
+@{
     ViewBag.Title = "Chat";
 }
 <h2>Chat</h2>
@@ -28,7 +29,8 @@
                     + '</strong>: ' + htmlEncode(message) + '</li>');
             };
             // Get the user name and store it to prepend to messages.
-            $('#displayname').val(prompt('Enter your name:', ''));
+            //$('#displayname').val(prompt('Enter your name:', ''));
+            $('#displayname').val('@Model.Name');
             // Set initial focus to message input box.
             $('#message').focus();
             // Start the connection.
