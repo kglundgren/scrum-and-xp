@@ -7,7 +7,11 @@ namespace scrum_and_xp
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-        
+        protected void Application_Start(object sender, EventArgs e)
+        {
+            // Register the default hubs route: ~/signalr/hubs
+            RouteTable.Routes.MapHubs();
+        }
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
