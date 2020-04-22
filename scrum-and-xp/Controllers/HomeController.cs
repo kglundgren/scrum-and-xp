@@ -26,5 +26,9 @@ namespace scrum_and_xp.Controllers
 
             return View();
         }
+        public ActionResult Chat()
+        {
+            return View();
+        }
     }
 }
