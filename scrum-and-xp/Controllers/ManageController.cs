@@ -16,7 +16,8 @@ namespace scrum_and_xp.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private ApplicationDbContext db;
+        bool S = false;
+
 
         public ManageController()
         {
@@ -54,6 +55,7 @@ namespace scrum_and_xp.Controllers
 
         //
         // GET: /Manage/Index
+        
         public async Task<ActionResult> Index(ManageMessageId? message, HttpPostedFileBase file)
         {
             ViewBag.StatusMessage =
@@ -86,35 +88,57 @@ namespace scrum_and_xp.Controllers
             ViewBag.id = Profile.PId;
             ViewBag.Img = Profile.Img;
 
-            if (ModelState.IsValid)
+
+
+            try
             {
-                try
+               
+                if (file != null)
                 {
-                    if (file != null)
-                    {
+                        var FileType = file.FileName.Substring(file.FileName.Length - 4);
+
                         var u = User.Identity.Name;
 
-                        ApplicationUser applicationUser = UserManager.Users.Where(user => user.Email == u).First();
+                    ApplicationUser applicationUser = UserManager.Users.Where(user => user.Email == u).First();
 
-                        string p = applicationUser.Id;
+                    string p = applicationUser.Id;
 
-                        string path = Path.Combine(Server.MapPath("~/Images"), p);
-                        file.SaveAs(path + ".jpg");
+                    string path = Path.Combine(Server.MapPath("~/Images"), p);
+
+                    if(FileType.Equals(".jpg") || FileType.Equals(".png") || FileType.Equals(".JPG") || FileType.Equals(".PNG"))
+                    {
+
+                        file.SaveAs(path + FileType);
 
                         applicationUser.Img = 1;
 
                         IdentityResult result = UserManager.Update(applicationUser);
-
+                        S = true;
                     }
-                    ViewBag.fileStatus = " Filen överfördes utan problem";
+
+                    else
+                    {
+                        ViewBag.fileStatus = "Fel filformat";
+                    }
+                 
                 }
-                catch (Exception)
+                else
                 {
-                    ViewBag.fileStatus = "Error when uploading";
+                    ViewBag.BildCheck = "Du har ingen profilbild än";
+                }
+                if (S == true)
+                {
+                    ViewBag.fileStatus = " Filen överfördes utan problem";
+
                 }
             }
+            catch (Exception)
+            {
+                ViewBag.fileStatus = "Error when uploading";
+            }
 
-                var model = new IndexViewModel
+
+            var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
@@ -128,9 +152,10 @@ namespace scrum_and_xp.Controllers
             
         }
 
-
        
-        
+
+
+
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]

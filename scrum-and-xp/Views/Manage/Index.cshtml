@@ -22,9 +22,6 @@
         {
             @ViewBag.BildCheck
         }
-
-
-
     </dd>
     <dt>Firstname:</dt>
     <dd>
@@ -49,7 +46,7 @@
     <h4>Change your account settings</h4>
     <hr />
     <dl class="dl-horizontal">
-
+       
         <dt>File Upload</dt>
         <dd>
             @using (Html.BeginForm("Index", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -69,7 +66,7 @@
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Upload" class="btn btn-primary" />
+                            <input type="submit" value="Upload", id="upload" class="btn btn-primary" />
                         </div>
                     </div>
                     <div class="form-group">
