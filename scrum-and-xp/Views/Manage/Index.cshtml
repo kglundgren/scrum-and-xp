@@ -20,7 +20,7 @@
         }
         else
         {
-            @ViewBag.BildCheck
+            
         }
     </dd>
     <dt>Firstname:</dt>
@@ -46,7 +46,7 @@
     <h4>Change your account settings</h4>
     <hr />
     <dl class="dl-horizontal">
-       
+
         <dt>File Upload</dt>
         <dd>
             @using (Html.BeginForm("Index", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -66,7 +66,7 @@
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Upload", id="upload" class="btn btn-primary" />
+                            <input type="submit" value="Upload" , id="upload" class="btn btn-primary" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -93,6 +93,7 @@
             ]
         </dd>
 
+
         @*<dt>External Logins:</dt>
         <dd>
             @Model.Logins.Count [
@@ -109,33 +110,34 @@
         <dd>
             [@Html.ActionLink("Change your name", "ChangeName")]
         </dd>
+        <
         @*
-            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
+        Phone Numbers can used as a second factor of verification in a two-factor authentication system.
 
-             See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+         See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+            for details on setting up this ASP.NET application to support two-factor authentication using SMS.
 
-             Uncomment the following block after you have set up two-factor authentication
+         Uncomment the following block after you have set up two-factor authentication
         *@
         @*
-            <dt>Phone Number:</dt>
-            <dd>
-                @(Model.PhoneNumber ?? "None")
-                @if (Model.PhoneNumber != null)
+        <dt>Phone Number:</dt>
+        <dd>
+            @(Model.PhoneNumber ?? "None")
+            @if (Model.PhoneNumber != null)
+            {
+                <br />
+                <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
+                using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                 {
-                    <br />
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
-                    }
+                    @Html.AntiForgeryToken()
+                    <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
                 }
-                else
-                {
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
-                }
-            </dd>
+            }
+            else
+            {
+                <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
+            }
+        </dd>
         *@
     </dl>
 </div>
