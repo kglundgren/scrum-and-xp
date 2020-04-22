@@ -193,17 +193,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004161728521_init.cs" />
-    <Compile Include="Migrations\202004161728521_init.Designer.cs">
-      <DependentUpon>202004161728521_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004211213419_0421.cs" />
-    <Compile Include="Migrations\202004211213419_0421.Designer.cs">
-      <DependentUpon>202004211213419_0421.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004211604474_Ny.cs" />
-    <Compile Include="Migrations\202004211604474_Ny.Designer.cs">
-      <DependentUpon>202004211604474_Ny.cs</DependentUpon>
+    <Compile Include="Migrations\202004220719079_Idag.cs" />
+    <Compile Include="Migrations\202004220719079_Idag.Designer.cs">
+      <DependentUpon>202004220719079_Idag.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -228,7 +220,6 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="dhxscheduler.sample.mvc3.readme.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -537,14 +528,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202004161728521_init.resx">
-      <DependentUpon>202004161728521_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004211213419_0421.resx">
-      <DependentUpon>202004211213419_0421.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004211604474_Ny.resx">
-      <DependentUpon>202004211604474_Ny.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202004220719079_Idag.resx">
+      <DependentUpon>202004220719079_Idag.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

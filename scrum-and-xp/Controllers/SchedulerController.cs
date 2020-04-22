@@ -1,4 +1,6 @@
-﻿using scrum_and_xp.Models;
+﻿using DHTMLX.Scheduler.Data;
+using scrum_and_xp.App_Start;
+using scrum_and_xp.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -9,6 +11,7 @@ using System.Web.Http;
 
 namespace scrum_and_xp.Controllers
 {
+    
     public class SchedulerController : ApiController
     {
         private SchedulerContext db = new SchedulerContext();
@@ -16,9 +19,11 @@ namespace scrum_and_xp.Controllers
         // GET: api/scheduler
         public IEnumerable<WebAPIEvent> Get()
         {
+
             return db.SchedulerEvents
                 .ToList()
                 .Select(e => (WebAPIEvent)e);
+               
         }
 
         // GET: api/scheduler/5

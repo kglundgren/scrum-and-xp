@@ -39,7 +39,6 @@ namespace scrum_and_xp.Controllers
             
  
             scheduler.InitialDate = new DateTime();
-
             scheduler.LoadData = true;
             scheduler.EnableDataprocessor = true;
 
@@ -50,7 +49,21 @@ namespace scrum_and_xp.Controllers
         {
             var data = new SchedulerAjaxData(
                     new List<SchedulerEvent>{ 
-                        
+
+                        new SchedulerEvent{
+                            Id = 1,
+                            Text = "testtest",
+                            StartDate = new DateTime(2020, 04, 22, 6, 00, 00),
+                            EndDate = new DateTime(2020, 04, 22, 8, 00, 00)
+                            },
+
+                        new SchedulerEvent{
+                            Id = 10,
+                            Text = "Event asdf",
+                            StartDate = new DateTime(2020, 4, 22, 2, 0, 0),
+                            EndDate = new DateTime(2020, 4, 24, 4, 0, 0)
+                        }
+
                     }
                 );
             return (ContentResult)data;
