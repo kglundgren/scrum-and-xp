@@ -19,6 +19,10 @@ namespace scrum_and_xp.Models
 
     public class FormalCategory : Category
     {
+        public FormalCategory()
+        {
+            Type = new FormalType();
+        }
         public FormalType Type { get; set; }
         public virtual ICollection<FormalPost> FormalPosts { get; set; }
     }
