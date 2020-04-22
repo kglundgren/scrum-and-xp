@@ -31,6 +31,7 @@ namespace scrum_and_xp.Controllers
         public WebAPIEvent Get(int id)
         {
             return (WebAPIEvent)db.SchedulerEvents.Find(id);
+            
         }
 
         // PUT: api/scheduler/5
