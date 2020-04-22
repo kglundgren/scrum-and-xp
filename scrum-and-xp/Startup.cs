@@ -1,7 +1,7 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(scrum_and_xp.Startup))]
+[assembly: OwinStartup("Chat", typeof(scrum_and_xp.Startup))]
 namespace scrum_and_xp
 {
     public partial class Startup

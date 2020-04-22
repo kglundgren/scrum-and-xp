@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 using SignalRChat.Common;
 
 
 namespace scrum_and_xp
 {
-    public class ChatHub : Hub
+    [HubName("ChatHub")]
+    public class ChatHub : Hub 
     {
+        
         #region Data Members
 
         static List<UserDetail> ConnectedUsers = new List<UserDetail>();

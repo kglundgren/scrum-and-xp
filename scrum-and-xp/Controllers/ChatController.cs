@@ -9,7 +9,7 @@ namespace scrum_and_xp.Controllers
     public class ChatController : Controller
     {
         // GET: Chat
-        public ActionResult Chat()
+        public ActionResult Index()
         {
             ViewBag.Message = "Your chat page.";
 

@@ -25,6 +25,16 @@ namespace scrum_and_xp
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/signalR").Include(
+                "~/Scripts/jquery-3.4.1.min.js",
+                "~/Scripts/ui/jquery.ui.core.js",
+                "~/Scripts/ui/jquery.ui.widget.js",
+                "~/Scripts/ui/jquery.ui.mouse.js",
+                "~/Scripts/ui/jquery.ui.draggable.js",
+                "~/Scripts/ui/jquery.ui.resizable.js"));
+
+           
         }
     }
 }
