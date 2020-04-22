@@ -1,4 +1,5 @@
 ﻿using DHTMLX.Scheduler.Data;
+using Microsoft.AspNet.Identity;
 using scrum_and_xp.App_Start;
 using scrum_and_xp.Models;
 using System;
@@ -11,10 +12,10 @@ using System.Web.Http;
 
 namespace scrum_and_xp.Controllers
 {
-    
+    [Authorize]
     public class SchedulerController : ApiController
     {
-        private SchedulerContext db = new SchedulerContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/scheduler
         public IEnumerable<WebAPIEvent> Get()
@@ -51,7 +52,10 @@ namespace scrum_and_xp.Controllers
         [HttpPost]
         public IHttpActionResult CreateSchedulerEvent(WebAPIEvent webAPIEvent)
         {
+            var CreatorId = db.Users.Find(User.Identity.GetUserId());
             var newSchedulerEvent = (SchedulerEvent)webAPIEvent;
+            newSchedulerEvent.CreatorId = CreatorId;
+
             db.SchedulerEvents.Add(newSchedulerEvent);
             db.SaveChanges();
 

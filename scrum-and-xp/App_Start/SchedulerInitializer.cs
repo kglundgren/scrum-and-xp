@@ -7,9 +7,9 @@ using scrum_and_xp.Models;
 
 namespace scrum_and_xp.App_Start
 {
-    public class SchedulerInitializer : DropCreateDatabaseIfModelChanges<SchedulerContext>
+    public class SchedulerInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
-        protected override void Seed(SchedulerContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
             List<SchedulerEvent> events = new List<SchedulerEvent>()
             {
