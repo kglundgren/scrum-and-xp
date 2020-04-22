@@ -52,12 +52,21 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -169,7 +178,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\SchedulerInitializer.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\FormalCategoriesController.cs" />
@@ -178,6 +189,7 @@
     <Compile Include="Controllers\InformalCategoriesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
+    <Compile Include="Controllers\SchedulerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -185,14 +197,24 @@
     <Compile Include="Migrations\202004161728521_init.Designer.cs">
       <DependentUpon>202004161728521_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004211213419_0421.cs" />
+    <Compile Include="Migrations\202004211213419_0421.Designer.cs">
+      <DependentUpon>202004211213419_0421.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004211604474_Ny.cs" />
+    <Compile Include="Migrations\202004211604474_Ny.Designer.cs">
+      <DependentUpon>202004211604474_Ny.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\SchedulerContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\ProfileViewModel.cs" />
-    <Compile Include="Models\SchedulerModel.cs" />
+    <Compile Include="Models\SchedulerEvent.cs" />
+    <Compile Include="Models\WebAPIEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CreateFormalCategoryViewModel.cs" />
@@ -517,6 +539,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202004161728521_init.resx">
       <DependentUpon>202004161728521_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004211213419_0421.resx">
+      <DependentUpon>202004211213419_0421.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004211604474_Ny.resx">
+      <DependentUpon>202004211604474_Ny.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

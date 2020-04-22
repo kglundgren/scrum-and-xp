@@ -49,25 +49,8 @@ namespace scrum_and_xp.Controllers
         public ContentResult Data()
         {
             var data = new SchedulerAjaxData(
-                    new List<CalendarEvent>{ 
-                        new CalendarEvent{
-                            id = 1, 
-                            text = "Sample Event", 
-                            start_date = new DateTime(2012, 09, 03, 6, 00, 00), 
-                            end_date = new DateTime(2012, 09, 03, 8, 00, 00)
-                        },
-                        new CalendarEvent{
-                            id = 2, 
-                            text = "New Event", 
-                            start_date = new DateTime(2012, 09, 05, 9, 00, 00), 
-                            end_date = new DateTime(2012, 09, 05, 12, 00, 00)
-                        },
-                        new CalendarEvent{
-                            id = 3, 
-                            text = "Multiday Event", 
-                            start_date = new DateTime(2012, 09, 03, 10, 00, 00), 
-                            end_date = new DateTime(2012, 09, 10, 12, 00, 00)
-                        }
+                    new List<SchedulerEvent>{ 
+                        
                     }
                 );
             return (ContentResult)data;
@@ -79,7 +62,7 @@ namespace scrum_and_xp.Controllers
             
             try
             {
-                var changedEvent = (CalendarEvent)DHXEventsHelper.Bind(typeof(CalendarEvent), actionValues);
+                var changedEvent = (SchedulerEvent)DHXEventsHelper.Bind(typeof(SchedulerEvent), actionValues);
 
      
 
