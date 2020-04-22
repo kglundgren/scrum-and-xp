@@ -7,9 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using scrum_and_xp.Models;
+using scrum_and_xp.ViewModels;
 
 namespace scrum_and_xp.Controllers
 {
+    [Authorize]
     public class InformalCategoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -46,16 +48,20 @@ namespace scrum_and_xp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] InformalCategory informalCategory)
+        public ActionResult Create(CreateInformalCategoryViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var informalCategory = new InformalCategory()
+                {
+                    Name = model.Name
+                };
                 db.InformalCategories.Add(informalCategory);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(informalCategory);
+            return View(model);
         }
 
         // GET: InformalCategories/Edit/5

@@ -23,7 +23,7 @@ namespace scrum_and_xp
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap-cerulean.css",
                       "~/Content/site.css"));
         }
     }
