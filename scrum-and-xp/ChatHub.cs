@@ -66,7 +66,7 @@ namespace scrum_and_xp
 
         }
 
-        public override System.Threading.Tasks.Task OnDisconnected()
+        public override System.Threading.Tasks.Task OnDisconnected(bool stopCalled)
         {
             var item = ConnectedUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
             if (item != null)
@@ -78,7 +78,7 @@ namespace scrum_and_xp
 
             }
 
-            return base.OnDisconnected();
+            return base.OnDisconnected(stopCalled);
         }
 
 

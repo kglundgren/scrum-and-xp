@@ -288,7 +288,7 @@
     <Content Include="Scripts\ui\jquery.ui.mouse.js" />
     <Content Include="Scripts\ui\jquery.ui.resizable.js" />
     <Content Include="Scripts\ui\jquery.ui.widget.js" />
-    <Content Include="Views\Chat\index.html" />
+    <None Include="Views\Chat\index.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
