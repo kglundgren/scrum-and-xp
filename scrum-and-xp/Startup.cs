@@ -8,7 +8,7 @@ namespace scrum_and_xp
     {
         public void Configuration(IAppBuilder app)
         {
-            ConfigureAuth(app);
+            app.MapSignalR();
         }
     }
 }
