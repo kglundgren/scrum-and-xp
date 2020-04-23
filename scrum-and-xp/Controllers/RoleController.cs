@@ -152,7 +152,8 @@ namespace scrum_and_xp.Controllers
                 {
                     UserId = user.Id,
                     UserName = user.UserName,
-                    IsSelected = await UserManager.IsInRoleAsync(user.Id, role.Name)
+                    IsSelected = await UserManager.IsInRoleAsync(user.Id, role.Name),
+                    RoleId = role.Id
                 };
 
                 model.Add(UserRoleViewModel);
@@ -210,27 +211,37 @@ namespace scrum_and_xp.Controllers
 
             var roles = RoleManager.Roles;
             var role = await RoleManager.FindByNameAsync("Users");
+            ViewBag.Role = role.Id;
 
-            var model = new List<UserRoleViewModel>();
+            var model = new List<NewUserViewModel>();
+           
 
             foreach (var user in UserManager.Users.ToList())
             {
-                var UserRoleViewModel = new UserRoleViewModel
+
+
+                var NewUserModel = new NewUserViewModel
                 {
                     UserId = user.Id,
                     UserName = user.UserName,
-                    IsSelected = await UserManager.IsInRoleAsync(user.Id, role.Name)
+                    IsSelected = await UserManager.IsInRoleAsync(user.Id, role.Name),
+                    FirstName = user.FirstName,
+                    LastName = user.LastName
                 };
 
                 
 
-                if(UserRoleViewModel.IsSelected == false)
+                if(NewUserModel.IsSelected == false)
                 {
-                    model.Add(UserRoleViewModel);
+                    model.Add(NewUserModel);
                 }
                 
+
             }
-            if(model != null)
+            
+            
+            
+            if (model != null)
             {
                 return View(model);
             }
