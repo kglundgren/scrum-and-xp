@@ -11,7 +11,7 @@ using scrum_and_xp.Models;
 
 namespace scrum_and_xp.Controllers
 {
-    [Authorize]
+   
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
