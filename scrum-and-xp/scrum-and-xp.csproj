@@ -194,9 +194,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004231515196_init.cs" />
-    <Compile Include="Migrations\202004231515196_init.Designer.cs">
-      <DependentUpon>202004231515196_init.cs</DependentUpon>
+    <Compile Include="Migrations\202004231722552_Hejsan.cs" />
+    <Compile Include="Migrations\202004231722552_Hejsan.Designer.cs">
+      <DependentUpon>202004231722552_Hejsan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004231741065_FixatBild.cs" />
+    <Compile Include="Migrations\202004231741065_FixatBild.Designer.cs">
+      <DependentUpon>202004231741065_FixatBild.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -528,6 +532,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -543,8 +548,11 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202004231515196_init.resx">
-      <DependentUpon>202004231515196_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202004231722552_Hejsan.resx">
+      <DependentUpon>202004231722552_Hejsan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004231741065_FixatBild.resx">
+      <DependentUpon>202004231741065_FixatBild.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -8,6 +8,19 @@
 <p class="text-success">@ViewBag.StatusMessage</p>
 
 <dl class="dl-horizontal">
+    <dt>Profile Picture</dt>
+    <dd>
+
+        @if (ViewBag.Img == 1)
+        {
+        string p = ViewBag.Id + ".jpg";
+        string path = Path.Combine("~/Images/", p);
+        <img src="@Url.Content(path)" alt="Image" style="height:200px;width:175px;" />
+        }
+       
+    </dd>
+
+
     <dt>Firstname:</dt>
     <dd>
         @ViewBag.FirstName
@@ -107,52 +120,48 @@
                 [@Html.ActionLink("Change your name", "ChangeName")]
             </dd>
 
-        }
+            <dt>Change phone number:</dt>
+            <dd>
+                [@Html.ActionLink("Change your phone number", "ChangePhoneNumberView")]
 
-
-        <dt>Change phone number:</dt>
-        <dd>
-            [@Html.ActionLink("Change your phone number", "ChangePhoneNumberView")]
-
-        </dd>
-
-        <dt>Change your name:</dt>
-        <dd>
-            [@Html.ActionLink("Change your name", "ChangeName")]
-        </dd>
-        <dt>Check your meeting invites</dt>
+            </dd>
+            <dt>Check your meeting invites</dt>
             <dd>
                 [@Html.ActionLink("Check meeting invites", "MeetingInvites")]
             </dd>
-        
+        }
+
+
+
+
 
         @*
-            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
+        Phone Numbers can used as a second factor of verification in a two-factor authentication system.
 
-             See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+         See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+            for details on setting up this ASP.NET application to support two-factor authentication using SMS.
 
-             Uncomment the following block after you have set up two-factor authentication
+         Uncomment the following block after you have set up two-factor authentication
         *@
         @*
-            <dt>Phone Number:</dt>
-            <dd>
-                @(Model.PhoneNumber ?? "None")
-                @if (Model.PhoneNumber != null)
+        <dt>Phone Number:</dt>
+        <dd>
+            @(Model.PhoneNumber ?? "None")
+            @if (Model.PhoneNumber != null)
+            {
+                <br />
+                <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
+                using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                 {
-                    <br />
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
-                    }
+                    @Html.AntiForgeryToken()
+                    <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
                 }
-                else
-                {
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
-                }
-            </dd>
+            }
+            else
+            {
+                <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
+            }
+        </dd>
         *@
     </dl>
 </div>

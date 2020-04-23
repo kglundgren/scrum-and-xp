@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace scrum_and_xp.Controllers
 {
+
     [Authorize]
     public class PostsController : Controller
     {
