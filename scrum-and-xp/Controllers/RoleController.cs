@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using scrum_and_xp.ViewModels;
+using System.Web.Security;
 
 namespace scrum_and_xp.Controllers
 {
-
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         //private readonly RoleManager<IdentityRole> roleManager;
