@@ -21,6 +21,7 @@ namespace scrum_and_xp.Controllers
             //Being initialized in that way, scheduler will use CalendarController.Data as a the datasource and CalendarController.Save to process changes
             var scheduler = new DHXScheduler(this);
 
+
             /*
              * It's possible to use different actions of the current controller
              *      var scheduler = new DHXScheduler(this);     
@@ -37,8 +38,8 @@ namespace scrum_and_xp.Controllers
              * The default codebase folder is ~/Scripts/dhtmlxScheduler. It can be overriden:
              *      scheduler.Codebase = Url.Content("~/customCodebaseFolder");
              */
-            
- 
+
+
             scheduler.InitialDate = new DateTime();
             scheduler.LoadData = true;
             scheduler.EnableDataprocessor = true;

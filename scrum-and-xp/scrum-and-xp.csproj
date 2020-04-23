@@ -193,9 +193,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004220940457_srar.cs" />
-    <Compile Include="Migrations\202004220940457_srar.Designer.cs">
-      <DependentUpon>202004220940457_srar.cs</DependentUpon>
+    <Compile Include="Migrations\202004230825193_init.cs" />
+    <Compile Include="Migrations\202004230825193_init.Designer.cs">
+      <DependentUpon>202004230825193_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -205,6 +205,8 @@
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Models\SchedulerEvent.cs" />
+    <Compile Include="Models\UpcomingMeeting.cs" />
+    <Compile Include="Models\UsersUpcomingMeetings.cs" />
     <Compile Include="Models\WebAPIEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -527,8 +529,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202004220940457_srar.resx">
-      <DependentUpon>202004220940457_srar.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202004230825193_init.resx">
+      <DependentUpon>202004230825193_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
