@@ -250,6 +250,52 @@ namespace scrum_and_xp.Controllers
             return View();
         }
 
+        public string Count()
+        {
+            var role = RoleManager.FindByName("Users");
+
+            var model = new List<NewUserViewModel>();
+
+
+            foreach (var user in UserManager.Users.ToList())
+            {
+
+
+                var NewUserModel = new NewUserViewModel
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    IsSelected = UserManager.IsInRole(user.Id, role.Name),
+                    FirstName = user.FirstName,
+                    LastName = user.LastName
+                };
+
+
+
+                if (NewUserModel.IsSelected == false)
+                {
+                    model.Add(NewUserModel);
+                }
+
+
+            }
+
+            if (model== null)
+            {
+                return "0";
+            }
+            else
+            {
+                var requests = model.Count.ToString();
+
+                return requests;
+
+            }
+
+        }
+
+
+
 
 
     }   }    
