@@ -11,25 +11,7 @@
     <ul id="discussion">
     </ul>
 </div>
-@if (HttpRuntime.Cache["LoggedInUsers"] != null)
-{
-    List<ApplicationUserManager> LoggedOnUsers = (List<ApplicationUserManager>)HttpRuntime.Cache["LoggedInUsers"];
-    if (LoggedOnUsers.Count > 0)
-    {
-        <div class="ChatBox">
-            <ul>
-                @foreach (ApplicationUserManager user in LoggedOnUsers)
-                {
-                    <li>
-                        <div class="r_row">
-                            <div class="r_name">@Html.Encode(user)</div>
-                        </div>
-                    </li>
-                }
-            </ul>
-        </div>
-    }
-}
+
 @section scripts {
     <!--Script references. -->
     <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
@@ -67,19 +49,6 @@
         function htmlEncode(value) {
             var encodedValue = $('<div />').text(value).html();
             return encodedValue;
-        }
-    </script>
-
-    @*Displays current users online, refreshes every 5 seconds.*@
-    <script type="text/javascript">
-        $(function () {
-            setInterval(loginDisplay, 5000);
-        });
-
-        function loginDisplay() {
-            $.post("/Account/getLoginUser", null, function (data) {
-
-            });
         }
     </script>
 }

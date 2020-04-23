@@ -42,12 +42,12 @@ namespace scrum_and_xp.Controllers
         //
         // GET: /Current list of users online
 
-        public ActionResult CurrentUsersOnline()
+        public ActionResult Chatters()
         {
             var user = db.Users.Find(User.Identity.GetUserId());
             var model = new CurrentUsersOnline()
             {
-                Name = user.FirstName + "" + user.LastName
+                CurrentUserName = user.FirstName + "" + user.LastName
             };
             if (ModelState.IsValid)
             {                
@@ -56,20 +56,20 @@ namespace scrum_and_xp.Controllers
                     if (HttpRuntime.Cache["LoggedInUsers"] != null) //if the list exists, add this user to it
                     {
                         //get the list of logged in users from the cache
-                        List<ApplicationUser> loggedInUsers = (List<ApplicationUser>)HttpRuntime.Cache["LoggedInUsers"];
+                        model.loggedInUsers = (List<ApplicationUser>)HttpRuntime.Cache["LoggedInUsers"];
                         //add this user to the list
-                        loggedInUsers.Add(user);
+                        model.loggedInUsers.Add(user);
                         //add the list back into the cache
-                        HttpRuntime.Cache["LoggedInUsers"] = loggedInUsers;
+                        HttpRuntime.Cache["LoggedInUsers"] = model.loggedInUsers;
                     }
                     else //the list does not exist so create it
                     {
                         //create a new list
-                        List<ApplicationUser> loggedInUsers = new List<ApplicationUser>();
+                        model.loggedInUsers = new List<ApplicationUser>();
                         //add this user to the list
-                        loggedInUsers.Add(user);
+                        model.loggedInUsers.Add(user);
                         //add the list into the cache
-                        HttpRuntime.Cache["LoggedInUsers"] = loggedInUsers;
+                        HttpRuntime.Cache["LoggedInUsers"] = model.loggedInUsers;
                     }
                 }
             }            
