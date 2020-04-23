@@ -1,0 +1,61 @@
+﻿@using Microsoft.AspNet.Identity.EntityFramework
+@model IEnumerable<IdentityRole>
+@{
+    ViewBag.Title = "List of Roles";
+}
+
+<h2>List of Roles</h2>
+
+<style>
+    tr.tr-custom {
+        background-color: #e95420;
+    }
+
+    th.th-custom {
+        color: #eeeeee;
+    }
+</style>
+
+
+
+@if (Model.Any())
+{
+    <table class="table">
+        <tr>
+            <th>
+                Role Name
+            </th>
+            <th>
+                Role Id
+            </th>
+        </tr>
+        @foreach (var role in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => role.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => role.Id)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit Role", "EditRole", new { id = role.Id })
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">Heads Up</h3>
+        </div>
+        <div class="panel-body">
+            There are no roles to display.
+        </div>
+    </div>
+}
+
+<a href="@Url.Action("CreateRole", "Role")" class="btn btn-primary">Create New Role</a>
+
