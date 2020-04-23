@@ -13,6 +13,7 @@ namespace scrum_and_xp.ViewModels
 
         public bool IsSelected { get; set; }
 
+        public string RoleId { get; set; }
 
     }
 }
