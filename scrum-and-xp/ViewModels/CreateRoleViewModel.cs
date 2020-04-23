@@ -4,13 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace scrum_and_xp.Models
+namespace scrum_and_xp.ViewModels
 {
-    public class InformalCategory
+    public class CreateRoleViewModel
     {
-        public int Id { get; set; }
-        [MinLength(3)]
-        [MaxLength(25)]
+
+        [Required]
         public string Name { get; set; }
     }
 }
