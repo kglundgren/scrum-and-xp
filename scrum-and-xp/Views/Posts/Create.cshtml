@@ -78,7 +78,10 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            FillCategory();
+            var modelType = @Model.Type;
+            if (modelType === "Formal") {
+                FillCategory();
+            }
         });
         function FillCategory() {
             var typeId = $('#SelectedFormalTypeId').val();

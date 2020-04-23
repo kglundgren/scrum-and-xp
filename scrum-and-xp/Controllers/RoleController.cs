@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using scrum_and_xp.ViewModels;
+using System.Web.Security;
 
 namespace scrum_and_xp.Controllers
 {
-   
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         //private readonly RoleManager<IdentityRole> roleManager;
@@ -247,50 +248,6 @@ namespace scrum_and_xp.Controllers
             }
 
             return View();
-        }
-
-        public string Count()
-        {
-            var role = RoleManager.FindByName("Users");
-
-            string u = User.Identity.Name;
-            var model = new List<NewUserViewModel>();
-
-            foreach (var user in UserManager.Users.ToList())
-            {
-
-
-                var NewUserModel = new NewUserViewModel
-                {
-                    UserId = user.Id,
-                    UserName = user.UserName,
-                    IsSelected =  UserManager.IsInRole(user.Id, role.Name),
-                    FirstName = user.FirstName,
-                    LastName = user.LastName
-                };
-
-
-
-                if (NewUserModel.IsSelected == false)
-                {
-                    model.Add(NewUserModel);
-                }
-
-
-            }
-
-            if(model == null)
-            {
-                return "0";
-            }
-            else
-            {
-                var request = model.Count.ToString();
-
-                return request;
-            }
-
-
         }
 
 
