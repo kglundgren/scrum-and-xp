@@ -43,67 +43,86 @@
 </dl>
 
 <div>
+
+
     <h4>Change your account settings</h4>
     <hr />
     <dl class="dl-horizontal">
 
-        <dt>File Upload</dt>
-        <dd>
-            @using (Html.BeginForm("Index", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
-                @Html.AntiForgeryToken()
-
-                <div class="form-horizontal">
-                    <hr />
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.file, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div>
-                            @Html.EditorFor(model => model.file, new { htmlAttributes = new { @class = "form-control", @type = "file" } })
-                            @Html.ValidationMessageFor(model => model.file, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Upload" , id="upload" class="btn btn-primary" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10 text-success">
-                            @ViewBag.FileStatus
-                        </div>
-                    </div>
-                </div>
-            }
-
-
-        </dd>
-        @if (User.IsInRole("Admin"))
+        @if (User.IsInRole("Users"))
         {
-            <dt>Change Different roles:</dt>
+            <dt>File Upload</dt>
             <dd>
+                @using (Html.BeginForm("Index", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
 
-                @Html.ActionLink("Roles", "ListRoles", "Role")
+                    <div class="form-horizontal">
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.file, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div>
+                                @Html.EditorFor(model => model.file, new { htmlAttributes = new { @class = "form-control", @type = "file" } })
+                                @Html.ValidationMessageFor(model => model.file, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Upload" , id="upload" class="btn btn-primary" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10 text-success">
+                                @ViewBag.FileStatus
+                            </div>
+                        </div>
+                    </div>
+                }
+
 
             </dd>
         }
 
+        @if (User.IsInRole("Admin"))
+        {
+            <dt>Change Different roles:</dt>
+            <dd>
+                ]
+                @Html.ActionLink("Roles", "ListRoles", "Role")
+                ]
+            </dd>
+        }
 
-        <dt>Password:</dt>
-        <dd>
-            [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Create", "SetPassword")
-            }
-            
-        </dd>
+        @if (User.IsInRole("Users"))
+        {
+            <dt>Password:</dt>
+            <dd>
+                [
+                @if (Model.HasPassword)
+                {
+                    @Html.ActionLink("Change your password", "ChangePassword")
+                }
+                else
+                {
+                    @Html.ActionLink("Create", "SetPassword")
+                }
+                ]
+            </dd>
 
+            <dt>Change phone number:</dt>
+            <dd>
+                [@Html.ActionLink("Change your phone number", "ChangePhoneNumberView")]
+
+            </dd>
+
+            <dt>Change your name:</dt>
+            <dd>
+                [@Html.ActionLink("Change your name", "ChangeName")]
+            </dd>
+
+        }
 
         @*<dt>External Logins:</dt>
         <dd>
@@ -111,17 +130,6 @@
             @Html.ActionLink("Manage", "ManageLogins") ]
         </dd>*@
 
-        <dt>Change phone number:</dt>
-        <dd>
-            [@Html.ActionLink("Change your phone number", "ChangePhoneNumberView")]
-
-        </dd>
-
-        <dt>Change your name:</dt>
-        <dd>
-            [@Html.ActionLink("Change your name", "ChangeName")]
-        </dd>
-        
         @*
         Phone Numbers can used as a second factor of verification in a two-factor authentication system.
 

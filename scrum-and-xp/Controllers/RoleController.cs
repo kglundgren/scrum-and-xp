@@ -12,7 +12,7 @@ using System.Web.Security;
 
 namespace scrum_and_xp.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    
     public class RoleController : Controller
     {
         //private readonly RoleManager<IdentityRole> roleManager;
@@ -252,7 +252,14 @@ namespace scrum_and_xp.Controllers
 
         public string Count()
         {
+
+            
             var role = RoleManager.FindByName("Users");
+
+            if(role== null)
+            {
+                return "0";
+            }
 
             var model = new List<NewUserViewModel>();
 
