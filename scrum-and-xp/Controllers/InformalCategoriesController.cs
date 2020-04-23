@@ -11,7 +11,7 @@ using scrum_and_xp.ViewModels;
 
 namespace scrum_and_xp.Controllers
 {
-    [Authorize(Roles = "Users")]
+    [Authorize]
     public class InformalCategoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

@@ -193,22 +193,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\RoleController.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004161728521_init.cs" />
-    <Compile Include="Migrations\202004161728521_init.Designer.cs">
-      <DependentUpon>202004161728521_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004200855469_hejsa1111.cs" />
-    <Compile Include="Migrations\202004200855469_hejsa1111.Designer.cs">
-      <DependentUpon>202004200855469_hejsa1111.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004231218059_auth.cs" />
-    <Compile Include="Migrations\202004231218059_auth.Designer.cs">
-      <DependentUpon>202004231218059_auth.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
@@ -223,13 +207,9 @@
     <Compile Include="ViewModels\CreateFormalCategoryViewModel.cs" />
     <Compile Include="ViewModels\CreateInformalCategoryViewModel.cs" />
     <Compile Include="ViewModels\CreatePostViewModel.cs" />
-    <Compile Include="ViewModels\CreateRoleViewModel.cs" />
-    <Compile Include="ViewModels\EditRoleViewModel.cs" />
     <Compile Include="ViewModels\FormalCategoryViewModel.cs" />
     <Compile Include="ViewModels\FormalPostViewModel.cs" />
     <Compile Include="ViewModels\InformalPostViewModel.cs" />
-    <Compile Include="ViewModels\NewUserViewModel.cs" />
-    <Compile Include="ViewModels\UserRoleViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-cerulean.css" />
@@ -456,7 +436,6 @@
     <Content Include="Scripts\dhtmlxScheduler\locale\recurring\repeat_template_ro.html" />
     <Content Include="Scripts\dhtmlxScheduler\locale\recurring\repeat_template_ru.html" />
     <Content Include="Scripts\dhtmlxScheduler\locale\recurring\repeat_template_sk.html" />
-    <Content Include="Scripts\CatFilter.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -528,15 +507,9 @@
     <Content Include="Views\Posts\InformalPosts.cshtml" />
     <Content Include="Views\Posts\FormalPosts.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
-    <Content Include="Views\Role\CreateRole.cshtml" />
-    <Content Include="Views\Role\ListRoles.cshtml" />
-    <Content Include="Views\Role\EditUsersInRole.cshtml" />
-    <Content Include="Views\Role\EditRole.cshtml" />
-    <Content Include="Views\Role\NewUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

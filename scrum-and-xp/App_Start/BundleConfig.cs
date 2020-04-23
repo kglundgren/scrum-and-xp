@@ -25,9 +25,6 @@ namespace scrum_and_xp
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-cerulean.css",
                       "~/Content/site.css"));
-
-            bundles.Add(new StyleBundle("~/bundles/CatFilter").Include(
-                "~/Scripts/CatFiler.js"));
         }
     }
 }
