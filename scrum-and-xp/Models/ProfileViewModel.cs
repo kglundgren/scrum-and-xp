@@ -12,9 +12,5 @@ namespace scrum_and_xp.Models
         public string LastName { get; set; }
 
         public string Email { get; set; }
-
-        public string PId { get; set; }
-
-        public int Img { get; set; }
     }
 }

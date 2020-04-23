@@ -13,9 +13,6 @@ namespace scrum_and_xp.Models
         public string Content { get; set; }
         public DateTime PostTime { get; set; }
         public ApplicationUser AuthorId { get; set; }
-
-        public int CategoryId { get; set; }
-        
     }
 
     public class InformalPost : Post

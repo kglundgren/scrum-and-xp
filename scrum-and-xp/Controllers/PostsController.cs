@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace scrum_and_xp.Controllers
 {
-    [Authorize(Roles = "Users")]
+    [Authorize]
     public class PostsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -52,7 +52,6 @@ namespace scrum_and_xp.Controllers
         //}
 
         // GET: Posts/Create
-
         public ActionResult Create(string type)
         {
             var model = new CreatePostViewModel();
@@ -260,10 +259,5 @@ namespace scrum_and_xp.Controllers
             }
             base.Dispose(disposing);
         }
-        //[Authorize(Roles = "Admin")]
-        //public ActionResult Remove()
-        //{
-
-        //}
     }
 }

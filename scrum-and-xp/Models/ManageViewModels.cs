@@ -12,11 +12,6 @@ namespace scrum_and_xp.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
-
-        [DataType(DataType.Upload)]
-        [Display(Name = "Upload File")]
-        [Required(ErrorMessage = "Välj en bild att ladda upp.")]
-        public string file { get; set; }
     }
 
     public class ManageLoginsViewModel
