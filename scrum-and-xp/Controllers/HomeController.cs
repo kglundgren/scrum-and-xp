@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace scrum_and_xp.Controllers
 {
@@ -36,6 +37,63 @@ namespace scrum_and_xp.Controllers
                 Name = user.FirstName + " " + user.LastName
             };
             return View(model);
+        }
+
+        //
+        // GET: /Current list of users online
+
+        public ActionResult CurrentUsersOnline()
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var model = new CurrentUsersOnline()
+            {
+                Name = user.FirstName + "" + user.LastName
+            };
+            if (ModelState.IsValid)
+            {                
+                if (user != null)
+                {
+                    if (HttpRuntime.Cache["LoggedInUsers"] != null) //if the list exists, add this user to it
+                    {
+                        //get the list of logged in users from the cache
+                        List<ApplicationUser> loggedInUsers = (List<ApplicationUser>)HttpRuntime.Cache["LoggedInUsers"];
+                        //add this user to the list
+                        loggedInUsers.Add(user);
+                        //add the list back into the cache
+                        HttpRuntime.Cache["LoggedInUsers"] = loggedInUsers;
+                    }
+                    else //the list does not exist so create it
+                    {
+                        //create a new list
+                        List<ApplicationUser> loggedInUsers = new List<ApplicationUser>();
+                        //add this user to the list
+                        loggedInUsers.Add(user);
+                        //add the list into the cache
+                        HttpRuntime.Cache["LoggedInUsers"] = loggedInUsers;
+                    }
+                }
+            }            
+            return View(model);
+        }
+
+
+        public ActionResult CurrentUserLogOff()
+        {
+            var user = db.Users.Find(User.Identity.GetUserName()); //get the users username who is logged in
+            if (HttpRuntime.Cache["LoggedInUsers"] != null)//check if the list has been created
+            {
+                //the list is not null so we retrieve it from the cache
+                List<ApplicationUser> loggedInUsers = (List<ApplicationUser>)HttpRuntime.Cache["LoggedInUsers"];
+                if (loggedInUsers.Contains(user))//if the user is in the list
+                {
+                    //then remove them
+                    loggedInUsers.Remove(user);
+                }
+                // else do nothing
+            }
+            //else do nothing
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

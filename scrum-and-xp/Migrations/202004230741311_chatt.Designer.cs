@@ -7,13 +7,13 @@ namespace scrum_and_xp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class init : IMigrationMetadata
+    public sealed partial class chatt : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(init));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(chatt));
         
         string IMigrationMetadata.Id
         {
-            get { return "202004161728521_init"; }
+            get { return "202004230741311_chatt"; }
         }
         
         string IMigrationMetadata.Source
