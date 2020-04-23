@@ -32,7 +32,7 @@
         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                         @if (Request.IsAuthenticated)
                         {
-                            <li>@Html.ActionLink("New Users", "NewUsers", "Role")</li>
+                            <li>@Html.ActionLink("New Users (" + @Html.Action("Count", "Role") + ")", "NewUsers", "Role")</li>
                             <li>@Html.ActionLink("Formal", "FormalPosts", "Posts")</li>
                             <li>@Html.ActionLink("Informal", "InformalPosts", "Posts")</li>
                             <li>@Html.ActionLink("Formal Categories", "Index", "FormalCategories")</li>
