@@ -197,6 +197,14 @@
     <Compile Include="Migrations\202004230825193_init.Designer.cs">
       <DependentUpon>202004230825193_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004231157028_yeet2.cs" />
+    <Compile Include="Migrations\202004231157028_yeet2.Designer.cs">
+      <DependentUpon>202004231157028_yeet2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004231259070_allownull.cs" />
+    <Compile Include="Migrations\202004231259070_allownull.Designer.cs">
+      <DependentUpon>202004231259070_allownull.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
@@ -215,6 +223,7 @@
     <Compile Include="ViewModels\FormalCategoryViewModel.cs" />
     <Compile Include="ViewModels\FormalPostViewModel.cs" />
     <Compile Include="ViewModels\InformalPostViewModel.cs" />
+    <Compile Include="ViewModels\UpcomingMeetingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -511,6 +520,7 @@
     <Content Include="Views\Posts\InformalPosts.cshtml" />
     <Content Include="Views\Posts\FormalPosts.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
+    <Content Include="Views\Manage\MeetingInvites.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -531,6 +541,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202004230825193_init.resx">
       <DependentUpon>202004230825193_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004231157028_yeet2.resx">
+      <DependentUpon>202004231157028_yeet2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004231259070_allownull.resx">
+      <DependentUpon>202004231259070_allownull.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

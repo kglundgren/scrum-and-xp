@@ -7,8 +7,9 @@ namespace scrum_and_xp.Models
 {
     public class UsersUpcomingMeetings
     {
-        public ApplicationUser User { get; set; }
-        public UpcomingMeeting Meeting { get; set; }
-        public DateTime Answer { get; set; }
+        public int Id { get; set; }
+        public ApplicationUser UserId { get; set; }
+        public UpcomingMeeting MeetingId { get; set; }
+        public DateTime? Answer { get; set; }
     }
 }
