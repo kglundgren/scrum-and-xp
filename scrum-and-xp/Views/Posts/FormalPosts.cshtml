@@ -15,8 +15,31 @@
 <br />
 @Html.DropDownListFor(m => m.SelectedCategoryId, Model.FormalCategories, "Please select formal category", new { @class = "form-control", @onchange = "FilterPosts()" })
 <br />
+<a onclick="ResetFilter()" class="btn btn-primary btn-sm">Reset filter</a>
+<br />
+<br />
 
-<div id="d1"> </div>
+<div id="d1">
+    @foreach (var item in Model.FormalPosts)
+    {
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">@item.Title</h3>
+            </div>
+            <div class="panel-body">
+                @item.Content
+                <br /><br />
+                <span class="text-info">Tag: @item.FormalCategories.FirstOrDefault().Name</span>
+                <br />
+                <span class="text-info">Type: @item.FormalCategories.FirstOrDefault().Type.Name</span>
+                <hr />
+                @item.AuthorId.FirstName @item.AuthorId.LastName
+                <br />
+                @item.PostTime
+            </div>
+        </div>
+    }
+</div>
 
 <table class="table">
     <tr>
@@ -85,6 +108,10 @@
 
 @section Scripts {
     <script>
+        function ResetFilter() {
+            window.location.href = '@Url.Action("FormalPosts", "Posts")';
+        }
+
         function FillCategory() {
             var typeId = $('#SelectedTypeId').val();
             $.ajax({
@@ -97,6 +124,44 @@
                     $.each(categories, function (i, category) {
                         $("#SelectedCategoryId").append(
                             $('<option></option>').val(category.Value).html(category.Text));
+                    });
+                    FilterPostsOnType();
+                }
+            });
+        }
+
+        function FilterPostsOnType() {
+            var typeId = $('#SelectedTypeId').val();
+            $.ajax({
+                url: '/Posts/FilterPostsOnType',
+                type: "GET",
+                dataType: "JSON",
+                data: { Type: typeId },
+                success: function (data) {
+                    $("#d1").html(""); // clear before appending new list
+                    $.each(data, function (index, item) {
+
+                        var $panelPrimary = $('<div id=panel-primary' + index + ' class="panel panel-primary"></div>'),
+                            $panelHeading = $('<div class="panel-heading"></div>'),
+                            $panelTitle = $('<h3 class="panel-title"></h3>'),
+                            $panelBody = $('<div class="panel-body"></div>');
+
+                        $('#d1').append($panelPrimary);
+                        $('#panel-primary' + index).append([
+                            $panelHeading
+                                .append($panelTitle)
+                                .text(item.Title),
+                            $panelBody
+                                .text(item.Content)
+                                .append('<br /><br />')
+                                .append('<span class=text-info>Tag: ' + item.FormalCategories[0].Name + '</span>')
+                                .append('<br />')
+                                .append('<span class=text-info>Type: ' + item.FormalCategories[0].Type.Name + '</span>')
+                                .append('<hr>')
+                                .append(item.AuthorId.FirstName + ' ' + item.AuthorId.LastName)
+                                .append('<br />')
+                                .append(item.PostTime)
+                        ]);
                     });
                 }
             });
@@ -127,6 +192,8 @@
                                 .text(item.Content)
                                 .append('<br /><br />')
                                 .append('<span class=text-info>Tag: ' + item.FormalCategories[0].Name + '</span>')
+                                .append('<br />')
+                                .append('<span class=text-info>Type: ' + item.FormalCategories[0].Type.Name + '</span>')
                                 .append('<hr>')
                                 .append(item.AuthorId.FirstName + ' ' + item.AuthorId.LastName)
                                 .append('<br />')

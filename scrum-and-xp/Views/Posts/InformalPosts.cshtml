@@ -14,8 +14,29 @@
 @Html.DropDownListFor(m => m.SelectedCategoryId, Model.InformalCategories, "Please select informal category", new { @class = "form-control", @onchange = "FilterPosts()" })
 
 <br />
+<a onclick="ResetFilter()" class="btn btn-primary btn-sm">Reset filter</a>
+<br />
+<br />
 
-<div id="d1"> </div>
+<div id="d1">
+    @foreach (var item in Model.InformalPosts)
+    {
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">@item.Title</h3>
+            </div>
+            <div class="panel-body">
+                @item.Content
+                <br /><br />
+                <span class="text-info">Tag: @item.InformalCategories.FirstOrDefault().Name</span>
+                <hr />
+                @item.AuthorId.FirstName @item.AuthorId.LastName
+                <br />
+                @item.PostTime
+            </div>
+        </div>
+    }
+</div>
 
 <table class="table" id="t1">
     <tr>
@@ -81,6 +102,10 @@
 
 @section Scripts {
     <script>
+        function ResetFilter() {
+            window.location.href = '@Url.Action("InformalPosts", "Posts")';
+        }
+
         function FilterPosts() {
             var catId = $('#SelectedCategoryId').val();
             $.ajax({

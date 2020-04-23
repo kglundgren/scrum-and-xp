@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace scrum_and_xp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Users")]
     public class PostsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -22,7 +22,7 @@ namespace scrum_and_xp.Controllers
         public ActionResult InformalPosts()
         {
             var model = new InformalPostViewModel();
-            model.InformalPosts = db.InformalPosts.Include("InformalCategories").Include("AuthorId").ToList();
+            model.InformalPosts = db.InformalPosts.Include("InformalCategories").Include("AuthorId").OrderByDescending(x => x.PostTime).ToList();
             model.InformalCategories = new SelectList(db.InformalCategories, "Id", "Name");
             return View(model);
         }
@@ -30,7 +30,7 @@ namespace scrum_and_xp.Controllers
         public ActionResult FormalPosts()
         {
             var model = new FormalPostViewModel();
-            model.FormalPosts = db.FormalPosts.Include("FormalCategories").Include("AuthorId").ToList();
+            model.FormalPosts = db.FormalPosts.Include("FormalCategories").Include("AuthorId").OrderByDescending(x => x.PostTime).ToList();
             model.FormalCategories = new SelectList(db.FormalCategories, "Id", "Name");
             model.FormalTypes = new SelectList(db.FormalTypes, "Id", "Name");
             return View(model);
@@ -52,19 +52,19 @@ namespace scrum_and_xp.Controllers
         //}
 
         // GET: Posts/Create
+
         public ActionResult Create(string type)
         {
             var model = new CreatePostViewModel();
             if (type is null || type.Equals("Formal"))
             {
                 model.Type = "Formal";
-                model.FormalCategories = new SelectList(db.FormalCategories, "Id", "Name");
-                model.FormalTypes = new SelectList(db.FormalTypes, "Id", "Name");
+                model.FormalTypes = db.FormalTypes.ToList();
             }
             else if (type.Equals("Informal"))
             {
                 model.Type = "Informal";
-                model.InformalCategories = new SelectList(db.InformalCategories, "Id", "Name");
+                model.InformalCategories = db.InformalCategories.ToList();
             }
 
             return View(model);
@@ -78,7 +78,19 @@ namespace scrum_and_xp.Controllers
         //public ActionResult Create([Bind(Include = "Id,Title,Content,PostTime")] Post post)
         public ActionResult Create(CreatePostViewModel model)
         {
+            if (model.SelectedCategoryId is null)
+            {
+                if (ModelState.ContainsKey("SelectedCategoryId"))
+                {
+                    ModelState["SelectedCategoryId"].Errors.Clear();
+                    ModelState.AddModelError("SelectedCategoryId", "Must select category.");
+                }
+            }
+
             var authorId = db.Users.Find(User.Identity.GetUserId());
+            model.FormalTypes = db.FormalTypes.ToList();
+            model.FormalCategories = db.FormalCategories.ToList();
+            model.InformalCategories = db.InformalCategories.ToList();
             if (model.Type == "Formal")
             {
                 var formPost = new FormalPost
@@ -88,7 +100,7 @@ namespace scrum_and_xp.Controllers
                     PostTime = DateTime.Now,
                     AuthorId = authorId
                 };
-                var formCat = db.FormalCategories.FirstOrDefault(cat => cat.Id == model.SelectedFormalCategoryId);
+                var formCat = db.FormalCategories.FirstOrDefault(cat => cat.Id == model.SelectedCategoryId);
                 formPost.FormalCategories.Add(formCat);
 
                 if (ModelState.IsValid)
@@ -97,6 +109,7 @@ namespace scrum_and_xp.Controllers
                     db.SaveChanges();
                     return RedirectToAction("FormalPosts");
                 }
+                return View(model);
             }
             else if (model.Type == "Informal")
             {
@@ -107,8 +120,7 @@ namespace scrum_and_xp.Controllers
                     PostTime = DateTime.Now,
                     AuthorId = authorId
                 };
-                var infCategory = db.InformalCategories.FirstOrDefault(cat => cat.Id == model.SelectedInformalCategoryId);
-
+                var infCategory = db.InformalCategories.FirstOrDefault(cat => cat.Id == model.SelectedCategoryId);
                 infPost.InformalCategories.Add(infCategory);
 
                 if (ModelState.IsValid)
@@ -117,25 +129,29 @@ namespace scrum_and_xp.Controllers
                     db.SaveChanges();
                     return RedirectToAction("InformalPosts");
                 }
+                return View(model);
             }
-
 
             return RedirectToAction("Index");
         }
 
         // GET: Posts/FillCategory
-        public ActionResult FillCategory(int type)
+        public ActionResult FillCategory(int? type)
         {
-            var categories = db.FormalCategories.Include("Type").Where(c => c.Type.Id == type);
-            var defaultOption = new SelectListItem() { Value = "null", Text = "Please select formal category" };
-            List<SelectListItem> selectListItems = new List<SelectListItem>();
-            selectListItems.Add(defaultOption);
-            foreach (var item in categories)
+            var selectListItems = new List<SelectListItem>();
+            selectListItems.Add(new SelectListItem() { Value = "null", Text = "Please select formal category" });
+            if (type != null)
             {
-                selectListItems.Add( new SelectListItem() { Value = item.Id.ToString(), Text = item.Name });
+                var categories = new List<FormalCategory>();
+                categories = db.FormalCategories.Include("Type").Where(c => c.Type.Id == type).ToList();
+                foreach (var item in categories)
+                {
+                    selectListItems.Add(new SelectListItem() { Value = item.Id.ToString(), Text = item.Name });
+                }
+                return Json(selectListItems, JsonRequestBehavior.AllowGet);
             }
-            //categories.ToArray(), "Id", "Name")
-            return Json(new SelectList(selectListItems, "Id", "Name"), JsonRequestBehavior.AllowGet);
+            // If the type is null, return only default options.
+            return Json(selectListItems, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Posts/FilterInformalPosts
@@ -148,15 +164,33 @@ namespace scrum_and_xp.Controllers
             var json = JsonConvert.SerializeObject(posts, jsonSerializerSettings);
             return Content(json, "application/json");
         }
-        
+
+        // GET: Posts/FilterPostsOnType
+        public ActionResult FilterPostsOnType(int type)
+        {
+            var posts = db.FormalPosts.Include("AuthorId").Include("FormalCategories.Type")
+                .Where(p => p.FormalCategories.Any(c => c.Type.Id == type))
+                .OrderByDescending(x => x.PostTime)
+                .ToArray();
+            var json = JsonConvert.SerializeObject(posts, jsonSerializerSettings);
+            return Content(json, "application/json");
+        }
 
         // GET: Posts/FilterFormalPosts
         public ActionResult FilterFormalPosts(int category)
         {
-            var posts = db.FormalPosts.Include("AuthorId")
-                .Where(p => p.FormalCategories.Any(c => c.Id == category))
-                .OrderByDescending(x => x.PostTime)
-                .ToArray();
+            List<FormalPost> posts = new List<FormalPost>();
+            if (category == 0)
+            {
+                posts = db.FormalPosts.Include("AuthorId").Include("FormalCategories.Type").ToList();
+            }
+            else
+            {
+                posts = db.FormalPosts.Include("AuthorId").Include("FormalCategories.Type")
+                    .Where(p => p.FormalCategories.Any(c => c.Id == category))
+                    .OrderByDescending(x => x.PostTime)
+                    .ToList();
+            }
             var json = JsonConvert.SerializeObject(posts, jsonSerializerSettings);
             return Content(json, "application/json");
         }
@@ -226,5 +260,10 @@ namespace scrum_and_xp.Controllers
             }
             base.Dispose(disposing);
         }
+        //[Authorize(Roles = "Admin")]
+        //public ActionResult Remove()
+        //{
+
+        //}
     }
 }

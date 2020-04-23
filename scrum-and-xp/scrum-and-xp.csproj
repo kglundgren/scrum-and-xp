@@ -184,12 +184,17 @@
     <Compile Include="Controllers\InformalCategoriesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\202004161728521_init.cs" />
     <Compile Include="Migrations\202004161728521_init.Designer.cs">
       <DependentUpon>202004161728521_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004200855469_hejsa1111.cs" />
+    <Compile Include="Migrations\202004200855469_hejsa1111.Designer.cs">
+      <DependentUpon>202004200855469_hejsa1111.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -201,10 +206,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CreateFormalCategoryViewModel.cs" />
+    <Compile Include="ViewModels\CreateInformalCategoryViewModel.cs" />
     <Compile Include="ViewModels\CreatePostViewModel.cs" />
+    <Compile Include="ViewModels\CreateRoleViewModel.cs" />
+    <Compile Include="ViewModels\EditRoleViewModel.cs" />
     <Compile Include="ViewModels\FormalCategoryViewModel.cs" />
     <Compile Include="ViewModels\FormalPostViewModel.cs" />
     <Compile Include="ViewModels\InformalPostViewModel.cs" />
+    <Compile Include="ViewModels\NewUserViewModel.cs" />
+    <Compile Include="ViewModels\UserRoleViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-cerulean.css" />
@@ -290,9 +300,15 @@
     <Content Include="Views\Posts\Index.cshtml" />
     <Content Include="Views\Posts\InformalPosts.cshtml" />
     <Content Include="Views\Posts\FormalPosts.cshtml" />
+    <Content Include="Views\Role\CreateRole.cshtml" />
+    <Content Include="Views\Role\ListRoles.cshtml" />
+    <Content Include="Views\Role\EditUsersInRole.cshtml" />
+    <Content Include="Views\Role\EditRole.cshtml" />
+    <Content Include="Views\Role\NewUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -310,6 +326,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202004161728521_init.resx">
       <DependentUpon>202004161728521_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004200855469_hejsa1111.resx">
+      <DependentUpon>202004200855469_hejsa1111.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

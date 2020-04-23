@@ -12,7 +12,7 @@ using scrum_and_xp.ViewModels;
 
 namespace scrum_and_xp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Users")]
     public class FormalCategoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -41,8 +41,11 @@ namespace scrum_and_xp.Controllers
         // GET: FormalCategories/Create
         public ActionResult Create()
         {
-            var model = new CreateFormalCategoryViewModel();
-            model.FormalTypes = new SelectList(db.FormalTypes, "Id", "Name");
+            var formalTypes = db.FormalTypes.ToList();
+            var model = new CreateFormalCategoryViewModel()
+            {
+                FormalTypes = formalTypes,
+            };
             return View(model);
         }
 
@@ -53,11 +56,11 @@ namespace scrum_and_xp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateFormalCategoryViewModel model)
         {
+            model.FormalTypes = db.FormalTypes.ToList();
             var formalCategory = new FormalCategory()
             {
-                Name = model.CategoryName,
-                //Type = db.FormalTypes.Where(q => q.Id == model.SelectedFormalTypeId).SingleOrDefault()
-                Type = db.FormalTypes.FirstOrDefault(type => type.Id == model.SelectedFormalTypeId)
+                Name = model.Name,
+                Type = model.FormalTypes.FirstOrDefault(type => type.Id == model.SelectedFormalTypeId)
             };
 
             if (ModelState.IsValid)
