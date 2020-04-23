@@ -9,4 +9,10 @@ namespace scrum_and_xp.ViewModels
     {
         public string Name { get; set; }
     }
+
+    public class UserDetail
+    {
+        public string ConnectionId { get; set; }
+        public string UserName { get; set; }
+    }
 }
