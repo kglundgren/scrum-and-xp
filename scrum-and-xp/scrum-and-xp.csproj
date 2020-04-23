@@ -49,12 +49,21 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -167,6 +176,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FormalCategoriesController.cs" />
     <Compile Include="Controllers\FormalTypesController.cs" />
@@ -174,12 +184,21 @@
     <Compile Include="Controllers\InformalCategoriesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\202004161728521_init.cs" />
     <Compile Include="Migrations\202004161728521_init.Designer.cs">
       <DependentUpon>202004161728521_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004200855469_hejsa1111.cs" />
+    <Compile Include="Migrations\202004200855469_hejsa1111.Designer.cs">
+      <DependentUpon>202004200855469_hejsa1111.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004231218059_auth.cs" />
+    <Compile Include="Migrations\202004231218059_auth.Designer.cs">
+      <DependentUpon>202004231218059_auth.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -193,9 +212,13 @@
     <Compile Include="ViewModels\CreateFormalCategoryViewModel.cs" />
     <Compile Include="ViewModels\CreateInformalCategoryViewModel.cs" />
     <Compile Include="ViewModels\CreatePostViewModel.cs" />
+    <Compile Include="ViewModels\CreateRoleViewModel.cs" />
+    <Compile Include="ViewModels\EditRoleViewModel.cs" />
     <Compile Include="ViewModels\FormalCategoryViewModel.cs" />
     <Compile Include="ViewModels\FormalPostViewModel.cs" />
     <Compile Include="ViewModels\InformalPostViewModel.cs" />
+    <Compile Include="ViewModels\NewUserViewModel.cs" />
+    <Compile Include="ViewModels\UserRoleViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-cerulean.css" />
@@ -210,6 +233,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\CatFilter.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -280,9 +304,15 @@
     <Content Include="Views\Posts\Index.cshtml" />
     <Content Include="Views\Posts\InformalPosts.cshtml" />
     <Content Include="Views\Posts\FormalPosts.cshtml" />
+    <Content Include="Views\Role\CreateRole.cshtml" />
+    <Content Include="Views\Role\ListRoles.cshtml" />
+    <Content Include="Views\Role\EditUsersInRole.cshtml" />
+    <Content Include="Views\Role\EditRole.cshtml" />
+    <Content Include="Views\Role\NewUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -300,6 +330,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202004161728521_init.resx">
       <DependentUpon>202004161728521_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004200855469_hejsa1111.resx">
+      <DependentUpon>202004200855469_hejsa1111.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004231218059_auth.resx">
+      <DependentUpon>202004231218059_auth.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
