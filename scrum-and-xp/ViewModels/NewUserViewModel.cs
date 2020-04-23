@@ -1,11 +1,12 @@
-﻿using System;
+﻿using scrum_and_xp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace scrum_and_xp.ViewModels
 {
-    public class UserRoleViewModel
+    public class NewUserViewModel
     {
         public string UserId { get; set; }
 
@@ -13,6 +14,6 @@ namespace scrum_and_xp.ViewModels
 
         public bool IsSelected { get; set; }
 
-
+        public string RoleId { get; set; }
     }
 }

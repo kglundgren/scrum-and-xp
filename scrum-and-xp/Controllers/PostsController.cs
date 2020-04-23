@@ -52,6 +52,7 @@ namespace scrum_and_xp.Controllers
         //}
 
         // GET: Posts/Create
+
         public ActionResult Create(string type)
         {
             var model = new CreatePostViewModel();

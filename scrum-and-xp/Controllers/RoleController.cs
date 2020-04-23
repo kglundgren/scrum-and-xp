@@ -68,7 +68,9 @@ namespace scrum_and_xp.Controllers
         [HttpGet]
         public ActionResult ListRoles()
         {
+           
             var roles = RoleManager.Roles;
+            
             return View(roles);
         }
 
@@ -127,6 +129,7 @@ namespace scrum_and_xp.Controllers
                 return View(model);
             }
         }
+
         [HttpGet]
         public async Task<ActionResult> EditUsersInRole(string roleId)
         {
@@ -199,6 +202,40 @@ namespace scrum_and_xp.Controllers
                 }
             }
             return RedirectToAction("EditRole", new { id = roleId });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> NewUsers()
+        {
+
+            var roles = RoleManager.Roles;
+            var role = await RoleManager.FindByNameAsync("Users");
+
+            var model = new List<UserRoleViewModel>();
+
+            foreach (var user in UserManager.Users.ToList())
+            {
+                var UserRoleViewModel = new UserRoleViewModel
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    IsSelected = await UserManager.IsInRoleAsync(user.Id, role.Name)
+                };
+
+                
+
+                if(UserRoleViewModel.IsSelected == false)
+                {
+                    model.Add(UserRoleViewModel);
+                }
+                
+            }
+            if(model != null)
+            {
+                return View(model);
+            }
+
+            return View();
         }
 
 
