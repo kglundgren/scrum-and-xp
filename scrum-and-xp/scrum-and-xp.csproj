@@ -193,14 +193,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004220940457_srar.cs" />
-    <Compile Include="Migrations\202004220940457_srar.Designer.cs">
-      <DependentUpon>202004220940457_srar.cs</DependentUpon>
+    <Compile Include="Migrations\202004221020201_haj.cs" />
+    <Compile Include="Migrations\202004221020201_haj.Designer.cs">
+      <DependentUpon>202004221020201_haj.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\SchedulerContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Post.cs" />
@@ -528,8 +527,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202004220940457_srar.resx">
-      <DependentUpon>202004220940457_srar.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202004221020201_haj.resx">
+      <DependentUpon>202004221020201_haj.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
