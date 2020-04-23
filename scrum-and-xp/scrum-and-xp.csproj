@@ -193,17 +193,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004230825193_init.cs" />
-    <Compile Include="Migrations\202004230825193_init.Designer.cs">
-      <DependentUpon>202004230825193_init.cs</DependentUpon>
+    <Compile Include="Migrations\202004231338018_init.cs" />
+    <Compile Include="Migrations\202004231338018_init.Designer.cs">
+      <DependentUpon>202004231338018_init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004231157028_yeet2.cs" />
-    <Compile Include="Migrations\202004231157028_yeet2.Designer.cs">
-      <DependentUpon>202004231157028_yeet2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004231259070_allownull.cs" />
-    <Compile Include="Migrations\202004231259070_allownull.Designer.cs">
-      <DependentUpon>202004231259070_allownull.cs</DependentUpon>
+    <Compile Include="Migrations\202004231351513_seed.cs" />
+    <Compile Include="Migrations\202004231351513_seed.Designer.cs">
+      <DependentUpon>202004231351513_seed.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -219,6 +215,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CreateFormalCategoryViewModel.cs" />
+    <Compile Include="ViewModels\CreateInformalCategoryViewModel.cs" />
     <Compile Include="ViewModels\CreatePostViewModel.cs" />
     <Compile Include="ViewModels\FormalCategoryViewModel.cs" />
     <Compile Include="ViewModels\FormalPostViewModel.cs" />
@@ -226,6 +223,7 @@
     <Compile Include="ViewModels\UpcomingMeetingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-cerulean.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -539,14 +537,11 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202004230825193_init.resx">
-      <DependentUpon>202004230825193_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202004231338018_init.resx">
+      <DependentUpon>202004231338018_init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004231157028_yeet2.resx">
-      <DependentUpon>202004231157028_yeet2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004231259070_allownull.resx">
-      <DependentUpon>202004231259070_allownull.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202004231351513_seed.resx">
+      <DependentUpon>202004231351513_seed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

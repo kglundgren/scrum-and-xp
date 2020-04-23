@@ -42,13 +42,15 @@
                 @{
                     if (Model.Type == "Informal")
                     {
-                        @Html.DropDownListFor(m => m.SelectedInformalCategoryId, Model.InformalCategories, "Please select informal category", new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.SelectedCategoryId, new SelectList(Model.InformalCategories, "Id", "Name"), "Please select category", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SelectedCategoryId, "", new { @class = "text-danger" })
                     }
                     else if (Model.Type == "Formal")
                     {
-                        @Html.DropDownListFor(m => m.SelectedFormalType, Model.FormalTypes, "Please select formal type", new { @class = "form-control", @onchange = "FillCategory()" })
+                        @Html.DropDownListFor(m => m.SelectedFormalTypeId, new SelectList(Model.FormalTypes, "Id", "Name"), "Please select formal type", new { @class = "form-control", @onchange = "FillCategory()" })
                         <br />
-                        @Html.DropDownListFor(m => m.SelectedFormalCategoryId, Model.FormalCategories, "Please select formal category", new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.SelectedCategoryId, new SelectList(new List<String>(), "Id", "Name"), "Please select formal category", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SelectedCategoryId, "", new { @class = "text-danger" })
                     }
                 }
             </div>
@@ -63,28 +65,43 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @if (Model.Type == "Informal")
+    {
+        @Html.ActionLink("Back to List", "InformalPosts")
+    }
+    else if (Model.Type == "Formal")
+    {
+        @Html.ActionLink("Back to List", "FormalPosts")
+    }
 </div>
 
 @section Scripts {
     <script>
+        $(document).ready(function () {
+            var modelType = @Model.Type;
+            if (modelType === "Formal") {
+                FillCategory();
+            }
+        });
         function FillCategory() {
-            var typeId = $('#SelectedFormalType').val();
-            $.ajax({
-                url: '/Posts/FillCategory',
-                type: "GET",
-                dataType: "JSON",
-                data: { Type: typeId },
-                success: function (categories) {
-                    $("#SelectedFormalCategoryId").html(""); // clear before appending new list
-                    $.each(categories, function (i, category) {
-                        $("#SelectedFormalCategoryId").append(
-                            $('<option></option>').val(category.Value).html(category.Text));
-                    });
-                }
-            });
+            var typeId = $('#SelectedFormalTypeId').val();
+            if (typeId !== null) {
+                $.ajax({
+                    url: '/Posts/FillCategory',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: { Type: typeId },
+                    success: function (categories) {
+                        $("#SelectedCategoryId").html(""); // clear before appending new list
+                        $.each(categories, function (i, category) {
+                            $("#SelectedCategoryId").append(
+                                $('<option></option>').val(category.Value).html(category.Text));
+                        });
+                    }
+                });
+            }
         }
 
-         
+
     </script>
 }
