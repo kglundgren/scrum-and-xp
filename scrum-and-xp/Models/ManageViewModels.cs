@@ -12,6 +12,11 @@ namespace scrum_and_xp.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+
+        [DataType(DataType.Upload)]
+        [Display(Name = "Upload File")]
+        [Required(ErrorMessage = "Välj en bild att ladda upp.")]
+        public string file { get; set; }
     }
 
     public class ManageLoginsViewModel
@@ -57,10 +62,10 @@ namespace scrum_and_xp.Models
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-    
+
     }
 
-   public class ChangePhoneNumberViewModel
+    public class ChangePhoneNumberViewModel
     {
         [Required]
         [Phone]
@@ -89,7 +94,7 @@ namespace scrum_and_xp.Models
         [RegularExpression("^[\\w'\\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\\]]{2,}$", ErrorMessage = "Write a correct last name!")]
         public string LastName { get; set; }
 
-        
+
     }
 
 
