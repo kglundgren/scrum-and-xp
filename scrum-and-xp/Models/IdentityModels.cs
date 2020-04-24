@@ -43,7 +43,7 @@ namespace scrum_and_xp.Models
             return new ApplicationDbContext();
         }
 
-        
+        public System.Data.Entity.DbSet<scrum_and_xp.Models.UpcomingMeetingViewModel> UpcomingMeetingViewModels { get; set; }
     }
 
     
