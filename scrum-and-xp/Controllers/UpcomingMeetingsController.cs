@@ -52,12 +52,29 @@ namespace scrum_and_xp.Controllers
                     Option1Votes = db.UsersUpcomingMeetings.Where(m => m.MeetingId.Id == item.Id && m.Answer == item.Option1).Count(),
                     Option2Votes = db.UsersUpcomingMeetings.Where(m => m.MeetingId.Id == item.Id && m.Answer == item.Option2).Count(),
                     Option3Votes = db.UsersUpcomingMeetings.Where(m => m.MeetingId.Id == item.Id && m.Answer == item.Option3).Count(),
+                    TotalInvited = db.UsersUpcomingMeetings.Where(m => m.MeetingId.Id == item.Id).Count(),
                     Author = item.Author,
                     Duration = item.Duration
                 });
             }
             //var meetings = db.UpcomingMeetings.Where(m => meetingIds.Contains(m.Id)).ToList();
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult MakeSchedulerEvent(int id, DateTime selectedTime)
+        {
+            var meeting = db.UpcomingMeetings.Find(id);
+            var schedulerEvent = new SchedulerEvent
+            {
+                Text = meeting.Description,
+                StartDate = selectedTime,
+                EndDate = selectedTime.AddHours(meeting.Duration.Hours),
+                CreatorId = meeting.Author
+            };
+            db.SchedulerEvents.Add(schedulerEvent);
+            db.SaveChanges();
+            return RedirectToAction("MeetingInvites");
         }
 
         [HttpPost]

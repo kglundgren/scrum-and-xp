@@ -25,12 +25,15 @@
         <th>
             Option 3 Votes
         </th>
+        <th>
+            Replies / Total Invited
+        </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model.CreatedInvites)
     {
-        using (Html.BeginForm())
+        using (Html.BeginForm("MakeSchedulerEvent", "UpcomingMeetings"))
         {
             @Html.AntiForgeryToken()
             <tr>
@@ -41,19 +44,30 @@
                     @item.Option1
                     <br />
                     <b>@item.Option1Votes</b>
+                    @Html.RadioButton("SelectedTime", item.Option1)
                 </td>
                 <td>
                     @item.Option2
                     <br />
                     <b>@item.Option2Votes</b>
+                    @Html.RadioButton("SelectedTime", item.Option2)
                 </td>
                 <td>
                     @item.Option3
                     <br />
                     <b>@item.Option3Votes</b>
+                    @Html.RadioButton("SelectedTime", item.Option3)
                 </td>
                 <td>
-                    <input type="submit" value="Pick time" />
+                    @{ var replies = item.Option1Votes + item.Option2Votes + item.Option3Votes;
+                        <b>
+                            @replies / @item.TotalInvited
+                        </b>
+                    }
+                </td>
+                <td>
+                    @Html.Hidden("id", item.Id)
+                    <input type="submit" value="Create Meeting" />
                 </td>
             </tr>
         }
