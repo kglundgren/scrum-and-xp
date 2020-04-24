@@ -1,4 +1,4 @@
-﻿@model scrum_and_xp.Models.UpcomingMeetingViewModel
+﻿@model scrum_and_xp.ViewModels.CreateUpcomingMeetingViewModel
 
 @{
     ViewBag.Title = "CreateUpcomingMeeting";
@@ -6,10 +6,10 @@
 
 <h2>CreateUpcomingMeeting</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>UpcomingMeetingViewModel</h4>
         <hr />
@@ -55,21 +55,23 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SelectedResponse, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SelectedResponse, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SelectedResponse, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default"/>
             </div>
         </div>
     </div>
 }
 
+<input type="button" onclick="test()" value="Google!"/>
+
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section Scripts {
+    <script>
+        function test() {
+            window.location.href = "https://www.google.se";
+        }
+    </script>
+    }

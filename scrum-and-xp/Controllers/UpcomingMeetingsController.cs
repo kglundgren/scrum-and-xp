@@ -5,10 +5,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using scrum_and_xp.ViewModels;
 
 namespace scrum_and_xp.Controllers
 {
-    public class UpcomingMeetingController : Controller
+    public class UpcomingMeetingsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
@@ -22,6 +23,33 @@ namespace scrum_and_xp.Controllers
                 model.Add(new UpcomingMeetingViewModel { Description = item.Description, Option1 = item.Option1, Option2 = item.Option2, Option3 = item.Option3, Author = item.Author, Duration = item.Duration });
             }
             //var meetings = db.UpcomingMeetings.Where(m => meetingIds.Contains(m.Id)).ToList();
+            return View(model);
+        }
+
+        public ActionResult Create()
+        {
+            var model = new CreateUpcomingMeetingViewModel
+            {
+                AllUsers = db.Users.ToList()
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Create(UpcomingMeetingViewModel model)
+        {
+            if (ModelState.IsValid) { 
+            var newMeeting = new UpcomingMeeting() {Author = db.Users.Find(User.Identity.GetUserId()),
+                Description = model.Description,
+                Duration = model.Duration,
+                Option1 = model.Option1,
+                Option2 = model.Option2,
+                Option3 = model.Option3 };
+            
+            db.UpcomingMeetings.Add(newMeeting);
+            db.SaveChanges();
+            return RedirectToAction("MeetingInvites");
+            }
             return View(model);
         }
     }

@@ -191,7 +191,7 @@
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SchedulerController.cs" />
-    <Compile Include="Controllers\UpcomingMeetingController.cs" />
+    <Compile Include="Controllers\UpcomingMeetingsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -212,6 +212,7 @@
     <Compile Include="ViewModels\CreateInformalCategoryViewModel.cs" />
     <Compile Include="ViewModels\CreatePostViewModel.cs" />
     <Compile Include="ViewModels\CreateRoleViewModel.cs" />
+    <Compile Include="ViewModels\CreateUpcomingMeetingViewModel.cs" />
     <Compile Include="ViewModels\EditRoleViewModel.cs" />
     <Compile Include="ViewModels\FormalCategoryViewModel.cs" />
     <Compile Include="ViewModels\FormalPostViewModel.cs" />
@@ -517,13 +518,13 @@
     <Content Include="Views\Posts\InformalPosts.cshtml" />
     <Content Include="Views\Posts\FormalPosts.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
-    <Content Include="Views\Meetings\MeetingInvites.cshtml" />
+    <Content Include="Views\UpcomingMeetings\MeetingInvites.cshtml" />
     <Content Include="Views\Role\EditUsersInRole.cshtml" />
     <Content Include="Views\Role\CreateRole.cshtml" />
     <Content Include="Views\Role\EditRole.cshtml" />
     <Content Include="Views\Role\ListRoles.cshtml" />
     <Content Include="Views\Role\NewUsers.cshtml" />
-    <Content Include="Views\Meetings\CreateUpcomingMeeting.cshtml" />
+    <Content Include="Views\UpcomingMeetings\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
