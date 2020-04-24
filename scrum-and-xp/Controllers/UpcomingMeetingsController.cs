@@ -20,7 +20,7 @@ namespace scrum_and_xp.Controllers
             var model = new List<UpcomingMeetingViewModel>();
             foreach (var item in meetings)
             {
-                model.Add(new UpcomingMeetingViewModel { Description = item.Description, Option1 = item.Option1, Option2 = item.Option2, Option3 = item.Option3, Author = item.Author, Duration = item.Duration });
+                model.Add(new UpcomingMeetingViewModel {Id =item.Id, Description = item.Description, Option1 = item.Option1, Option2 = item.Option2, Option3 = item.Option3, Author = item.Author, Duration = item.Duration });
             }
             //var meetings = db.UpcomingMeetings.Where(m => meetingIds.Contains(m.Id)).ToList();
             return View(model);
@@ -65,6 +65,18 @@ namespace scrum_and_xp.Controllers
                 return RedirectToAction("MeetingInvites");
             }
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult MeetingInvites(int Id, DateTime SelectedResponse)
+        {
+            var selectedOption = SelectedResponse;
+            var meeting = db.UpcomingMeetings.Find(Id);
+            //var meetingId = db.UsersUpcomingMeetings.FirstOrDefault()
+            var meetingChange = new UsersUpcomingMeetings() { Answer = SelectedResponse, MeetingId = meeting, UserId = db.Users.Find(User.Identity.GetUserId()) };
+
+            //db.Entry(meeting).CurrentValues.SetValues(meetingChange);
+            return RedirectToAction("MeetingInvites");
         }
     }
 }

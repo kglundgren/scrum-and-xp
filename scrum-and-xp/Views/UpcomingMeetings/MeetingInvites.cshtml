@@ -10,61 +10,62 @@
     @Html.ActionLink("Create New", "Create", "UpcomingMeetings")
 </p>
 
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Option1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Option2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Option3)
-            </th>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Option1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Option2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Option3)
+        </th>
 
-            <th></th>
-        </tr>
+        <th></th>
+    </tr>
 
-        @foreach (var item in Model)
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        using (Html.BeginForm())
         {
-            using (Html.BeginForm())
-            { 
-                @Html.AntiForgeryToken()
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @item.Option1 - @item.Option1.AddHours(item.Duration.Hours)
-                    @Html.RadioButtonFor(modelItem => item.SelectedResponse, item.Option1)
-                </td>
-                <td>
-                    @item.Option2 - @item.Option2.AddHours(item.Duration.Hours)
-                    @Html.RadioButtonFor(modelItem => item.SelectedResponse, item.Option2)
-                </td>
-                <td>
-                    @item.Option3 - @item.Option3.AddHours(item.Duration.Hours)
-                    @Html.RadioButtonFor(modelItem => item.SelectedResponse, item.Option3)
-                </td>
 
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
-                <td><input type="submit" value="Pick time" /> </td>
-            </tr>
-        }}
+        @Html.AntiForgeryToken()
+        <tr>
+            <td>
+                @Html.DisplayFor(m => Model.ElementAt(i).Description)
+            </td>
+            <td>
+                @Model.ElementAt(i).Option1 - @Model.ElementAt(i).Option1.AddHours(Model.ElementAt(i).Duration.Hours)
+                @Html.RadioButtonFor(m => Model.ElementAt(i).SelectedResponse, @Model.ElementAt(i).Option1)
+            </td>
+            <td>
+                @Model.ElementAt(i).Option2 - @Model.ElementAt(i).Option2.AddHours(Model.ElementAt(i).Duration.Hours)
+                @Html.RadioButtonFor(modelItem => Model.ElementAt(i).SelectedResponse, @Model.ElementAt(i).Option2)
+            </td>
+            <td>
+                @Model.ElementAt(i).Option3 - @Model.ElementAt(i).Option3.AddHours(Model.ElementAt(i).Duration.Hours)
+                @Html.RadioButtonFor(modelItem => Model.ElementAt(i).SelectedResponse, @Model.ElementAt(i).Option3)
+            </td>
+            <td>
+                @Html.HiddenFor(m => Model.ElementAt(i).Id)
+                @Html.HiddenFor(m => Model.ElementAt(i).Author)
+                @Html.HiddenFor(m => Model.ElementAt(i).Duration)
+                
 
-    </table>
+
+            </td>
+            <td><input type="submit" value="Pick time" /> </td>
+        </tr>
+    }}
+
+</table>
 @section Scripts{
    <script>
-       function test() {
-           alert($("input[name='item.SelectedResponse']").val());
-    }
+    
     </script> 
     }
 

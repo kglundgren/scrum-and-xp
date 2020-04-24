@@ -19,7 +19,7 @@ namespace scrum_and_xp.Models
         public DateTime Option3 { get; set; }
         [Required(ErrorMessage ="The meeting needs to have a time duration")]
         public TimeSpan Duration { get; set; }
-        public int SelectedResponse { get; set; }
+        public string SelectedResponse { get; set; }
 
         public ApplicationUser Author { get; set; }
 
