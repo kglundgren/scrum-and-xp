@@ -11,17 +11,21 @@ namespace scrum_and_xp.Models
         public string text { get; set; }
         public string start_date { get; set; }
         public string end_date { get; set; }
-        public ApplicationUser creator { get; set; }
+        public string creator { get; set; }
+        public string creator_name { get; set; }
 
         public static explicit operator WebAPIEvent(SchedulerEvent schedulerEvent)
         {
+
+
             return new WebAPIEvent
             {
                 id = schedulerEvent.Id,
                 text = schedulerEvent.Text,
                 start_date = schedulerEvent.StartDate.ToString("yyyy-MM-dd HH:mm"),
                 end_date = schedulerEvent.EndDate.ToString("yyyy-MM-dd HH:mm"),
-                creator = schedulerEvent.CreatorId
+                creator = schedulerEvent.Creator,
+                creator_name = "something"
             };
         }
 
@@ -37,7 +41,7 @@ namespace scrum_and_xp.Models
                 EndDate = DateTime.Parse(
                     schedulerEvent.end_date,
                     System.Globalization.CultureInfo.InvariantCulture),
-                CreatorId = schedulerEvent.creator
+                Creator = schedulerEvent.creator
             };
         }
     }
