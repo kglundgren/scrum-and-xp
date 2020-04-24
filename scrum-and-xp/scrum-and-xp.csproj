@@ -219,7 +219,7 @@
     <Compile Include="ViewModels\InformalPostViewModel.cs" />
     <Compile Include="ViewModels\NewUserViewModel.cs" />
     <Compile Include="ViewModels\PostViewModel.cs" />
-    <Compile Include="ViewModels\UpcomingMeetingViewModel.cs" />
+    <Compile Include="ViewModels\MeetingInvitesViewModel.cs" />
     <Compile Include="ViewModels\UserRoleViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
