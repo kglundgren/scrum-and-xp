@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Newtonsoft.Json;
 using scrum_and_xp.Models;
 using scrum_and_xp.ViewModels;
@@ -7,18 +8,27 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace scrum_and_xp.Controllers
 {
-
-    [Authorize]
+    [Authorize(Roles = "Users")]
     public class PostsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+        private readonly RoleManager<IdentityRole> RoleManager;
+        private readonly ApplicationUserManager UserManager;
 
+        public PostsController()
+        {
+            RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+            UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
+        }
+        
         // GET: Posts
         public ActionResult InformalPosts()
         {
@@ -195,33 +205,84 @@ namespace scrum_and_xp.Controllers
             return Content(json, "application/json");
         }
 
-        //// GET: Posts/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Post post = db.Posts.Find(id);
-        //    if (post == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(post);
-        //}
+        //GET: Posts/Edit/5
+        public async Task<ActionResult> Edit(int? id, string typeId)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var post = new PostViewModel();
+            var formal = db.FormalPosts.Find(id);
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.FirstOrDefault(c => c.Id == userId);
+            var role = await RoleManager.FindByNameAsync("Admin");
+            var admin = await UserManager.IsInRoleAsync(userId, role.Name);
 
-        // POST: Posts/Edit/5
+            if (formal != null && typeId == "formal")
+            {
+                if (formal.AuthorId == user || admin)
+                {
+                    post.Id = formal.Id;
+                    post.Title = formal.Title;
+                    post.Content = formal.Content;
+                    post.PostTime = formal.PostTime;
+                    post.AuthorId = formal.AuthorId;
+                    post.Formal = true;
+                    return View(post);
+                }
+            }
+            else
+            {
+                var informal = db.InformalPosts.Find(id);
+                if (informal != null)
+                {
+                    if (formal.AuthorId == user || admin)
+                    {
+                        post.Id = informal.Id;
+                        post.Title = informal.Title;
+                        post.Content = informal.Content;
+                        post.PostTime = informal.PostTime;
+                        post.AuthorId = informal.AuthorId;
+                        post.Formal = false;
+                        return View(post);
+                    }
+
+                }
+            }
+            ViewBag.Auth = "Authorization to edit post not granted.";
+            return RedirectToAction("Index", "Home");
+        }
+
+        //POST: Posts/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Content,PostTime")] Post post)
+        public ActionResult Edit([Bind(Include = "Id,Title,Content,PostTime,Formal")] PostViewModel post)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(post).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (post.Formal)
+                {
+                    var formal = db.FormalPosts.FirstOrDefault(p => p.Id == post.Id);
+                    formal.Title = post.Title;
+                    formal.Content = post.Content;
+                    formal.PostTime = DateTime.Now;
+                    db.SaveChanges();
+                    return RedirectToAction("InformalPost");
+                }
+                else
+                {
+                    var informal = db.InformalPosts.FirstOrDefault(p => p.Id == post.Id);
+                    informal.Title = post.Title;
+                    informal.Content = post.Content;
+                    informal.PostTime = DateTime.Now;
+                    db.SaveChanges();
+                    return RedirectToAction("InformalPost");
+                }
+                
+                
             }
             return View(post);
         }

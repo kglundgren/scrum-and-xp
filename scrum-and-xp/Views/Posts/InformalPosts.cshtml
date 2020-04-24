@@ -21,20 +21,23 @@
 <div id="d1">
     @foreach (var item in Model.InformalPosts)
     {
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">@item.Title</h3>
-            </div>
-            <div class="panel-body">
-                @item.Content
-                <br /><br />
-                <span class="text-info">Tag: @item.InformalCategories.FirstOrDefault().Name</span>
-                <hr />
-                @item.AuthorId.FirstName @item.AuthorId.LastName
-                <br />
-                @item.PostTime
-            </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">@item.Title</h3>
         </div>
+        <div class="panel-body">
+            @item.Content
+            <br /><br />
+            <span class="text-info">Tag: @item.InformalCategories.FirstOrDefault().Name</span>
+            <hr />
+            @item.AuthorId.FirstName @item.AuthorId.LastName
+            <br />
+            @item.PostTime
+        </div>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id, typeId = "informal" }) |
+        @Html.ActionLink("Details", "Details", new { id = item.Id, typeId = "informal" }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id, typeId = "informal" })
+    </div>
     }
 </div>
 

@@ -194,9 +194,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004240856117_init.cs" />
-    <Compile Include="Migrations\202004240856117_init.Designer.cs">
-      <DependentUpon>202004240856117_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -220,6 +217,7 @@
     <Compile Include="ViewModels\FormalPostViewModel.cs" />
     <Compile Include="ViewModels\InformalPostViewModel.cs" />
     <Compile Include="ViewModels\NewUserViewModel.cs" />
+    <Compile Include="ViewModels\PostViewModel.cs" />
     <Compile Include="ViewModels\UpcomingMeetingViewModel.cs" />
     <Compile Include="ViewModels\UserRoleViewModel.cs" />
   </ItemGroup>
@@ -544,8 +542,6 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202004240856117_init.resx">
-      <DependentUpon>202004240856117_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
