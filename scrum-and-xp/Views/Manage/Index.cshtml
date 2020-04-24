@@ -8,6 +8,19 @@
 <p class="text-success">@ViewBag.StatusMessage</p>
 
 <dl class="dl-horizontal">
+    <dt>Profile Picture</dt>
+    <dd>
+
+        @if (ViewBag.Img == 1)
+        {
+        string p = ViewBag.Id + ".jpg";
+        string path = Path.Combine("~/Images/", p);
+        <img src="@Url.Content(path)" alt="Image" style="height:200px;width:175px;" />
+        }
+       
+    </dd>
+
+
     <dt>Firstname:</dt>
     <dd>
         @ViewBag.FirstName
@@ -28,66 +41,127 @@
 </dl>
 
 <div>
+
+
     <h4>Change your account settings</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>Password:</dt>
-        <dd>
-            [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Create", "SetPassword")
-            }
-            ]
-        </dd>
 
-        @*<dt>External Logins:</dt>
-        <dd>
-            @Model.Logins.Count [
-            @Html.ActionLink("Manage", "ManageLogins") ]
-        </dd>*@
-
-        <dt>Change phone number:</dt>
-        <dd>
-            [@Html.ActionLink("Change your phone number", "ChangePhoneNumberView")]
-
-        </dd>
-
-        <dt>Change your name:</dt>
-        <dd>
-            [@Html.ActionLink("Change your name", "ChangeName")]
-        </dd>
-        @*
-            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
-
-             See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-
-             Uncomment the following block after you have set up two-factor authentication
-        *@
-        @*
-            <dt>Phone Number:</dt>
+        @if (User.IsInRole("Users"))
+        {
+            <dt>File Upload</dt>
             <dd>
-                @(Model.PhoneNumber ?? "None")
-                @if (Model.PhoneNumber != null)
+                @using (Html.BeginForm("Index", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
-                    <br />
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
-                    }
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.file, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div>
+                                @Html.EditorFor(model => model.file, new { htmlAttributes = new { @class = "form-control", @type = "file" } })
+                                @Html.ValidationMessageFor(model => model.file, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Upload" , id="upload" class="btn btn-primary" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10 text-success">
+                                @ViewBag.FileStatus
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </dd>
+        }
+
+        @if (User.IsInRole("Admin"))
+        {
+            <dt>Change Different roles:</dt>
+            <dd>
+                [
+                @Html.ActionLink("Roles", "ListRoles", "Role")
+                ]
+            </dd>
+        }
+
+        @if (User.IsInRole("Users"))
+        {
+            <dt>Password:</dt>
+            <dd>
+                [
+                @if (Model.HasPassword)
+                {
+                    @Html.ActionLink("Change your password", "ChangePassword")
                 }
                 else
                 {
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
+                    @Html.ActionLink("Create", "SetPassword")
                 }
+                ]
             </dd>
+
+            <dt>Change phone number:</dt>
+            <dd>
+                [@Html.ActionLink("Change your phone number", "ChangePhoneNumberView")]
+
+            </dd>
+
+            <dt>Change your name:</dt>
+            <dd>
+                [@Html.ActionLink("Change your name", "ChangeName")]
+            </dd>
+
+            <dt>Change phone number:</dt>
+            <dd>
+                [@Html.ActionLink("Change your phone number", "ChangePhoneNumberView")]
+
+            </dd>
+            <dt>Check your meeting invites</dt>
+            <dd>
+                [@Html.ActionLink("Check meeting invites", "MeetingInvites")]
+            </dd>
+        }
+
+
+
+
+
+        @*
+        Phone Numbers can used as a second factor of verification in a two-factor authentication system.
+
+         See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+            for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+
+         Uncomment the following block after you have set up two-factor authentication
+        *@
+        @*
+        <dt>Phone Number:</dt>
+        <dd>
+            @(Model.PhoneNumber ?? "None")
+            @if (Model.PhoneNumber != null)
+            {
+                <br />
+                <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
+                using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
+                }
+            }
+            else
+            {
+                <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
+            }
+        </dd>
         *@
     </dl>
 </div>

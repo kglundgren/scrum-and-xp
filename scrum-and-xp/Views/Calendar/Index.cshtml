@@ -7,6 +7,11 @@
     <link href="https://cdn.dhtmlx.com/scheduler/edge/dhtmlxscheduler_material.css"
           rel="stylesheet" type="text/css" />
     <script src="https://cdn.dhtmlx.com/scheduler/edge/dhtmlxscheduler.js"></script>
+    <style>
+        .test_button_set {
+            background-color: blue;
+        }
+    </style>
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             // initializing scheduler
@@ -19,6 +24,18 @@
             dp.init(scheduler);
             // setting the REST mode for dataProcessor
             dp.setTransactionMode("REST");
+            scheduler.config.lightbox.sections = [
+                { name: "ASDASDASD", height: 200, map_to: "text", type: "textarea", focus: true },
+                { name: "time", height: 72, type: "time", map_to: "auto" }
+            ];
+            scheduler.config.buttons_left = ["dhx_delete_btn", "test_button", "styrman_button"];
+            scheduler.locale.labels["test_button"] = "TEST";
+            scheduler.locale.labels["styrman_button"] = "STYRMAN";
+            scheduler.attachEvent("onLightboxButton", function (button_id, node, e) {
+                if (button_id == "test_button") {
+                    alert("Styyyyyrmaaaaaaan!!!111!one!");
+                }
+            });
         });
     </script>
 </head>

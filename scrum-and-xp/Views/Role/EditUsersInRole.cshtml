@@ -1,0 +1,38 @@
+﻿@using scrum_and_xp.ViewModels
+@model List<UserRoleViewModel>
+
+@{
+    ViewBag.Title = "EditUsersInRole";
+    var roleId = ViewBag.RoleId;
+}
+
+<h2>Add or Remove Users From @ViewBag.RoleName</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Users in Role: @ViewBag.RoleName</h3>
+        </div>
+        <div class="panel-body">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                @Html.HiddenFor(model => Model[i].UserId)
+                @Html.HiddenFor(model => Model[i].UserName)
+                <div class="checkbox">
+                    <label>
+                        @Html.CheckBoxFor(list => Model[i].IsSelected)
+                        @Html.DisplayFor(list => Model[i].UserName)
+                    </label>
+                </div>
+            }
+        </div>
+    </div>
+
+    <input type="submit" value="Update" class="btn btn-primary" />
+    <a href="@Url.Action("EditRole", "Role", new { id = roleId })" class="btn btn-default">Cancel</a>
+}
+

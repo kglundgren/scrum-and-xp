@@ -4,14 +4,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 
 namespace scrum_and_xp.ViewModels
 {
-    public class CreatePostViewModel
+    public class PostViewModel
     {
-        public string Type { get; set; }
-
+        public int Id { get; set; }
         [Required(ErrorMessage = "Title is required.")]
         [MinLength(3, ErrorMessage = "Title must be at least 3 characters.")]
         public string Title { get; set; }
@@ -19,14 +17,8 @@ namespace scrum_and_xp.ViewModels
         [Required(ErrorMessage = "Content is required.")]
         [MinLength(20, ErrorMessage = "Content must be at least 20 characters.")]
         public string Content { get; set; }
-
-        [Required(ErrorMessage = "Must select category.")]
-        public int? SelectedCategoryId { get; set; }
-
-        public int SelectedFormalTypeId { get; set; }
-
-        public List<FormalType> FormalTypes { get; set; }
-        public List<FormalCategory> FormalCategories { get; set; }
-        public List<InformalCategory> InformalCategories { get; set; }
+        public DateTime PostTime { get; set; }
+        public ApplicationUser AuthorId { get; set; }
+        public bool Formal { get; set; }
     }
 }

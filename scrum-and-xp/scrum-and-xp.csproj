@@ -189,13 +189,10 @@
     <Compile Include="Controllers\InformalCategoriesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SchedulerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004221020201_haj.cs" />
-    <Compile Include="Migrations\202004221020201_haj.Designer.cs">
-      <DependentUpon>202004221020201_haj.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -205,16 +202,26 @@
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Models\SchedulerEvent.cs" />
+    <Compile Include="Models\UpcomingMeeting.cs" />
+    <Compile Include="Models\UsersUpcomingMeetings.cs" />
     <Compile Include="Models\WebAPIEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CreateFormalCategoryViewModel.cs" />
+    <Compile Include="ViewModels\CreateInformalCategoryViewModel.cs" />
     <Compile Include="ViewModels\CreatePostViewModel.cs" />
+    <Compile Include="ViewModels\CreateRoleViewModel.cs" />
+    <Compile Include="ViewModels\EditRoleViewModel.cs" />
     <Compile Include="ViewModels\FormalCategoryViewModel.cs" />
     <Compile Include="ViewModels\FormalPostViewModel.cs" />
     <Compile Include="ViewModels\InformalPostViewModel.cs" />
+    <Compile Include="ViewModels\NewUserViewModel.cs" />
+    <Compile Include="ViewModels\PostViewModel.cs" />
+    <Compile Include="ViewModels\UpcomingMeetingViewModel.cs" />
+    <Compile Include="ViewModels\UserRoleViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-cerulean.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -509,9 +516,16 @@
     <Content Include="Views\Posts\InformalPosts.cshtml" />
     <Content Include="Views\Posts\FormalPosts.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
+    <Content Include="Views\Manage\MeetingInvites.cshtml" />
+    <Content Include="Views\Role\EditUsersInRole.cshtml" />
+    <Content Include="Views\Role\CreateRole.cshtml" />
+    <Content Include="Views\Role\EditRole.cshtml" />
+    <Content Include="Views\Role\ListRoles.cshtml" />
+    <Content Include="Views\Role\NewUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -525,11 +539,6 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202004221020201_haj.resx">
-      <DependentUpon>202004221020201_haj.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

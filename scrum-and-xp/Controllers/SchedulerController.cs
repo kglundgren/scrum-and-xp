@@ -83,6 +83,7 @@ namespace scrum_and_xp.Controllers
                 action = "deleted"
             });
         }
+        
 
         protected override void Dispose(bool disposing)
         {

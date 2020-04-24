@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -10,11 +12,12 @@ using scrum_and_xp.Models;
 
 namespace scrum_and_xp.Controllers
 {
-    [Authorize]
+   
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public ManageController()
         {
@@ -50,9 +53,22 @@ namespace scrum_and_xp.Controllers
             }
         }
 
+        public ActionResult MeetingInvites()
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var meetings = db.UsersUpcomingMeetings.Where(m => m.UserId.Id == user.Id).Select(x => x.MeetingId).ToList();
+            var model = new List<UpcomingMeetingViewModel>();
+            foreach (var item in meetings)
+            {
+                model.Add(new UpcomingMeetingViewModel{Description = item.Description, Option1 = item.Option1, Option2 = item.Option2, Option3 = item.Option3, Author = item.Author, Duration = item.Duration});
+            }
+            //var meetings = db.UpcomingMeetings.Where(m => meetingIds.Contains(m.Id)).ToList();
+            return View(model);
+        }
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        
+        public async Task<ActionResult> Index(ManageMessageId? message, HttpPostedFileBase file)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
@@ -63,48 +79,110 @@ namespace scrum_and_xp.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
-            var userId = User.Identity.GetUserId();
+            var UserName = User.Identity.GetUserId();
 
-            var user = UserManager.FindById(User.Identity.GetUserId());
+            var user1 = UserManager.FindById(User.Identity.GetUserId());
+
+            
+            
+
+            try
+            {
+
+                //Method 2 Get file details from HttpPostedFileBase class    
+
+               
+               
+                    if (file != null)
+                    {
+
+                        var u = User.Identity.Name;
+
+                        ApplicationUser applicationUser = UserManager.Users.Where(user => user.Email == u).First();
+
+                        string p = applicationUser.Id;
+                        string path = Path.Combine(Server.MapPath("~/Images"), p);
+                        file.SaveAs(path + ".jpg");
+                        applicationUser.Img = 1;
+                       
+                        IdentityResult result = UserManager.Update(applicationUser);
+
+                    }
+                    else
+                    {
+                        ViewBag.fileStatus = "Error";
+                    }
+              
+
+                ViewBag.FileStatus = "File uploaded successfully.";
+            }
+            catch (Exception)
+            {
+                ViewBag.FileStatus = "Error while file uploading."; ;
+            }
 
             var Profile = new ProfileViewModel
             {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email
+                FirstName = user1.FirstName,
+                LastName = user1.LastName,
+                Email = user1.Email
             };
 
             ViewBag.FirstName = Profile.FirstName;
             ViewBag.LastName = Profile.LastName;
             ViewBag.Email = Profile.Email;
+            ViewBag.Id = user1.Id;
+            ViewBag.Img = user1.Img;
 
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                PhoneNumber = await UserManager.GetPhoneNumberAsync(UserName),
+                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(UserName),
+                Logins = await UserManager.GetLoginsAsync(UserName),
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(UserName)
             };
 
             return View(model);
             
         }
 
-        //public ActionResult Index()
-        //{
-        //    var user = UserManager.FindById(User.Identity.GetUserId());
-        //    var Profile = new ProfileViewModel
-        //    {
-        //        FirstName = user.FirstName,
-        //        LastName = user.LastName,
-        //        Email = user.Email
-        //    };
+      //  [HttpPost]
+      //public ActionResult Index(HttpPostedFileBase file)
+      //  {
+      //      try
+      //      {
 
+      //          //Method 2 Get file details from HttpPostedFileBase class    
 
+      //          if (file != null)
+      //          {
 
-        //    return View(Profile);
-        //}
+      //              var userName = User.Identity.Name;
+      //              var user = UserManager.FindById(User.Identity.GetUserId());
+
+      //              ApplicationUser applicationUser = UserManager.Users.Where(User => user.Email == userName).First();
+
+      //              applicationUser.Img = ViewBag.Img;
+      //              applicationUser.Id = ViewBag.ProfileId;
+
+      //              string p = applicationUser.Id;
+      //              string path = Path.Combine(Server.MapPath("~/Images"), p);
+      //              file.SaveAs(path + ".jpg");
+      //              applicationUser.Img = 1;
+
+      //              IdentityResult result = UserManager.Update(applicationUser);
+      //          }
+
+      //          ViewBag.FileStatus = "File uploaded successfully.";
+      //      }
+      //      catch (Exception)
+      //      {
+      //          ViewBag.FileStatus = "Error while file uploading."; ;
+      //      }
+      //      return View();
+
+      //  }
 
         //
         // POST: /Manage/RemoveLogin
@@ -428,7 +506,8 @@ namespace scrum_and_xp.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 

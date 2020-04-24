@@ -11,11 +11,35 @@
     @Html.ActionLink("Create New", "Create", routeValues: new { type = "Informal" })
 </p>
 
-@Html.DropDownListFor(m => m.SelectedCategoryId, Model.InformalCategories, "Please select informal category", new { @class = "form-control", @onchange = "FilterInformalPosts()" })
+@Html.DropDownListFor(m => m.SelectedCategoryId, Model.InformalCategories, "Please select informal category", new { @class = "form-control", @onchange = "FilterPosts()" })
 
 <br />
+<a onclick="ResetFilter()" class="btn btn-primary btn-sm">Reset filter</a>
+<br />
+<br />
 
-<div id="d1"> </div>
+<div id="d1">
+    @foreach (var item in Model.InformalPosts)
+    {
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">@item.Title</h3>
+        </div>
+        <div class="panel-body">
+            @item.Content
+            <br /><br />
+            <span class="text-info">Tag: @item.InformalCategories.FirstOrDefault().Name</span>
+            <hr />
+            @item.AuthorId.FirstName @item.AuthorId.LastName
+            <br />
+            @item.PostTime
+        </div>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id, typeId = "informal" }) |
+        @Html.ActionLink("Details", "Details", new { id = item.Id, typeId = "informal" }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id, typeId = "informal" })
+    </div>
+    }
+</div>
 
 <table class="table" id="t1">
     <tr>
@@ -81,7 +105,11 @@
 
 @section Scripts {
     <script>
-        function FilterInformalPosts() {
+        function ResetFilter() {
+            window.location.href = '@Url.Action("InformalPosts", "Posts")';
+        }
+
+        function FilterPosts() {
             var catId = $('#SelectedCategoryId').val();
             $.ajax({
                 url: '/Posts/FilterInformalPosts',
@@ -91,21 +119,37 @@
                 success: function (data) {
                     $("#d1").html(""); // clear before appending new list
                     $.each(data, function (index, item) {
-                        $("#d1").append($("<p style='border-style: ridge; border-color: #cccccc; padding: 5px'>").append([
-                            "Title: " + item.Title + '<br />',
-                            "Content: " + item.Content + '<br />',
-                            "Author: " + item.AuthorId.FirstName + " " + item.AuthorId.LastName + '<br />',
-                            "Post time: " + item.PostTime
-                        ]));
+
+                        var $panelPrimary = $('<div id=panel-primary' + index + ' class="panel panel-primary"></div>'),
+                            $panelHeading = $('<div class="panel-heading"></div>'),
+                            $panelTitle = $('<h3 class="panel-title"></h3>'),
+                            $panelBody = $('<div class="panel-body"></div>');
+
+                        $('#d1').append($panelPrimary);
+                        $('#panel-primary' + index).append([
+                            $panelHeading
+                                .append($panelTitle)
+                                .text(item.Title),
+                            $panelBody
+                                .text(item.Content)
+                                .append('<br /><br />')
+                                .append('<span class=text-info>Tag: ' + item.InformalCategories[0].Name + '</span>')
+                                .append('<hr>')
+                                .append(item.AuthorId.FirstName + ' ' + item.AuthorId.LastName)
+                                .append('<br />')
+                                .append(item.PostTime)
+                        ]);
                     });
-                    //alert(data);
-                    //$.each(posts, function (i, post) {
-                    //    alert(posts[i]);
-                    //});
                 }
             });
         }
 
+//$("#d1").append($("<p style='border-style: ridge; border-color: #cccccc; padding: 5px'>").append([
+//    "Title: " + item.Title + '<br />',
+//    "Content: " + item.Content + '<br />',
+//    "Author: " + item.AuthorId.FirstName + " " + item.AuthorId.LastName + '<br />',
+//    "Post time: " + item.PostTime
+//]));
 
     </script>
 }
