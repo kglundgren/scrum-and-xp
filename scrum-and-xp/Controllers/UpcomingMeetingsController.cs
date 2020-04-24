@@ -49,8 +49,18 @@ namespace scrum_and_xp.Controllers
                     Option2 = model.Option2,
                     Option3 = model.Option3
                 };
-
                 db.UpcomingMeetings.Add(newMeeting);
+                foreach (var id in invitedUsers)
+                {
+                    var user = db.Users.Find(id);
+                    var attendee = new UsersUpcomingMeetings()
+                    {
+                        UserId = user,
+                        MeetingId = newMeeting
+                    };
+                    db.UsersUpcomingMeetings.Add(attendee);
+                }
+                
                 db.SaveChanges();
                 return RedirectToAction("MeetingInvites");
             }
