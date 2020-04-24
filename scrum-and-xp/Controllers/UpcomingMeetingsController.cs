@@ -70,12 +70,11 @@ namespace scrum_and_xp.Controllers
         [HttpPost]
         public ActionResult MeetingInvites(int Id, DateTime SelectedResponse)
         {
-            var selectedOption = SelectedResponse;
-            var meeting = db.UpcomingMeetings.Find(Id);
-            //var meetingId = db.UsersUpcomingMeetings.FirstOrDefault()
-            var meetingChange = new UsersUpcomingMeetings() { Answer = SelectedResponse, MeetingId = meeting, UserId = db.Users.Find(User.Identity.GetUserId()) };
-
-            //db.Entry(meeting).CurrentValues.SetValues(meetingChange);
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var result = db.UsersUpcomingMeetings.Include("MeetingId").Include("UserId")
+                .Where(m => m.MeetingId.Id == Id && m.UserId.Id == user.Id).FirstOrDefault();
+            result.Answer = SelectedResponse;
+            db.SaveChanges();
             return RedirectToAction("MeetingInvites");
         }
     }
