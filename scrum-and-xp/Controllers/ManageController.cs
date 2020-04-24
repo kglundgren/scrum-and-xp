@@ -53,18 +53,7 @@ namespace scrum_and_xp.Controllers
             }
         }
 
-        public ActionResult MeetingInvites()
-        {
-            var user = db.Users.Find(User.Identity.GetUserId());
-            var meetings = db.UsersUpcomingMeetings.Where(m => m.UserId.Id == user.Id).Select(x => x.MeetingId).ToList();
-            var model = new List<UpcomingMeetingViewModel>();
-            foreach (var item in meetings)
-            {
-                model.Add(new UpcomingMeetingViewModel{Description = item.Description, Option1 = item.Option1, Option2 = item.Option2, Option3 = item.Option3, Author = item.Author, Duration = item.Duration});
-            }
-            //var meetings = db.UpcomingMeetings.Where(m => meetingIds.Contains(m.Id)).ToList();
-            return View(model);
-        }
+        
         //
         // GET: /Manage/Index
         

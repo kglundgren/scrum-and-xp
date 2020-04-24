@@ -191,6 +191,7 @@
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SchedulerController.cs" />
+    <Compile Include="Controllers\UpcomingMeetingController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -519,12 +520,13 @@
     <Content Include="Views\Posts\InformalPosts.cshtml" />
     <Content Include="Views\Posts\FormalPosts.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
-    <Content Include="Views\Manage\MeetingInvites.cshtml" />
+    <Content Include="Views\Meetings\MeetingInvites.cshtml" />
     <Content Include="Views\Role\EditUsersInRole.cshtml" />
     <Content Include="Views\Role\CreateRole.cshtml" />
     <Content Include="Views\Role\EditRole.cshtml" />
     <Content Include="Views\Role\ListRoles.cshtml" />
     <Content Include="Views\Role\NewUsers.cshtml" />
+    <Content Include="Views\Meetings\CreateUpcomingMeeting.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
