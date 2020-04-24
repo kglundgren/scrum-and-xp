@@ -201,7 +201,6 @@
     <Compile Include="ViewModels\CreateFormalCategoryViewModel.cs" />
     <Compile Include="ViewModels\CreateInformalCategoryViewModel.cs" />
     <Compile Include="ViewModels\CreatePostViewModel.cs" />
-    <Compile Include="ViewModels\CurrentUsersOnline.cs" />
     <Compile Include="ViewModels\FormalCategoryViewModel.cs" />
     <Compile Include="ViewModels\FormalPostViewModel.cs" />
     <Compile Include="ViewModels\InformalPostViewModel.cs" />
@@ -292,7 +291,6 @@
     <Content Include="Views\Posts\InformalPosts.cshtml" />
     <Content Include="Views\Posts\FormalPosts.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
-    <Content Include="Views\Home\Chatters.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

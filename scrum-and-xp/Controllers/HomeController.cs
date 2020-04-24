@@ -36,29 +36,21 @@ namespace scrum_and_xp.Controllers
             {
                 Name = user.FirstName + " " + user.LastName
             };
-            return View(model);
-        }
 
-        //
-        // GET: /Current list of users online
-
-        public ActionResult Chatters()
-        {
-            var user = db.Users.Find(User.Identity.GetUserId());
-            var model = new CurrentUsersOnline()
-            {
-                CurrentUserName = user.FirstName + "" + user.LastName
-            };
             if (ModelState.IsValid)
-            {                
+            {
                 if (user != null)
                 {
                     if (HttpRuntime.Cache["LoggedInUsers"] != null) //if the list exists, add this user to it
                     {
                         //get the list of logged in users from the cache
                         model.loggedInUsers = (List<ApplicationUser>)HttpRuntime.Cache["LoggedInUsers"];
+                        //if the user is not in the list
                         //add this user to the list
-                        model.loggedInUsers.Add(user);
+                        if (!model.loggedInUsers.Contains(user)) {
+                            model.loggedInUsers.Add(user);
+                        }
+                        
                         //add the list back into the cache
                         HttpRuntime.Cache["LoggedInUsers"] = model.loggedInUsers;
                     }
@@ -72,14 +64,14 @@ namespace scrum_and_xp.Controllers
                         HttpRuntime.Cache["LoggedInUsers"] = model.loggedInUsers;
                     }
                 }
-            }            
-            return View(model);
+            }
+                        return View(model);
         }
-
-
-        public ActionResult CurrentUserLogOff()
+        //
+        // GET: /Current list of users online
+                public ActionResult CurrentUserLogOff()
         {
-            var user = db.Users.Find(User.Identity.GetUserName()); //get the users username who is logged in
+            var user = db.Users.Find(User.Identity.GetUserId()); //get the users username who is logged in
             if (HttpRuntime.Cache["LoggedInUsers"] != null)//check if the list has been created
             {
                 //the list is not null so we retrieve it from the cache

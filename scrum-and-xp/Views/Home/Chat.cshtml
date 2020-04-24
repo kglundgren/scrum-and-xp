@@ -1,4 +1,5 @@
 ﻿@model scrum_and_xp.ViewModels.Chat
+    @using scrum_and_xp.Models;
 @{
     ViewBag.Title = "Chat";
 }
@@ -11,6 +12,30 @@
     <ul id="discussion">
     </ul>
 </div>
+<h2>Users online</h2>
+@if (HttpRuntime.Cache["LoggedInUsers"] != null)
+{
+
+    if (Model.loggedInUsers.Count > 0)
+    {   List<ApplicationUser> LoopedUsers = new List<ApplicationUser>();
+        <div class="ChatBox">
+            <ul>
+                @foreach (var user in Model.loggedInUsers)
+                {
+                    
+                    if (!LoopedUsers.Contains(user))
+                    { LoopedUsers.Add(user);
+                        <li>
+                        @*<div class="r_row">
+                        <div class="r_name">@Html.Encode(user)</div>
+                        </div>*@
+                        @user.FirstName @user.LastName
+                        </li>}
+                    }
+                </ul>
+        </div>
+    }
+}
 
 @section scripts {
     <!--Script references. -->
@@ -49,6 +74,19 @@
         function htmlEncode(value) {
             var encodedValue = $('<div />').text(value).html();
             return encodedValue;
+        }
+    </script>
+
+    @*Displays current users online, refreshes every 5 seconds.*@
+    <script type="text/javascript">
+        $(function () {
+            setInterval(loginDisplay, 5000);
+        });
+
+        function loginDisplay() {
+            $.post("/Account/getLoginUser", null, function (data) {
+
+            });
         }
     </script>
 }
