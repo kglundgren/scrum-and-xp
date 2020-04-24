@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace scrum_and_xp.ViewModels
 {
@@ -22,7 +23,11 @@ namespace scrum_and_xp.ViewModels
         public TimeSpan Duration { get; set; }
         public ApplicationUser Author { get; set; }
         public List<ApplicationUser> AllUsers { get; set; }
-        public List<ApplicationUser> InvitedUsers { get; set;
+        //public List<SelectListItem> InvitedUsers { get; set; }
+        public CreateUpcomingMeetingViewModel()
+        {
+            AllUsers = new List<ApplicationUser>();
+            //InvitedUsers = new List<SelectListItem>();
         }
 
     }

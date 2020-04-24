@@ -28,27 +28,31 @@ namespace scrum_and_xp.Controllers
 
         public ActionResult Create()
         {
-            var model = new CreateUpcomingMeetingViewModel
-            {
-                AllUsers = db.Users.ToList()
-            };
+            var model = new CreateUpcomingMeetingViewModel();
+            model.AllUsers = db.Users.ToList();
+            //ViewBag.AllUsers = new SelectList(db.Users.ToList(), "Id", "Email");
+            ViewBag.InvitedUsers = new List<SelectListItem>();
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Create(UpcomingMeetingViewModel model)
+        public ActionResult Create(CreateUpcomingMeetingViewModel model, List<string> invitedUsers)
         {
-            if (ModelState.IsValid) { 
-            var newMeeting = new UpcomingMeeting() {Author = db.Users.Find(User.Identity.GetUserId()),
-                Description = model.Description,
-                Duration = model.Duration,
-                Option1 = model.Option1,
-                Option2 = model.Option2,
-                Option3 = model.Option3 };
-            
-            db.UpcomingMeetings.Add(newMeeting);
-            db.SaveChanges();
-            return RedirectToAction("MeetingInvites");
+            if (ModelState.IsValid)
+            {
+                var newMeeting = new UpcomingMeeting()
+                {
+                    Author = db.Users.Find(User.Identity.GetUserId()),
+                    Description = model.Description,
+                    Duration = model.Duration,
+                    Option1 = model.Option1,
+                    Option2 = model.Option2,
+                    Option3 = model.Option3
+                };
+
+                db.UpcomingMeetings.Add(newMeeting);
+                db.SaveChanges();
+                return RedirectToAction("MeetingInvites");
             }
             return View(model);
         }
