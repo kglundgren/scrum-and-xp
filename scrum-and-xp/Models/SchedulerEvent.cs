@@ -9,6 +9,7 @@ namespace scrum_and_xp.Models
         public string Text { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public ApplicationUser CreatorId { get; set;}
+        public string Creator { get; set; }
+
     }
 }

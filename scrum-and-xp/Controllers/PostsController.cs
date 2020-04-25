@@ -286,32 +286,77 @@ namespace scrum_and_xp.Controllers
             }
             return View(post);
         }
+        public async Task<ActionResult> Delete(int? id, string typeId)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var post = new PostViewModel();
+            var formal = db.FormalPosts.Find(id);
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.FirstOrDefault(c => c.Id == userId);
+            var role = await RoleManager.FindByNameAsync("Admin");
+            var admin = await UserManager.IsInRoleAsync(userId, role.Name);
 
-        //// GET: Posts/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Post post = db.Posts.Find(id);
-        //    if (post == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(post);
-        //}
+            if (formal != null && typeId == "formal")
+            {
+                if (formal.AuthorId == user || admin)
+                {
+                    post.Id = formal.Id;
+                    post.Title = formal.Title;
+                    post.Content = formal.Content;
+                    post.PostTime = formal.PostTime;
+                    post.AuthorId = formal.AuthorId;
+                    post.Formal = true;
+                    return View(post);
+                }
+            }
+            else
+            {
+                var informal = db.InformalPosts.Find(id);
+                if (informal != null)
+                {
+                    if (informal.AuthorId == user || admin)
+                    {
+                        post.Id = informal.Id;
+                        post.Title = informal.Title;
+                        post.Content = informal.Content;
+                        post.PostTime = informal.PostTime;
+                        post.AuthorId = informal.AuthorId;
+                        post.Formal = false;
+                        return View(post);
+                    }
 
-        //// POST: Posts/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    Post post = db.Posts.Find(id);
-        //    db.Posts.Remove(post);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
+                }
+            }
+            ViewBag.Auth = "Authorization to edit post not granted.";
+            return RedirectToAction("Index", "Home");
+        }
+
+
+        [HttpPost]
+        public ActionResult Delete([Bind(Include = "Id,Formal")]PostViewModel post)
+        {
+            if (post != null)
+            {
+                if (post.Formal)
+                {
+                    var formal = db.FormalPosts.FirstOrDefault(c => c.Id == post.Id);
+                    db.FormalPosts.Remove(formal);
+                    db.SaveChanges();
+                    return RedirectToAction("FormalPosts");
+                }
+                else
+                {
+                    var informal = db.InformalPosts.FirstOrDefault(c => c.Id == post.Id);
+                    db.InformalPosts.Remove(informal);
+                    db.SaveChanges();
+                    return RedirectToAction("InformalPosts");
+                }
+            }
+            return View();
+        }
 
         protected override void Dispose(bool disposing)
         {
