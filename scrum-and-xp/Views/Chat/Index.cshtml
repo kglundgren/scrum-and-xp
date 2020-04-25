@@ -59,14 +59,20 @@
         }
 
         function getUsers() {
-            chat.server.getAllActiveConnections().done(function (connections) {
-                //$.map(connections, function (item) {
-                //    $("#user-list").append("<li>Connection ID : " + item + "</li>");
-                //});
-                $.each(connections, function (index, item) {
-                    $("#user-list").append("<li>Connection ID : " + item + "</li>");
+            var chat = $.connection.chatHub;
+            $.connection.hub.start().done(function () {
+                chat.server.getAllActiveConnections().done(function (connections) {
+                    $("#user-list").empty();
+                    //$.map(connections, function (item) {
+                    //    $("#user-list").append("<li>Connection ID : " + item + "</li>");
+                    //});
+                    $.each(connections, function (index, item) {
+                        
+                        $("#user-list").append("<li>Connection ID : " + item + "</li>");
+                    });
                 });
             });
+
         }
     </script>
 }
