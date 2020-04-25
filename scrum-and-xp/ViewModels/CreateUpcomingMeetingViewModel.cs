@@ -13,12 +13,10 @@ namespace scrum_and_xp.ViewModels
         
         [Required(ErrorMessage = "The meeting needs to have a description")]
         public string Description { get; set; }
-        [Required(ErrorMessage = "All the time options need to be filled.")]
-        public DateTime Option1 { get; set; }
-        [Required(ErrorMessage = "All the time options need to be filled.")]
-        public DateTime Option2 { get; set; }
-        [Required(ErrorMessage = "All the time options need to be filled.")]
-        public DateTime Option3 { get; set; }
+        [Required(ErrorMessage = "The meeting needs to have at least one time option.")]
+        public DateTime? Option1 { get; set; }
+        public DateTime? Option2 { get; set; }
+        public DateTime? Option3 { get; set; }
         [Required(ErrorMessage = "The meeting needs to have a time duration")]
         public TimeSpan Duration { get; set; }
         public ApplicationUser Author { get; set; }

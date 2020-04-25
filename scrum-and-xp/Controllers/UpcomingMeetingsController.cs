@@ -9,6 +9,7 @@ using scrum_and_xp.ViewModels;
 
 namespace scrum_and_xp.Controllers
 {
+    [Authorize(Roles = "Users,Admin")]
     public class UpcomingMeetingsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -49,9 +50,9 @@ namespace scrum_and_xp.Controllers
                     Option1 = item.Option1,
                     Option2 = item.Option2,
                     Option3 = item.Option3,
-                    Option1Votes = db.UsersUpcomingMeetings.Where(m => m.MeetingId.Id == item.Id && m.Answer == item.Option1).Count(),
-                    Option2Votes = db.UsersUpcomingMeetings.Where(m => m.MeetingId.Id == item.Id && m.Answer == item.Option2).Count(),
-                    Option3Votes = db.UsersUpcomingMeetings.Where(m => m.MeetingId.Id == item.Id && m.Answer == item.Option3).Count(),
+                    Option1Votes = db.UsersUpcomingMeetings.Where(m => m.MeetingId.Id == item.Id && m.Answer == item.Option1 && item.Option1 != null).Count(),
+                    Option2Votes = db.UsersUpcomingMeetings.Where(m => m.MeetingId.Id == item.Id && m.Answer == item.Option2 && item.Option2 != null).Count(),
+                    Option3Votes = db.UsersUpcomingMeetings.Where(m => m.MeetingId.Id == item.Id && m.Answer == item.Option3 && item.Option3 != null).Count(),
                     TotalInvited = db.UsersUpcomingMeetings.Where(m => m.MeetingId.Id == item.Id).Count(),
                     Author = item.Author,
                     Duration = item.Duration
@@ -73,6 +74,13 @@ namespace scrum_and_xp.Controllers
                 CreatorId = meeting.Author
             };
             db.SchedulerEvents.Add(schedulerEvent);
+            db.UpcomingMeetings.Remove(meeting);
+            var result = db.UsersUpcomingMeetings.Where(m => m.MeetingId.Id == meeting.Id);
+            foreach (var item in result)
+            {
+                db.UsersUpcomingMeetings.Remove(item);
+
+            }
             db.SaveChanges();
             return RedirectToAction("MeetingInvites");
         }
@@ -109,6 +117,23 @@ namespace scrum_and_xp.Controllers
         [HttpPost]
         public ActionResult Create(CreateUpcomingMeetingViewModel model, List<string> invitedUsers)
         {
+            // Check if the time options are the same time.
+            var options = new List<DateTime?> { model.Option1, model.Option2, model.Option3 };
+            for (int i = 0; i < options.Count; i++)
+            {
+                if ((i + 1) != options.Count)
+                {
+                    if (options[i] == options[i + 1] && options[i] != null && options[i + 1] != null)
+                    {
+                        if (ModelState.ContainsKey("Option3"))
+                        {
+                            ModelState["Option3"].Errors.Clear();
+                            ModelState.AddModelError("Option3", "All option times need to be different.");
+                        }
+                    }
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 var newMeeting = new UpcomingMeeting()
@@ -135,6 +160,7 @@ namespace scrum_and_xp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("MeetingInvites");
             }
+            ViewBag.InvitedUsers = new List<SelectListItem>();
             return View(model);
         }
     }

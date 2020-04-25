@@ -15,7 +15,7 @@ using System.Web.Mvc;
 
 namespace scrum_and_xp.Controllers
 {
-    [Authorize(Roles = "Users")]
+    [Authorize(Roles = "Users,Admin")]
     public class PostsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

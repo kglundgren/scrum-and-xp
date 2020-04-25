@@ -17,6 +17,10 @@
             Description
         </th>
         <th>
+            Duration <br />
+            (hh:mm:ss)
+        </th>
+        <th>
             Option 1 Votes
         </th>
         <th>
@@ -26,7 +30,8 @@
             Option 3 Votes
         </th>
         <th>
-            Replies / Total Invited
+            Replies / <br />
+            Total Invited
         </th>
         <th></th>
     </tr>
@@ -41,22 +46,35 @@
                     @item.Description
                 </td>
                 <td>
-                    @item.Option1
-                    <br />
-                    <b>@item.Option1Votes</b>
-                    @Html.RadioButton("SelectedTime", item.Option1)
+                    @item.Duration
                 </td>
                 <td>
-                    @item.Option2
-                    <br />
-                    <b>@item.Option2Votes</b>
-                    @Html.RadioButton("SelectedTime", item.Option2)
+                    @if (item.Option1 != null)
+                    {
+                        @item.Option1
+                        <br />
+                        <b>@item.Option1Votes</b>
+                        @Html.RadioButton("SelectedTime", item.Option1)
+                    }
                 </td>
                 <td>
-                    @item.Option3
-                    <br />
-                    <b>@item.Option3Votes</b>
-                    @Html.RadioButton("SelectedTime", item.Option3)
+                    @if (item.Option2 != null)
+                    {
+
+                        @item.Option2
+                        <br />
+                        <b>@item.Option2Votes</b>
+                        @Html.RadioButton("SelectedTime", item.Option2)
+                    }
+                </td>
+                <td>
+                    @if (item.Option3 != null)
+                    {
+                        @item.Option3
+                        <br />
+                        <b>@item.Option3Votes</b>
+                        @Html.RadioButton("SelectedTime", item.Option3)
+                    }
                 </td>
                 <td>
                     @{ var replies = item.Option1Votes + item.Option2Votes + item.Option3Votes;
@@ -82,20 +100,24 @@
             @Html.DisplayNameFor(model => model.UpcomingMeetingViewModels.First().Description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UpcomingMeetingViewModels.First().Option1)
+            Duration <br />
+            (hh:mm:ss)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UpcomingMeetingViewModels.First().Option2)
+            Option 1
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UpcomingMeetingViewModels.First().Option3)
+            Option 2
+        </th>
+        <th>
+            Option 3
         </th>
 
         <th></th>
         <th></th>
     </tr>
 
-    @for (int i = 0; i < Model.UpcomingMeetingViewModels.Count(); i++)
+    @foreach (var item in Model.UpcomingMeetingViewModels)
     {
         using (Html.BeginForm())
         {
@@ -103,27 +125,42 @@
             @Html.AntiForgeryToken()
             <tr>
                 <td>
-                    @Html.DisplayFor(m => Model.UpcomingMeetingViewModels.ElementAt(i).Description)
+                    @Html.DisplayFor(m => item.Description)
                 </td>
                 <td>
-                    @Model.UpcomingMeetingViewModels.ElementAt(i).Option1 - @Model.UpcomingMeetingViewModels.ElementAt(i).Option1.AddHours(Model.UpcomingMeetingViewModels.ElementAt(i).Duration.Hours)
-                    @Html.RadioButtonFor(m => Model.UpcomingMeetingViewModels.ElementAt(i).SelectedResponse, Model.UpcomingMeetingViewModels.ElementAt(i).Option1)
+                    @item.Duration 
                 </td>
                 <td>
-                    @Model.UpcomingMeetingViewModels.ElementAt(i).Option2 - @Model.UpcomingMeetingViewModels.ElementAt(i).Option2.AddHours(Model.UpcomingMeetingViewModels.ElementAt(i).Duration.Hours)
-                    @Html.RadioButtonFor(modelItem => Model.UpcomingMeetingViewModels.ElementAt(i).SelectedResponse, Model.UpcomingMeetingViewModels.ElementAt(i).Option2)
+                    @if (item.Option1 != null)
+                    {
+                        @item.Option1@: - <br />
+                        var endDate = new DateTime(Convert.ToDateTime(item.Option1).Ticks).AddHours(item.Duration.Hours);
+                        @endDate
+                        @Html.RadioButton("SelectedResponse", item.Option1)
+                    }
                 </td>
                 <td>
-                    @Model.UpcomingMeetingViewModels.ElementAt(i).Option3 - @Model.UpcomingMeetingViewModels.ElementAt(i).Option3.AddHours(Model.UpcomingMeetingViewModels.ElementAt(i).Duration.Hours)
-                    @Html.RadioButtonFor(modelItem => Model.UpcomingMeetingViewModels.ElementAt(i).SelectedResponse, Model.UpcomingMeetingViewModels.ElementAt(i).Option3)
+                    @if (item.Option2 != null)
+                    {
+                        @item.Option2@:- <br />
+                        var endDate2 = new DateTime(Convert.ToDateTime(item.Option2).Ticks).AddHours(item.Duration.Hours);
+                        @endDate2
+                        @Html.RadioButton("SelectedResponse", item.Option2)
+                    }
                 </td>
                 <td>
-                    @Html.HiddenFor(m => Model.UpcomingMeetingViewModels.ElementAt(i).Id)
-                    @Html.HiddenFor(m => Model.UpcomingMeetingViewModels.ElementAt(i).Author)
-                    @Html.HiddenFor(m => Model.UpcomingMeetingViewModels.ElementAt(i).Duration)
-
-
-
+                    @if (item.Option3 != null)
+                    {
+                        @item.Option3@: - <br />
+                        var endDate3 = new DateTime(Convert.ToDateTime(item.Option3).Ticks).AddHours(item.Duration.Hours);
+                        @endDate3
+                        @Html.RadioButton("SelectedResponse", item.Option3)
+                    }
+                </td>
+                <td>
+                    @Html.Hidden("Id", item.Id)
+                    @Html.Hidden("Author", item.Author)
+                    @Html.Hidden("Duration", item.Duration)
                 </td>
                 <td><input type="submit" value="Pick time" /> </td>
             </tr>
