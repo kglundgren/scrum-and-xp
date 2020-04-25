@@ -65,13 +65,14 @@ namespace scrum_and_xp.Controllers
         [HttpPost]
         public ActionResult MakeSchedulerEvent(int id, DateTime selectedTime)
         {
-            var meeting = db.UpcomingMeetings.Find(id);
+            var meeting = db.UpcomingMeetings.Include("Author")
+                .Where(m => m.Id == id).FirstOrDefault();
             var schedulerEvent = new SchedulerEvent
             {
                 Text = meeting.Description,
                 StartDate = selectedTime,
                 EndDate = selectedTime.AddHours(meeting.Duration.Hours),
-                CreatorId = meeting.Author
+                Creator = meeting.Author.Id
             };
             db.SchedulerEvents.Add(schedulerEvent);
             db.UpcomingMeetings.Remove(meeting);
