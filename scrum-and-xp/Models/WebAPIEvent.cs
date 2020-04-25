@@ -25,7 +25,7 @@ namespace scrum_and_xp.Models
                 start_date = schedulerEvent.StartDate.ToString("yyyy-MM-dd HH:mm"),
                 end_date = schedulerEvent.EndDate.ToString("yyyy-MM-dd HH:mm"),
                 creator = schedulerEvent.Creator,
-                creator_name = "something"
+                creator_name = ""
             };
         }
 
