@@ -7,21 +7,25 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace scrum_and_xp.Controllers
 {
     [Authorize(Roles = "Users")]
     public class PostsController : Controller
+
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
         private readonly RoleManager<IdentityRole> RoleManager;
         private readonly ApplicationUserManager UserManager;
+        public string ErrorMessage { get; set; }
 
         public PostsController()
         {
@@ -88,6 +92,7 @@ namespace scrum_and_xp.Controllers
         //public ActionResult Create([Bind(Include = "Id,Title,Content,PostTime")] Post post)
         public ActionResult Create(CreatePostViewModel model)
         {
+
             if (model.SelectedCategoryId is null)
             {
                 if (ModelState.ContainsKey("SelectedCategoryId"))
@@ -96,6 +101,19 @@ namespace scrum_and_xp.Controllers
                     ModelState.AddModelError("SelectedCategoryId", "Must select category.");
                 }
             }
+            //FileUploadController fs = new FileUploadController();
+            //string upload = fs.ValidateUpload(model.File);
+            //if (upload != null)
+            //{
+            //    ViewBag.ResultErrorMessage = fs.ErrorMessage;
+            //}
+            if (model.File.ContentLength > 0)
+            {
+                string filename = Path.GetFileName(model.File.FileName);
+                string path = Path.Combine(Server.MapPath("~/UploadedFiles"), filename);
+                model.File.SaveAs(path);
+            }
+
 
             var authorId = db.Users.Find(User.Identity.GetUserId());
             model.FormalTypes = db.FormalTypes.ToList();
@@ -108,8 +126,11 @@ namespace scrum_and_xp.Controllers
                     Title = model.Title,
                     Content = model.Content,
                     PostTime = DateTime.Now,
-                    AuthorId = authorId
+                    AuthorId = authorId,
+                    File = model.File.FileName
+
                 };
+
                 var formCat = db.FormalCategories.FirstOrDefault(cat => cat.Id == model.SelectedCategoryId);
                 formPost.FormalCategories.Add(formCat);
 
@@ -128,7 +149,8 @@ namespace scrum_and_xp.Controllers
                     Title = model.Title,
                     Content = model.Content,
                     PostTime = DateTime.Now,
-                    AuthorId = authorId
+                    AuthorId = authorId,
+                    File = model.File.FileName
                 };
                 var infCategory = db.InformalCategories.FirstOrDefault(cat => cat.Id == model.SelectedCategoryId);
                 infPost.InformalCategories.Add(infCategory);
@@ -142,8 +164,10 @@ namespace scrum_and_xp.Controllers
                 return View(model);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
+       
+        
 
         // GET: Posts/FillCategory
         public ActionResult FillCategory(int? type)
@@ -228,7 +252,9 @@ namespace scrum_and_xp.Controllers
                     post.Content = formal.Content;
                     post.PostTime = formal.PostTime;
                     post.AuthorId = formal.AuthorId;
+                    
                     post.Formal = true;
+                    
                     return View(post);
                 }
             }

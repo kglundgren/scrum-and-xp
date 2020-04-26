@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using scrum_and_xp.Controllers;
 
 namespace scrum_and_xp.ViewModels
 {
@@ -24,6 +25,12 @@ namespace scrum_and_xp.ViewModels
         public int? SelectedCategoryId { get; set; }
 
         public int SelectedFormalTypeId { get; set; }
+        
+        [DataType(DataType.Upload)]
+        [Display(Name = "Upload File")]
+        public HttpPostedFileBase File { get; set; }
+
+        
 
         public List<FormalType> FormalTypes { get; set; }
         public List<FormalCategory> FormalCategories { get; set; }

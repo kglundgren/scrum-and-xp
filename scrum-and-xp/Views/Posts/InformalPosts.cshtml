@@ -33,6 +33,7 @@
             @item.AuthorId.FirstName @item.AuthorId.LastName
             <br />
             @item.PostTime
+           
         </div>
         @Html.ActionLink("Edit", "Edit", new { id = item.Id, typeId = "informal" }) |
         @Html.ActionLink("Details", "Details", new { id = item.Id, typeId = "informal" }) |
@@ -48,6 +49,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.InformalPosts.FirstOrDefault().Content)
+        </th>
+        <th>
+            
         </th>
         <th>
             @Html.DisplayNameFor(model => model.InformalPosts.FirstOrDefault().PostTime)
