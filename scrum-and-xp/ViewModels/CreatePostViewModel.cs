@@ -25,6 +25,13 @@ namespace scrum_and_xp.ViewModels
 
         public int SelectedFormalTypeId { get; set; }
 
+
+        [DataType(DataType.Upload)]
+        [Display(Name = "Upload")]
+        [Required(ErrorMessage = "Please choose file to upload.")]
+
+        public string ImagePath { get; set; }
+
         public List<FormalType> FormalTypes { get; set; }
         public List<FormalCategory> FormalCategories { get; set; }
         public List<InformalCategory> InformalCategories { get; set; }

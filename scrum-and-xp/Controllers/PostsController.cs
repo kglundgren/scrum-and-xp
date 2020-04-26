@@ -7,10 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace scrum_and_xp.Controllers
@@ -86,7 +88,7 @@ namespace scrum_and_xp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public ActionResult Create([Bind(Include = "Id,Title,Content,PostTime")] Post post)
-        public ActionResult Create(CreatePostViewModel model)
+        public ActionResult Create(CreatePostViewModel model, HttpPostedFileBase ImagePath)
         {
             if (model.SelectedCategoryId is null)
             {
@@ -101,6 +103,8 @@ namespace scrum_and_xp.Controllers
             model.FormalTypes = db.FormalTypes.ToList();
             model.FormalCategories = db.FormalCategories.ToList();
             model.InformalCategories = db.InformalCategories.ToList();
+
+
             if (model.Type == "Formal")
             {
                 var formPost = new FormalPost
@@ -109,6 +113,8 @@ namespace scrum_and_xp.Controllers
                     Content = model.Content,
                     PostTime = DateTime.Now,
                     AuthorId = authorId
+                    
+                    
                 };
                 var formCat = db.FormalCategories.FirstOrDefault(cat => cat.Id == model.SelectedCategoryId);
                 formPost.FormalCategories.Add(formCat);
@@ -117,6 +123,32 @@ namespace scrum_and_xp.Controllers
                 {
                     db.FormalPosts.Add(formPost);
                     db.SaveChanges();
+
+                    var checkextension = Path.GetExtension(ImagePath.FileName).ToLower();
+
+                    if (ImagePath == null)
+                    {
+                        formPost.Img = 0;
+                    }
+
+                    if (checkextension.ToLower().Contains(".jpg") || checkextension.ToLower().Contains(".jpeg") || checkextension.Contains(".png"))
+                    {
+                        // path skapar sökväg för att lägga in bilden i projektmappen Images
+                        //string path = System.IO.Path.Combine(Server.MapPath("~/Images"), System.IO.Path.GetFileName(ImagePath.FileName));
+                        // relativePath skapar den relativa sökvägen som läggs in i databasen
+                        string p = formPost.Id.ToString();
+                        string I = p + "Formal";
+                        //string relativePath = System.IO.Path.Combine("~/Images/"), p);
+                        string path = Path.Combine(Server.MapPath("~/Images"), I);
+
+
+                        ImagePath.SaveAs(path + checkextension);
+                        formPost.Img = 1;
+                        ViewBag.FileStatus = "Photo uploaded successfully.";
+                        ViewBag.I = checkextension;
+
+                        db.SaveChanges();
+                    }
                     return RedirectToAction("FormalPosts");
                 }
                 return View(model);
@@ -137,6 +169,32 @@ namespace scrum_and_xp.Controllers
                 {
                     db.InformalPosts.Add(infPost);
                     db.SaveChanges();
+
+                    var checkextension = Path.GetExtension(ImagePath.FileName).ToLower();
+
+                    if(ImagePath == null)
+                    {
+                        infPost.Img = 0;
+                    }
+
+                    if (checkextension.ToLower().Contains(".jpg") || checkextension.ToLower().Contains(".jpeg") || checkextension.Contains(".png"))
+                    {
+                        // path skapar sökväg för att lägga in bilden i projektmappen Images
+                        //string path = System.IO.Path.Combine(Server.MapPath("~/Images"), System.IO.Path.GetFileName(ImagePath.FileName));
+                        // relativePath skapar den relativa sökvägen som läggs in i databasen
+                        string p = infPost.Id.ToString();
+                        string I = p + "informal";
+                        //string relativePath = System.IO.Path.Combine("~/Images/"), p);
+                        string path = Path.Combine(Server.MapPath("~/Images"), I);
+
+
+                        ImagePath.SaveAs(path + checkextension);
+                        infPost.Img = 1;
+                        ViewBag.FileStatus = "Photo uploaded successfully.";
+                        ViewBag.I = checkextension;
+
+                        db.SaveChanges();
+                    }
                     return RedirectToAction("InformalPosts");
                 }
                 return View(model);

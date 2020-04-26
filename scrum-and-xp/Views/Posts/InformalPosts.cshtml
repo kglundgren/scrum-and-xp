@@ -27,6 +27,15 @@
         </div>
         <div class="panel-body">
             @item.Content
+
+            @if (item.Img == 1)
+            {
+                string p = item.Id.ToString();
+                string path = Path.Combine("~/Images/" + p + "Informal");
+                <img src="@Url.Content(path + ".jpg")" alt="Image" style="height:200px; border-style: groove; margin-left:500px" />
+            }
+
+
             <br /><br />
             <span class="text-info">Tag: @item.InformalCategories.FirstOrDefault().Name</span>
             <hr />
