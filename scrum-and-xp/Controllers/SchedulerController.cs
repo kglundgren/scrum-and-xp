@@ -5,6 +5,7 @@ using scrum_and_xp.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Mapping;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -20,18 +21,26 @@ namespace scrum_and_xp.Controllers
         // GET: api/scheduler
         public IEnumerable<WebAPIEvent> Get()
         {
+            List<WebAPIEvent> listan = new List<WebAPIEvent>();
 
-            return db.SchedulerEvents
-                .ToList()
-                .Select(e => (WebAPIEvent)e);
+            foreach (var anEvent in db.SchedulerEvents.ToList())
+            {
                
+                var e = (WebAPIEvent)anEvent;
+                e.creator_name = db.Users.Find(anEvent.Creator).FirstName + " " + db.Users.Find(anEvent.Creator).LastName;
+                listan.Add(e);   
+            }
+
+            return listan;
+
         }
+
+
 
         // GET: api/scheduler/5
         public WebAPIEvent Get(int id)
         {
             return (WebAPIEvent)db.SchedulerEvents.Find(id);
-            
         }
 
         // PUT: api/scheduler/5
@@ -40,9 +49,19 @@ namespace scrum_and_xp.Controllers
         {
             var updatedSchedulerEvent = (SchedulerEvent)webAPIEvent;
             updatedSchedulerEvent.Id = id;
-            db.Entry(updatedSchedulerEvent).State = EntityState.Modified;
-            db.SaveChanges();
 
+            if (updatedSchedulerEvent.Creator.Equals(User.Identity.GetUserId()) || User.IsInRole("Admin"))
+            {
+                db.Entry(updatedSchedulerEvent).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            else {
+                return Ok(new
+                {
+                    action = "failed" + updatedSchedulerEvent.Creator
+                });
+            }
             return Ok(new
             {
                 action = "updated"
@@ -53,9 +72,9 @@ namespace scrum_and_xp.Controllers
         [HttpPost]
         public IHttpActionResult CreateSchedulerEvent(WebAPIEvent webAPIEvent)
         {
-            var CreatorId = db.Users.Find(User.Identity.GetUserId());
+            var Creator = User.Identity.GetUserId();
             var newSchedulerEvent = (SchedulerEvent)webAPIEvent;
-            newSchedulerEvent.CreatorId = CreatorId;
+            newSchedulerEvent.Creator = Creator;
 
             db.SchedulerEvents.Add(newSchedulerEvent);
             db.SaveChanges();
@@ -74,16 +93,27 @@ namespace scrum_and_xp.Controllers
             var schedulerEvent = db.SchedulerEvents.Find(id);
             if (schedulerEvent != null)
             {
-                db.SchedulerEvents.Remove(schedulerEvent);
-                db.SaveChanges();
-            }
+                if (schedulerEvent.Creator.Equals(User.Identity.GetUserId()) || User.IsInRole("Admin"))
+                {
+                    db.SchedulerEvents.Remove(schedulerEvent);
+                    db.SaveChanges();
+                }
 
-            return Ok(new
-            {
-                action = "deleted"
-            });
+                else
+                {
+                    return Ok(new
+                    {
+                        action = "failed"
+                    });
+                }
+            }
+                return Ok(new
+                {
+                    action = "deleted"
+                });
+            
         }
-        
+
 
         protected override void Dispose(bool disposing)
         {

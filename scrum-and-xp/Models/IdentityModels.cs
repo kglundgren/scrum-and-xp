@@ -43,7 +43,7 @@ namespace scrum_and_xp.Models
             return new ApplicationDbContext();
         }
 
-        
+      
     }
 
     

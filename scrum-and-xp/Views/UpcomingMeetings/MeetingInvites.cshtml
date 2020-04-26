@@ -1,0 +1,176 @@
+﻿@model scrum_and_xp.ViewModels.MeetingInvitesViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Upcoming Meetings</h2>
+
+<p>
+    @Html.ActionLink("Create New Meeting Invite", "Create", "UpcomingMeetings")
+</p>
+
+<h4>Created Invites</h4>
+<table class="table">
+    <tr>
+        <th>
+            Description
+        </th>
+        <th>
+            Duration <br />
+            (hh:mm:ss)
+        </th>
+        <th>
+            Option 1 Votes
+        </th>
+        <th>
+            Option 2 Votes
+        </th>
+        <th>
+            Option 3 Votes
+        </th>
+        <th>
+            Replies / <br />
+            Total Invited
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.CreatedInvites)
+    {
+        using (Html.BeginForm("MakeSchedulerEvent", "UpcomingMeetings"))
+        {
+            @Html.AntiForgeryToken()
+            <tr>
+                <td>
+                    @item.Description
+                </td>
+                <td>
+                    @item.Duration
+                </td>
+                <td>
+                    @if (item.Option1 != null)
+                    {
+                        @item.Option1
+                        <br />
+                        <b>@item.Option1Votes</b>
+                        @Html.RadioButton("SelectedTime", item.Option1)
+                    }
+                </td>
+                <td>
+                    @if (item.Option2 != null)
+                    {
+
+                        @item.Option2
+                        <br />
+                        <b>@item.Option2Votes</b>
+                        @Html.RadioButton("SelectedTime", item.Option2)
+                    }
+                </td>
+                <td>
+                    @if (item.Option3 != null)
+                    {
+                        @item.Option3
+                        <br />
+                        <b>@item.Option3Votes</b>
+                        @Html.RadioButton("SelectedTime", item.Option3)
+                    }
+                </td>
+                <td>
+                    @{ var replies = item.Option1Votes + item.Option2Votes + item.Option3Votes;
+                        <b>
+                            @replies / @item.TotalInvited
+                        </b>
+                    }
+                </td>
+                <td>
+                    @Html.Hidden("id", item.Id)
+                    <input type="submit" value="Create Meeting" />
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+
+<h4>Pending Invites</h4>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UpcomingMeetingViewModels.First().Description)
+        </th>
+        <th>
+            Duration <br />
+            (hh:mm:ss)
+        </th>
+        <th>
+            Option 1
+        </th>
+        <th>
+            Option 2
+        </th>
+        <th>
+            Option 3
+        </th>
+
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.UpcomingMeetingViewModels)
+    {
+        using (Html.BeginForm())
+        {
+
+            @Html.AntiForgeryToken()
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.Description)
+                </td>
+                <td>
+                    @item.Duration 
+                </td>
+                <td>
+                    @if (item.Option1 != null)
+                    {
+                        @item.Option1@: - <br />
+                        var endDate = new DateTime(Convert.ToDateTime(item.Option1).Ticks).AddHours(item.Duration.Hours);
+                        @endDate
+                        @Html.RadioButton("SelectedResponse", item.Option1)
+                    }
+                </td>
+                <td>
+                    @if (item.Option2 != null)
+                    {
+                        @item.Option2@:- <br />
+                        var endDate2 = new DateTime(Convert.ToDateTime(item.Option2).Ticks).AddHours(item.Duration.Hours);
+                        @endDate2
+                        @Html.RadioButton("SelectedResponse", item.Option2)
+                    }
+                </td>
+                <td>
+                    @if (item.Option3 != null)
+                    {
+                        @item.Option3@: - <br />
+                        var endDate3 = new DateTime(Convert.ToDateTime(item.Option3).Ticks).AddHours(item.Duration.Hours);
+                        @endDate3
+                        @Html.RadioButton("SelectedResponse", item.Option3)
+                    }
+                </td>
+                <td>
+                    @Html.Hidden("Id", item.Id)
+                    @Html.Hidden("Author", item.Author)
+                    @Html.Hidden("Duration", item.Duration)
+                </td>
+                <td><input type="submit" value="Pick time" /> </td>
+            </tr>
+        }
+    }
+
+</table>
+@section Scripts{
+    <script>
+
+    </script>
+}
+
