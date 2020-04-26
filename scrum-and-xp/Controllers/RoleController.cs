@@ -12,7 +12,8 @@ using System.Web.Security;
 
 namespace scrum_and_xp.Controllers
 {
-    
+
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         //private readonly RoleManager<IdentityRole> roleManager;
@@ -69,9 +70,9 @@ namespace scrum_and_xp.Controllers
         [HttpGet]
         public ActionResult ListRoles()
         {
-           
+
             var roles = RoleManager.Roles;
-            
+
             return View(roles);
         }
 
@@ -80,7 +81,7 @@ namespace scrum_and_xp.Controllers
         {
             var role = await RoleManager.FindByIdAsync(id);
 
-            if(role == null)
+            if (role == null)
             {
                 ViewBag.errormessage = "Error";
                 return HttpNotFound();
@@ -91,7 +92,7 @@ namespace scrum_and_xp.Controllers
                 RoleName = role.Name
             };
 
-            foreach(var users in UserManager.Users.ToList())
+            foreach (var users in UserManager.Users.ToList())
             {
                 if (await UserManager.IsInRoleAsync(users.Id, role.Name))
                 {
@@ -99,7 +100,7 @@ namespace scrum_and_xp.Controllers
                 }
             }
             return View(model);
-           
+
         }
 
         [HttpPost]
@@ -107,7 +108,7 @@ namespace scrum_and_xp.Controllers
         {
             var role = await RoleManager.FindByIdAsync(model.Id);
 
-            if(role == null)
+            if (role == null)
             {
                 ViewBag.ErrorMessage = $"Role with Id = {model.Id} cannot be found";
                 return View("NotFound");
@@ -122,7 +123,7 @@ namespace scrum_and_xp.Controllers
                 {
                     return RedirectToAction("ListRoles");
                 }
-              foreach(var e in result.Errors)
+                foreach (var e in result.Errors)
                 {
                     return RedirectToAction("ListRoles");
                 }
@@ -139,7 +140,7 @@ namespace scrum_and_xp.Controllers
             ViewBag.RoleId = roleId;
             ViewBag.RoleName = role.Name;
 
-            if(role == null)
+            if (role == null)
             {
                 ViewBag.ErrorMessage = $"Role with Id = {roleId} cannot be found";
                 return HttpNotFound();
@@ -147,28 +148,31 @@ namespace scrum_and_xp.Controllers
 
             var model = new List<UserRoleViewModel>();
 
-            foreach(var user in UserManager.Users.ToList())
+            foreach (var user in UserManager.Users.ToList())
             {
-                var UserRoleViewModel = new UserRoleViewModel
+                if (!user.Id.Equals(User.Identity.GetUserId()))
                 {
-                    UserId = user.Id,
-                    UserName = user.UserName,
-                    IsSelected = await UserManager.IsInRoleAsync(user.Id, role.Name),
-                    RoleId = role.Id
-                };
+                    var UserRoleViewModel = new UserRoleViewModel
+                    {
+                        UserId = user.Id,
+                        UserName = user.UserName,
+                        IsSelected = await UserManager.IsInRoleAsync(user.Id, role.Name),
+                        RoleId = role.Id
+                    };
+                    model.Add(UserRoleViewModel);
+                }
 
-                model.Add(UserRoleViewModel);
             }
             return View(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> EditUsersInRole(List<UserRoleViewModel> model , string roleId)
+        public async Task<ActionResult> EditUsersInRole(List<UserRoleViewModel> model, string roleId)
         {
             var role = await RoleManager.FindByIdAsync(roleId);
-            
 
-            if(role == null)
+
+            if (role == null)
             {
                 ViewBag.ErrorMessage = $"Role with Id = {roleId} cannot be found";
                 return HttpNotFound();
@@ -215,7 +219,7 @@ namespace scrum_and_xp.Controllers
             ViewBag.Role = role.Id;
 
             var model = new List<NewUserViewModel>();
-           
+
 
             foreach (var user in UserManager.Users.ToList())
             {
@@ -230,18 +234,18 @@ namespace scrum_and_xp.Controllers
                     LastName = user.LastName
                 };
 
-                
 
-                if(NewUserModel.IsSelected == false)
+
+                if (NewUserModel.IsSelected == false)
                 {
                     model.Add(NewUserModel);
                 }
-                
+
 
             }
-            
-            
-            
+
+
+
             if (model != null)
             {
                 return View(model);
@@ -253,10 +257,10 @@ namespace scrum_and_xp.Controllers
         public string Count()
         {
 
-            
+
             var role = RoleManager.FindByName("Users");
 
-            if(role== null)
+            if (role == null)
             {
                 return "0";
             }
@@ -287,7 +291,7 @@ namespace scrum_and_xp.Controllers
 
             }
 
-            if (model== null)
+            if (model == null)
             {
                 return "0";
             }
@@ -305,5 +309,6 @@ namespace scrum_and_xp.Controllers
 
 
 
-    }   }    
-    
+    }
+}
+

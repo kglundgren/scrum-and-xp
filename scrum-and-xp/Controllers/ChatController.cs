@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace scrum_and_xp.Controllers
 {
+    [Authorize(Roles = "Users,Admin")]
     public class ChatController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

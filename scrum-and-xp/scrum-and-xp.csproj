@@ -537,7 +537,6 @@
     <Content Include="Views\Role\NewUsers.cshtml" />
     <Content Include="Views\UpcomingMeetings\Create.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
-    <Content Include="Views\Chat\OnlineUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

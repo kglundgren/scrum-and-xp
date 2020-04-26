@@ -40,8 +40,17 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
-
-                @Html.TextBox("File", "", new { type = "file", id = "upload" })
+                <br />
+                @*@Html.TextBox("File", "", new { type = "file", id = "upload", @class = "btn btn-primary" })*@
+                <style>
+                    [hidden] {
+                        display: none !important;
+                    }
+                </style>
+                <label class="btn btn-default">
+                    Browse for files <input type="file" name="file" id="upload" hidden>
+                </label>
+                <br />
                 @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
                 <span id="file-size-error" style="display: none; color: red;">File cannot be bigger than 3.5 MB.</span>
 
@@ -65,7 +74,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" id="save-btn" />
+                <input type="submit" value="Create" class="btn btn-primary" id="save-btn" />
             </div>
         </div>
     </div>
@@ -109,7 +118,7 @@
             }
         }
         // Validate file size and extension.
-        
+
         $('#upload').bind('change', function () {
             if (this.files[0].size > 3500000) {
                 $('#save-btn').prop('disabled', true);
