@@ -41,6 +41,21 @@ namespace scrum_and_xp.Controllers
             model.InformalCategories = new SelectList(db.InformalCategories, "Id", "Name");
             return View(model);
         }
+
+        // GET: Posts/FilterInformalPosts
+        [HttpPost]
+        public ActionResult InformalPosts(int category)
+        {
+            var model = new InformalPostViewModel
+            {
+                InformalPosts = db.InformalPosts.Include("AuthorId")
+                .Where(p => p.InformalCategories.Any(c => c.Id == category))
+                .OrderByDescending(x => x.PostTime)
+                .ToList()
+            };
+            return View(model);
+        }
+
         // GET: Posts
         public ActionResult FormalPosts()
         {
@@ -103,7 +118,7 @@ namespace scrum_and_xp.Controllers
             }
             var filename = "";
             if (model.File != null)
-                
+
             {
                 FileUpload fs = new FileUpload();
                 bool upload = fs.ValidateUpload(model.File);
@@ -113,7 +128,7 @@ namespace scrum_and_xp.Controllers
                 }
                 else if (upload == true && model.File.ContentLength > 0 && model.File.ContentLength < 3500000)
                 {
-                    
+
                     filename = Path.GetFileName(model.File.FileName).Replace(" ", "_");
                     string path = Path.Combine(Server.MapPath("~/UploadedFiles"), filename);
                     model.File.SaveAs(path);
@@ -124,7 +139,7 @@ namespace scrum_and_xp.Controllers
                 }
 
             }
-            
+
             var authorId = db.Users.Find(User.Identity.GetUserId());
             model.FormalTypes = db.FormalTypes.ToList();
             model.FormalCategories = db.FormalCategories.ToList();

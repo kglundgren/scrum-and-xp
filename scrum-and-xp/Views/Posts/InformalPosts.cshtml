@@ -11,7 +11,8 @@
     @Html.ActionLink("Create New", "Create", routeValues: new { type = "Informal" })
 </p>
 
-@Html.DropDownListFor(m => m.SelectedCategoryId, Model.InformalCategories, "Please select informal category", new { @class = "form-control", @onchange = "FilterPosts()" })
+@*Html.DropDownListFor(m => m.SelectedCategoryId, Model.InformalCategories, "Please select informal category", new { @class = "form-control", @onchange = "FilterPosts()" })*@
+@Html.DropDownListFor(m => m.SelectedCategoryId, Model.InformalCategories, "Please select informal category", new { @class = "form-control", @onchange = "GetInformalPosts()" })
 
 <br />
 <a onclick="ResetFilter()" class="btn btn-primary btn-sm">Reset filter</a>
@@ -97,6 +98,7 @@
                 }
                 @author
             </td>
+
             <td>
                 @foreach (var cat in item.InformalCategories)
                 {
@@ -123,6 +125,10 @@
 
 @section Scripts {
     <script>
+        $('#SelectedCategoryId').change(function () {
+            var id = $(this).val();
+        });
+
         function ResetFilter() {
             window.location.href = '@Url.Action("InformalPosts", "Posts")';
         }
