@@ -113,7 +113,8 @@ namespace scrum_and_xp.Controllers
                 }
                 else if (upload == true && model.File.ContentLength > 0 && model.File.ContentLength < 3500000)
                 {
-                    filename = Path.GetFileName(model.File.FileName);
+                    
+                    filename = Path.GetFileName(model.File.FileName).Replace(" ", "_");
                     string path = Path.Combine(Server.MapPath("~/UploadedFiles"), filename);
                     model.File.SaveAs(path);
                 }
@@ -174,6 +175,24 @@ namespace scrum_and_xp.Controllers
             }
 
             return RedirectToAction("Index", "Home");
+        }
+        public ActionResult DownloadFile(string filePath)
+        {
+            string fullName = Server.MapPath("~/UploadedFiles/" + filePath);
+
+            byte[] fileBytes = GetFile(fullName);
+            return File(
+                fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, filePath);
+        }
+
+        byte[] GetFile(string s)
+        {
+            System.IO.FileStream fs = System.IO.File.OpenRead(s);
+            byte[] data = new byte[fs.Length];
+            int br = fs.Read(data, 0, data.Length);
+            if (br != fs.Length)
+                throw new System.IO.IOException(s);
+            return data;
         }
 
 

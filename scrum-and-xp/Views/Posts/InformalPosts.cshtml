@@ -21,33 +21,38 @@
 <div id="d1">
     @foreach (var item in Model.InformalPosts)
     {
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">@item.Title</h3>
-        </div>
-        <div class="panel-body">
-            @item.Content
-            @if (String.IsNullOrWhiteSpace(item.File)==false)
-            {
-                var supportedTypes = new[] { "jpg", "png" };
-                var fileExt = Path.GetExtension(item.File).Substring(1);
-                if (supportedTypes.Contains(fileExt))
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">@item.Title</h3>
+            </div>
+            <div class="panel-body">
+                @item.Content
+                @if (String.IsNullOrWhiteSpace(item.File) == false)
                 {
-                   <img src="~/UploadedFiles/@item.File" >
+                    var supportedTypes = new[] { "jpg", "png" };
+                    var fileExt = Path.GetExtension(item.File).Substring(1);
+                    if (supportedTypes.Contains(fileExt))
+                    {
+                        <img src="~/UploadedFiles/@item.File">
+                    }
+                    else
+                    {
+                        <a href="~/Posts/DownloadFile?filePath=@item.File">@item.File</a>
+                    }
                 }
-            }
-            <br /><br />
-            <span class="text-info">Tag: @item.InformalCategories.FirstOrDefault().Name</span>
-            <hr />
-            @item.AuthorId.FirstName @item.AuthorId.LastName
-            <br />
-            @item.PostTime
-           
+
+                <br /><br />
+                <span class="text-info">Tag: @item.InformalCategories.FirstOrDefault().Name</span>
+                <hr />
+                @item.AuthorId.FirstName @item.AuthorId.LastName
+                <br />
+                @item.PostTime
+
+            </div>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id, typeId = "informal" }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id, typeId = "informal" }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id, typeId = "informal" })
         </div>
-        @Html.ActionLink("Edit", "Edit", new { id = item.Id, typeId = "informal" }) |
-        @Html.ActionLink("Details", "Details", new { id = item.Id, typeId = "informal" }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.Id, typeId = "informal" })
-    </div>
     }
 </div>
 
@@ -60,7 +65,7 @@
             @Html.DisplayNameFor(model => model.InformalPosts.FirstOrDefault().Content)
         </th>
         <th>
-            
+
         </th>
         <th>
             @Html.DisplayNameFor(model => model.InformalPosts.FirstOrDefault().PostTime)

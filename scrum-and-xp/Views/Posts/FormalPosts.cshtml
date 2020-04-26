@@ -28,6 +28,15 @@
         </div>
         <div class="panel-body">
             @item.Content
+            @if (String.IsNullOrWhiteSpace(item.File) == false)
+            {
+                var supportedTypes = new[] { "jpg", "png" };
+                var fileExt = Path.GetExtension(item.File).Substring(1);
+                if (supportedTypes.Contains(fileExt))
+                {
+                    <img src="~/UploadedFiles/@item.File">
+                }
+            }
             <br /><br />
             <span class="text-info">Tag: @item.FormalCategories.FirstOrDefault().Name</span>
             <br />
