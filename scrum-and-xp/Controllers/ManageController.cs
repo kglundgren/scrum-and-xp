@@ -69,7 +69,7 @@ namespace scrum_and_xp.Controllers
                 : "";
 
             var UserName = User.Identity.GetUserId();
-
+ 
             var user1 = UserManager.FindById(User.Identity.GetUserId());
 
             
@@ -101,7 +101,7 @@ namespace scrum_and_xp.Controllers
                     {
                         ViewBag.fileStatus = "Error";
                     }
-              
+
 
                 ViewBag.FileStatus = "File uploaded successfully.";
             }
@@ -111,13 +111,13 @@ namespace scrum_and_xp.Controllers
             }
 
             var Profile = new ProfileViewModel
-            {
+            { 
                 FirstName = user1.FirstName,
                 LastName = user1.LastName,
                 Email = user1.Email
             };
 
-            ViewBag.FirstName = Profile.FirstName;
+            ViewBag.FirstName = Profile.FirstName; 
             ViewBag.LastName = Profile.LastName;
             ViewBag.Email = Profile.Email;
             ViewBag.Id = user1.Id;
