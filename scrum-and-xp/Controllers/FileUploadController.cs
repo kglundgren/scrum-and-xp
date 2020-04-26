@@ -8,34 +8,25 @@ using scrum_and_xp.Models;
 
 namespace scrum_and_xp.Controllers
 {
-    public class FileUploadController : Controller
+    public class FileUpload
     {
         // GET: FileUpload
 
-        public string ErrorMessage { get; set; }
-        
-        public string ValidateUpload(HttpPostedFileBase file)
+
+        public bool ValidateUpload(HttpPostedFileBase file)
         {
-            try
+
+            var supportedTypes = new[] { "txt", "doc", "docx", "pdf", "txt", "jpg", "png" };
+            var fileExt = System.IO.Path.GetExtension(file.FileName).Substring(1);
+            if (!supportedTypes.Contains(fileExt))
             {
-                var supportedTypes = new[] { "txt", "doc", "docx", "pdf","txt", "jpg", "png" };
-                var fileExt = System.IO.Path.GetExtension(file.FileName).Substring(1);
-                if (!supportedTypes.Contains(fileExt))
-                {
-                    ErrorMessage = "File Extension Is InValid - Only Upload WORD/PDF/TXT/JPG/PNG File";
-                    return ErrorMessage;
-                }
-                else
-                {
-                    ErrorMessage = "File Is Successfully Uploaded";
-                    return ErrorMessage;
-                }
+                return false;
             }
-            catch (Exception ex)
+            else
             {
-                ErrorMessage = "Upload Container Should Not Be Empty or Contact Admin";
-                return ErrorMessage;
+                return true;
             }
+
         }
     }
 }

@@ -32,7 +32,7 @@ namespace scrum_and_xp.Controllers
             RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
         }
-        
+
         // GET: Posts
         public ActionResult InformalPosts()
         {
@@ -101,20 +101,29 @@ namespace scrum_and_xp.Controllers
                     ModelState.AddModelError("SelectedCategoryId", "Must select category.");
                 }
             }
-            //FileUploadController fs = new FileUploadController();
-            //string upload = fs.ValidateUpload(model.File);
-            //if (upload != null)
-            //{
-            //    ViewBag.ResultErrorMessage = fs.ErrorMessage;
-            //}
-            if (model.File.ContentLength > 0)
+            var filename = "";
+            if (model.File != null)
+                
             {
-                string filename = Path.GetFileName(model.File.FileName);
-                string path = Path.Combine(Server.MapPath("~/UploadedFiles"), filename);
-                model.File.SaveAs(path);
+                FileUpload fs = new FileUpload();
+                bool upload = fs.ValidateUpload(model.File);
+                if (upload == false)
+                {
+                    ModelState.AddModelError("File", "File format is not OK! Choose a .doc .docx .pdf .txt .jpg or .png file");
+                }
+                else if (upload == true && model.File.ContentLength > 0 && model.File.ContentLength < 3500000)
+                {
+                    filename = Path.GetFileName(model.File.FileName);
+                    string path = Path.Combine(Server.MapPath("~/UploadedFiles"), filename);
+                    model.File.SaveAs(path);
+                }
+                else if (upload == true && model.File.ContentLength > 3500000)
+                {
+                    ModelState.AddModelError("File", "The chosen file is to big. Choose a file less than 3.5MB");
+                }
+
             }
-
-
+            
             var authorId = db.Users.Find(User.Identity.GetUserId());
             model.FormalTypes = db.FormalTypes.ToList();
             model.FormalCategories = db.FormalCategories.ToList();
@@ -127,7 +136,7 @@ namespace scrum_and_xp.Controllers
                     Content = model.Content,
                     PostTime = DateTime.Now,
                     AuthorId = authorId,
-                    File = model.File.FileName
+                    File = filename
 
                 };
 
@@ -150,7 +159,7 @@ namespace scrum_and_xp.Controllers
                     Content = model.Content,
                     PostTime = DateTime.Now,
                     AuthorId = authorId,
-                    File = model.File.FileName
+                    File = filename
                 };
                 var infCategory = db.InformalCategories.FirstOrDefault(cat => cat.Id == model.SelectedCategoryId);
                 infPost.InformalCategories.Add(infCategory);
@@ -166,8 +175,9 @@ namespace scrum_and_xp.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-       
-        
+
+
+
 
         // GET: Posts/FillCategory
         public ActionResult FillCategory(int? type)
@@ -252,9 +262,9 @@ namespace scrum_and_xp.Controllers
                     post.Content = formal.Content;
                     post.PostTime = formal.PostTime;
                     post.AuthorId = formal.AuthorId;
-                    
+
                     post.Formal = true;
-                    
+
                     return View(post);
                 }
             }
@@ -307,8 +317,8 @@ namespace scrum_and_xp.Controllers
                     db.SaveChanges();
                     return RedirectToAction("InformalPost");
                 }
-                
-                
+
+
             }
             return View(post);
         }
