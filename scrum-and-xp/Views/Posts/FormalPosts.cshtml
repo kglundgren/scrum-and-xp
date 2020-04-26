@@ -26,15 +26,21 @@
         <div class="panel-heading">
             <h3 class="panel-title">@item.Title</h3>
         </div>
-        <div class="panel-body">
-            @item.Content
+        <div class="panel-body" style="overflow-wrap:break-word">
+            <p> @item.Content</p>
             @if (String.IsNullOrWhiteSpace(item.File) == false)
             {
                 var supportedTypes = new[] { "jpg", "png" };
                 var fileExt = Path.GetExtension(item.File).Substring(1);
                 if (supportedTypes.Contains(fileExt))
                 {
-                    <img src="~/UploadedFiles/@item.File">
+                    <br /><br />
+                    <img src="~/UploadedFiles/@item.File" style="max-height:80px">
+                }
+                else
+                {
+                    <br /><br />
+                    <span>Attached file: <a href="~/Posts/DownloadFile?filePath=@item.File">@item.File</a></span>
                 }
             }
             <br /><br />
@@ -46,80 +52,26 @@
             <br />
             @item.PostTime
         </div>
-        @Html.ActionLink("Edit", "Edit", new { id = item.Id, typeId = "formal" }) |
+       <div style="padding:4px">@Html.ActionLink("Edit", "Edit", new { id = item.Id, typeId = "formal" }) |
         @Html.ActionLink("Details", "Details", new { id = item.Id, typeId = "formal" }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.Id, typeId = "formal" })
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id, typeId = "formal" })</div> 
     </div>
     }
 </div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FormalPosts.FirstOrDefault().Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FormalPosts.FirstOrDefault().Content)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FormalPosts.FirstOrDefault().PostTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FormalPosts.FirstOrDefault().AuthorId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FormalPosts.FirstOrDefault().FormalCategories)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FormalTypes)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.FormalPosts)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostTime)
-            </td>
-            <td>
-                @{
-                    var author = item.AuthorId.FirstName + " " + item.AuthorId.LastName;
-                }
-                @author
-            </td>
-            <td>
-                @foreach (var cat in item.FormalCategories)
-                {
-                    <span>@cat.Name</span>
-                }
-            </td>
-            <td>
-                @*@foreach (var type in item.FormalCategories)
-                    {
-                        <span>@type.Type</span>
-                    }*@
-                <span>@item.FormalCategories.FirstOrDefault().Type.Name</span>
-            </td>
-            <td>
-                @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
-            </td>
-        </tr>
-    }
-
-</table>
-
-
 @section Scripts {
     <script>
+     $('#SelectedCategoryId').change(function () {
+         var id = $(this).val();
+         var typeid = $('#SelectedTypeId').val();
+            window.location.href = '@Url.Action("FormalPosts", "Posts")' + '?type=' + typeid + '&category=' +id;
+
+     });
+    $('#SelectedTypeId').change(function () {
+            var id = $(this).val();
+            window.location.href = '@Url.Action("FormalPosts", "Posts")' + '?type=' + id;
+
+        });
         function ResetFilter() {
             window.location.href = '@Url.Action("FormalPosts", "Posts")';
         }

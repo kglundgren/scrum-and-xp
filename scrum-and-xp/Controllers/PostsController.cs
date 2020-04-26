@@ -34,35 +34,59 @@ namespace scrum_and_xp.Controllers
         }
 
         // GET: Posts
-        public ActionResult InformalPosts()
+        [HttpGet]
+        public ActionResult InformalPosts(int? category)
         {
             var model = new InformalPostViewModel();
-            model.InformalPosts = db.InformalPosts.Include("InformalCategories").Include("AuthorId").OrderByDescending(x => x.PostTime).ToList();
-            model.InformalCategories = new SelectList(db.InformalCategories, "Id", "Name");
-            return View(model);
-        }
 
-        // GET: Posts/FilterInformalPosts
-        [HttpPost]
-        public ActionResult InformalPosts(int category)
-        {
-            var model = new InformalPostViewModel
+            if (category.HasValue)
             {
-                InformalPosts = db.InformalPosts.Include("AuthorId")
-                .Where(p => p.InformalCategories.Any(c => c.Id == category))
-                .OrderByDescending(x => x.PostTime)
-                .ToList()
-            };
+                model.InformalCategories = new SelectList(db.InformalCategories, "Id", "Name");
+                model.InformalPosts = db.InformalPosts.Include("AuthorId")
+               .Where(p => p.InformalCategories.Any(c => c.Id == category))
+               .OrderByDescending(x => x.PostTime)
+               .ToList();
+            }
+            else
+            {
+                model.InformalPosts = db.InformalPosts.Include("InformalCategories").Include("AuthorId").OrderByDescending(x => x.PostTime).ToList();
+                model.InformalCategories = new SelectList(db.InformalCategories, "Id", "Name");
+            }
+           
+           
             return View(model);
         }
-
+             
         // GET: Posts
-        public ActionResult FormalPosts()
+        public ActionResult FormalPosts(int? type, int? category)
         {
             var model = new FormalPostViewModel();
-            model.FormalPosts = db.FormalPosts.Include("FormalCategories").Include("AuthorId").OrderByDescending(x => x.PostTime).ToList();
             model.FormalCategories = new SelectList(db.FormalCategories, "Id", "Name");
             model.FormalTypes = new SelectList(db.FormalTypes, "Id", "Name");
+            if (type.HasValue)
+            {
+                model.FormalPosts = db.FormalPosts.Include("AuthorId").Include("FormalCategories.Type")
+                    .Where(p => p.FormalCategories.Any(c => c.Type.Id == type))
+                    .OrderByDescending(x => x.PostTime)
+                    .ToList();
+                model.SelectedTypeId = Convert.ToInt32(type);
+                if (category.HasValue)
+                {
+                    model.FormalPosts.Clear();
+                    model.FormalPosts = db.FormalPosts.Include("AuthorId").Include("FormalCategories.Type")
+                        .Where(p=>p.FormalCategories.Any(c=>c.Id==category && c.Type.Id==type))
+                        .OrderByDescending(x => x.PostTime)
+                        .ToList();
+                    model.SelectedCategoryId = Convert.ToInt32(category);
+                    
+                }
+            }
+            else { 
+                model.FormalPosts = db.FormalPosts.Include("FormalCategories").Include("AuthorId").OrderByDescending(x => x.PostTime).ToList(); 
+            }
+            
+            
+            
             return View(model);
         }
 

@@ -12,7 +12,7 @@
 </p>
 
 @*Html.DropDownListFor(m => m.SelectedCategoryId, Model.InformalCategories, "Please select informal category", new { @class = "form-control", @onchange = "FilterPosts()" })*@
-@Html.DropDownListFor(m => m.SelectedCategoryId, Model.InformalCategories, "Please select informal category", new { @class = "form-control", @onchange = "GetInformalPosts()" })
+@Html.DropDownListFor(m => m.SelectedCategoryId, Model.InformalCategories, "Please select informal category", new { @class = "form-control"})
 
 <br />
 <a onclick="ResetFilter()" class="btn btn-primary btn-sm">Reset filter</a>
@@ -26,7 +26,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">@item.Title</h3>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" style="overflow-wrap:break-word">
                 @item.Content
                 @if (String.IsNullOrWhiteSpace(item.File) == false)
                 {
@@ -34,11 +34,13 @@
                     var fileExt = Path.GetExtension(item.File).Substring(1);
                     if (supportedTypes.Contains(fileExt))
                     {
-                        <img src="~/UploadedFiles/@item.File">
+                        <br /><br />
+                        <img src="~/UploadedFiles/@item.File" style="max-height:200px">
                     }
                     else
                     {
-                        <a href="~/Posts/DownloadFile?filePath=@item.File">@item.File</a>
+                        <br /><br />
+                        <span>Attached file: <a href="~/Posts/DownloadFile?filePath=@item.File">@item.File</a></span>
                     }
                 }
 
@@ -50,83 +52,21 @@
                 @item.PostTime
 
             </div>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id, typeId = "informal" }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id, typeId = "informal" }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id, typeId = "informal" })
+            <div style="padding:4px">
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id, typeId = "informal" }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id, typeId = "informal" }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id, typeId = "informal" })
+                    </div>
         </div>
     }
 </div>
-
-<table class="table" id="t1">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.InformalPosts.FirstOrDefault().Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.InformalPosts.FirstOrDefault().Content)
-        </th>
-        <th>
-
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.InformalPosts.FirstOrDefault().PostTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.InformalPosts.FirstOrDefault().AuthorId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.InformalPosts.FirstOrDefault().InformalCategories)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.InformalPosts)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostTime)
-            </td>
-            <td>
-                @{
-                    var author = item.AuthorId.FirstName + " " + item.AuthorId.LastName;
-                }
-                @author
-            </td>
-
-            <td>
-                @foreach (var cat in item.InformalCategories)
-                {
-                    if (item.InformalCategories.Count > 1)
-                    {
-                        <span>@cat.Name,</span>
-                    }
-                    else
-                    {
-                        <span>@cat.Name</span>
-                    }
-                }
-            </td>
-            <td>
-                @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-            </td>
-        </tr>
-    }
-
-</table>
-
 
 @section Scripts {
     <script>
         $('#SelectedCategoryId').change(function () {
             var id = $(this).val();
+            window.location.href = '@Url.Action("InformalPosts", "Posts")' + '?category=' + id;
+            
         });
 
         function ResetFilter() {
