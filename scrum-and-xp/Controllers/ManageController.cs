@@ -114,12 +114,14 @@ namespace scrum_and_xp.Controllers
             { 
                 FirstName = user1.FirstName,
                 LastName = user1.LastName,
-                Email = user1.Email
+                Email = user1.Email,
+                PhoneNumber = user1.PhoneNumber
             };
 
             ViewBag.FirstName = Profile.FirstName; 
             ViewBag.LastName = Profile.LastName;
             ViewBag.Email = Profile.Email;
+            ViewBag.PhoneNumber = Profile.PhoneNumber;
             ViewBag.Id = user1.Id;
             ViewBag.Img = user1.Img;
 
