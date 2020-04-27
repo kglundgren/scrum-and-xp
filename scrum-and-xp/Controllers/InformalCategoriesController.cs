@@ -115,9 +115,13 @@ namespace scrum_and_xp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            InformalCategory informalCategory = db.InformalCategories.Find(id);
-            db.InformalCategories.Remove(informalCategory);
-            db.SaveChanges();
+            var posts = db.InformalPosts.Where(p => p.InformalCategories.Any(c => c.Id == id)).ToList();
+            if (posts.Count == 0)
+            {
+                InformalCategory informalCategory = db.InformalCategories.Find(id);
+                db.InformalCategories.Remove(informalCategory);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

@@ -14,8 +14,11 @@ namespace scrum_and_xp.ViewModels
         [Required(ErrorMessage = "The meeting needs to have a description")]
         public string Description { get; set; }
         [Required(ErrorMessage = "The meeting needs to have at least one time option.")]
+        [Display(Name = "Time option 1")]
         public DateTime? Option1 { get; set; }
+        [Display(Name = "Time option 2")]
         public DateTime? Option2 { get; set; }
+        [Display(Name = "Time option 3")]
         public DateTime? Option3 { get; set; }
         [Required(ErrorMessage = "The meeting needs to have a time duration")]
         public TimeSpan Duration { get; set; }

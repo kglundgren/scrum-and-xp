@@ -97,6 +97,9 @@
 <table class="table">
     <tr>
         <th>
+            Invited by
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.UpcomingMeetingViewModels.First().Description)
         </th>
         <th>
@@ -124,6 +127,9 @@
 
             @Html.AntiForgeryToken()
             <tr>
+                <td>
+                    @item.Author.FirstName @item.Author.LastName
+                </td>
                 <td>
                     @Html.DisplayFor(m => item.Description)
                 </td>
