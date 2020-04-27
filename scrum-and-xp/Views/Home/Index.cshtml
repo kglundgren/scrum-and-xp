@@ -2,6 +2,16 @@
     ViewBag.Title = "Home Page";
 }
 
+<style>
+    body {
+        background-image: url("/UploadedFiles/coffee.jpg");
+        background-color: #cccccc;
+    }
+    p {
+        color: white;
+    }
+</style>
+
 @if (Request.IsAuthenticated && !User.IsInRole("Users") && !User.IsInRole("Admin"))
 {
     <div class="jumbotron">
@@ -35,7 +45,7 @@ else
     <h2>@ViewBag.Auth</h2>
     <div class="jumbotron">
         <h1>ORUs Bloggportal</h1>
-        <p class="lead">Welcome to a modern IT solution.</p>
+        <p class="lead" style="color: black;">Welcome to a modern IT solution.</p>
         <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
     </div>
 
