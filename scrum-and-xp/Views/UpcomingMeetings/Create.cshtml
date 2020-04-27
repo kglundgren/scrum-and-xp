@@ -59,12 +59,16 @@
                 <a id="@item.Id" class="invite-btn btn-primary btn-sm">@item.FirstName @item.LastName - Invite</a>
             }*@
 
-        @Html.ListBox("AllUsers", new SelectList(Model.AllUsers, "Id", "Email"), new { multiple = "multiple" })
-        <input id="ShiftRight" type="button" value="Invite selected user(s)" class="btn btn-default btn-sm" />
-        <input id="ShiftLeft" type="button" value="Uninvite selected user(s)" class="btn btn-default btn-sm" />
-        @Html.ListBox("InvitedUsers", null, new { multiple = "multiple" })
-
+        @Html.ListBox("AllUsers", new SelectList(Model.AllUsers, "Id", "Email"), new { multiple = "multiple", style = "min-width: 200px; margin-left: 200px;"})
+        <br />
+        <input id="ShiftRight" type="button" value="Invite selected user(s)" class="btn btn-default btn-sm" style="margin-left: 200px;" />
         <br /><br />
+        @Html.ListBox("InvitedUsers", null, new { multiple = "multiple", style = "min-width: 200px; margin-left: 200px;" })
+        <br />
+        <input id="ShiftLeft" type="button" value="Uninvite selected user(s)" class="btn btn-default btn-sm" style="margin-left: 200px;" />
+        <br />
+
+        <br />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
