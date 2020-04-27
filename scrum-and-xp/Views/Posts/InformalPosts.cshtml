@@ -11,7 +11,7 @@
     @Html.ActionLink("Create New", "Create", routeValues: new { type = "Informal" })
 </p>
 
-@Html.DropDownListFor(m => m.SelectedCategoryId, Model.InformalCategories, "Please select informal category", new { @class = "form-control", @onchange = "FilterPosts()" })
+@Html.DropDownListFor(m => m.SelectedCategoryId, Model.InformalCategories, "Please select informal category", new { @class = "form-control"})
 
 <br />
 <a onclick="ResetFilter()" class="btn btn-primary btn-sm">Reset filter</a>
@@ -21,99 +21,53 @@
 <div id="d1">
     @foreach (var item in Model.InformalPosts)
     {
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">@item.Title</h3>
-        </div>
-        <div class="panel-body">
-            @item.Content
-
-            @if (item.Img == 1)
-            {
-                string p = item.Id.ToString();
-                string path = Path.Combine("~/Images/" + p + "Informal");
-                <img src="@Url.Content(path + ".jpg")" alt="Image" style="height:200px; border-style: groove; margin-left:500px" />
-            }
-
-
-            <br /><br />
-            <span class="text-info">Tag: @item.InformalCategories.FirstOrDefault().Name</span>
-            <hr />
-            @item.AuthorId.FirstName @item.AuthorId.LastName
-            <br />
-            @item.PostTime
-        </div>
-        @Html.ActionLink("Edit", "Edit", new { id = item.Id, typeId = "informal" }) |
-        @Html.ActionLink("Details", "Details", new { id = item.Id, typeId = "informal" }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.Id, typeId = "informal" })
-    </div>
-    }
-</div>
-
-<table class="table" id="t1">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.InformalPosts.FirstOrDefault().Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.InformalPosts.FirstOrDefault().Content)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.InformalPosts.FirstOrDefault().PostTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.InformalPosts.FirstOrDefault().AuthorId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.InformalPosts.FirstOrDefault().InformalCategories)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.InformalPosts)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostTime)
-            </td>
-            <td>
-                @{
-                    var author = item.AuthorId.FirstName + " " + item.AuthorId.LastName;
-                }
-                @author
-            </td>
-            <td>
-                @foreach (var cat in item.InformalCategories)
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">@item.Title</h3>
+            </div>
+            <div class="panel-body" style="overflow-wrap:break-word">
+                @item.Content
+                @if (String.IsNullOrWhiteSpace(item.File) == false)
                 {
-                    if (item.InformalCategories.Count > 1)
+                    var supportedTypes = new[] { "jpg", "png" };
+                    var fileExt = Path.GetExtension(item.File).Substring(1);
+                    if (supportedTypes.Contains(fileExt))
                     {
-                        <span>@cat.Name,</span>
+                        <br /><br />
+                        <img src="~/UploadedFiles/@item.File" style="max-height:200px">
                     }
                     else
                     {
-                        <span>@cat.Name</span>
+                        <br /><br />
+                        <span>Attached file: <a href="~/Posts/DownloadFile?filePath=@item.File">@item.File</a></span>
                     }
                 }
-            </td>
-            <td>
-                @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-            </td>
-        </tr>
+
+                <br /><br />
+                <span class="text-info">Tag: @item.InformalCategories.FirstOrDefault().Name</span>
+                <hr />
+                @item.AuthorId.FirstName @item.AuthorId.LastName
+                <br />
+                @item.PostTime
+
+            </div>
+            <div style="padding:4px">
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id, typeId = "informal" }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id, typeId = "informal" }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id, typeId = "informal" })
+                    </div>
+        </div>
     }
-
-</table>
-
+</div>
 
 @section Scripts {
     <script>
+        $('#SelectedCategoryId').change(function () {
+            var id = $(this).val();
+            window.location.href = '@Url.Action("InformalPosts", "Posts")' + '?category=' + id;
+            
+        });
+
         function ResetFilter() {
             window.location.href = '@Url.Action("InformalPosts", "Posts")';
         }

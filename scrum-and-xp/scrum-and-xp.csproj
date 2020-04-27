@@ -190,6 +190,7 @@
     <Compile Include="ChatHub.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
+    <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\FormalCategoriesController.cs" />
     <Compile Include="Controllers\FormalTypesController.cs" />
@@ -223,6 +224,7 @@
     <Compile Include="Models\UsersUpcomingMeetings.cs" />
     <Compile Include="Models\WebAPIEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FileUploadService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ChatUser.cs" />
     <Compile Include="ViewModels\CreateFormalCategoryViewModel.cs" />
@@ -510,8 +512,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Posts\InformalPostView.cshtml" />
-    <Content Include="Views\Posts\CreatePostView.cshtml" />
     <Content Include="Views\Manage\ChangePhoneNumberView.cshtml" />
     <Content Include="Views\Manage\ChangeName.cshtml" />
     <Content Include="Views\InformalCategories\Create.cshtml" />
@@ -545,11 +545,12 @@
     <Content Include="Views\Role\NewUsers.cshtml" />
     <Content Include="Views\UpcomingMeetings\Create.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
-    <Content Include="Views\Chat\OnlineUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
+    <Folder Include="UploadedFiles\" />
+    <Folder Include="Views\FileUpload\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

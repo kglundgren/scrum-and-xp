@@ -19,33 +19,77 @@ namespace scrum_and_xp.Controllers
 {
     [Authorize(Roles = "Users,Admin")]
     public class PostsController : Controller
+
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
         private readonly RoleManager<IdentityRole> RoleManager;
         private readonly ApplicationUserManager UserManager;
+        public string ErrorMessage { get; set; }
 
         public PostsController()
         {
             RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
         }
-        
+
         // GET: Posts
-        public ActionResult InformalPosts()
+        [HttpGet]
+        public ActionResult InformalPosts(int? category)
         {
             var model = new InformalPostViewModel();
-            model.InformalPosts = db.InformalPosts.Include("InformalCategories").Include("AuthorId").OrderByDescending(x => x.PostTime).ToList();
-            model.InformalCategories = new SelectList(db.InformalCategories, "Id", "Name");
+
+            if (category.HasValue)
+            {
+                model.InformalCategories = new SelectList(db.InformalCategories, "Id", "Name");
+                model.InformalPosts = db.InformalPosts.Include("AuthorId")
+               .Where(p => p.InformalCategories.Any(c => c.Id == category))
+               .OrderByDescending(x => x.PostTime)
+               .ToList();
+                model.SelectedCategoryId = Convert.ToInt32(category);
+            }
+            else
+            {
+                model.InformalPosts = db.InformalPosts.Include("InformalCategories").Include("AuthorId").OrderByDescending(x => x.PostTime).ToList();
+                model.InformalCategories = new SelectList(db.InformalCategories, "Id", "Name");
+            }
+
+
             return View(model);
         }
+
         // GET: Posts
-        public ActionResult FormalPosts()
+        public ActionResult FormalPosts(int? type, int? category)
         {
             var model = new FormalPostViewModel();
-            model.FormalPosts = db.FormalPosts.Include("FormalCategories").Include("AuthorId").OrderByDescending(x => x.PostTime).ToList();
-            model.FormalCategories = new SelectList(db.FormalCategories, "Id", "Name");
-            model.FormalTypes = new SelectList(db.FormalTypes, "Id", "Name");
+            if (type.HasValue)
+            {
+                var typeInt32 = Convert.ToInt32(type);
+                model.SelectedTypeId = typeInt32;
+                model.FormalTypes = new SelectList(db.FormalTypes, "Id", "Name");
+                model.FormalCategories = new SelectList(db.FormalCategories.Where(c => c.Type.Id == typeInt32), "Id", "Name");
+                model.FormalPosts = db.FormalPosts.Include("AuthorId").Include("FormalCategories.Type")
+                    .Where(p => p.FormalCategories.Any(c => c.Type.Id == type))
+                    .OrderByDescending(x => x.PostTime)
+                    .ToList();
+                if (category.HasValue)
+                {
+                    model.SelectedCategoryId = Convert.ToInt32(category);
+                    model.FormalPosts = db.FormalPosts.Include("AuthorId").Include("FormalCategories.Type")
+                        .Where(p => p.FormalCategories.Any(c => c.Id == category && c.Type.Id == type))
+                        .OrderByDescending(x => x.PostTime)
+                        .ToList();
+                }
+            }
+            else
+            {
+                model.FormalTypes = new SelectList(db.FormalTypes, "Id", "Name");
+                model.FormalCategories = new SelectList(db.FormalCategories, "Id", "Name");
+                model.FormalPosts = db.FormalPosts.Include("FormalCategories").Include("AuthorId").OrderByDescending(x => x.PostTime).ToList();
+            }
+
+
+
             return View(model);
         }
 
@@ -88,8 +132,9 @@ namespace scrum_and_xp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public ActionResult Create([Bind(Include = "Id,Title,Content,PostTime")] Post post)
-        public ActionResult Create(CreatePostViewModel model, HttpPostedFileBase ImagePath)
+        public ActionResult Create(CreatePostViewModel model)
         {
+
             if (model.SelectedCategoryId is null)
             {
                 if (ModelState.ContainsKey("SelectedCategoryId"))
@@ -98,13 +143,34 @@ namespace scrum_and_xp.Controllers
                     ModelState.AddModelError("SelectedCategoryId", "Must select category.");
                 }
             }
+            var filename = "";
+            if (model.File != null)
+
+            {
+                FileUpload fs = new FileUpload();
+                bool upload = fs.ValidateUpload(model.File);
+                if (upload == false)
+                {
+                    ModelState.AddModelError("File", "File format is not OK! Choose a .doc .docx .pdf .txt .jpg or .png file");
+                }
+                else if (upload == true && model.File.ContentLength > 0 && model.File.ContentLength < 3500000)
+                {
+
+                    filename = Path.GetFileName(model.File.FileName).Replace(" ", "_");
+                    string path = Path.Combine(Server.MapPath("~/UploadedFiles"), filename);
+                    model.File.SaveAs(path);
+                }
+                else if (upload == true && model.File.ContentLength > 3500000)
+                {
+                    ModelState.AddModelError("File", "The chosen file is to big. Choose a file less than 3.5MB");
+                }
+
+            }
 
             var authorId = db.Users.Find(User.Identity.GetUserId());
             model.FormalTypes = db.FormalTypes.ToList();
             model.FormalCategories = db.FormalCategories.ToList();
             model.InformalCategories = db.InformalCategories.ToList();
-
-
             if (model.Type == "Formal")
             {
                 var formPost = new FormalPost
@@ -112,10 +178,11 @@ namespace scrum_and_xp.Controllers
                     Title = model.Title,
                     Content = model.Content,
                     PostTime = DateTime.Now,
-                    AuthorId = authorId
-                    
-                    
+                    AuthorId = authorId,
+                    File = filename
+
                 };
+
                 var formCat = db.FormalCategories.FirstOrDefault(cat => cat.Id == model.SelectedCategoryId);
                 formPost.FormalCategories.Add(formCat);
 
@@ -123,32 +190,6 @@ namespace scrum_and_xp.Controllers
                 {
                     db.FormalPosts.Add(formPost);
                     db.SaveChanges();
-
-                    var checkextension = Path.GetExtension(ImagePath.FileName).ToLower();
-
-                    if (ImagePath == null)
-                    {
-                        formPost.Img = 0;
-                    }
-
-                    if (checkextension.ToLower().Contains(".jpg") || checkextension.ToLower().Contains(".jpeg") || checkextension.Contains(".png"))
-                    {
-                        // path skapar sökväg för att lägga in bilden i projektmappen Images
-                        //string path = System.IO.Path.Combine(Server.MapPath("~/Images"), System.IO.Path.GetFileName(ImagePath.FileName));
-                        // relativePath skapar den relativa sökvägen som läggs in i databasen
-                        string p = formPost.Id.ToString();
-                        string I = p + "Formal";
-                        //string relativePath = System.IO.Path.Combine("~/Images/"), p);
-                        string path = Path.Combine(Server.MapPath("~/Images"), I);
-
-
-                        ImagePath.SaveAs(path + checkextension);
-                        formPost.Img = 1;
-                        ViewBag.FileStatus = "Photo uploaded successfully.";
-                        ViewBag.I = checkextension;
-
-                        db.SaveChanges();
-                    }
                     return RedirectToAction("FormalPosts");
                 }
                 return View(model);
@@ -160,7 +201,8 @@ namespace scrum_and_xp.Controllers
                     Title = model.Title,
                     Content = model.Content,
                     PostTime = DateTime.Now,
-                    AuthorId = authorId
+                    AuthorId = authorId,
+                    File = filename
                 };
                 var infCategory = db.InformalCategories.FirstOrDefault(cat => cat.Id == model.SelectedCategoryId);
                 infPost.InformalCategories.Add(infCategory);
@@ -169,39 +211,34 @@ namespace scrum_and_xp.Controllers
                 {
                     db.InformalPosts.Add(infPost);
                     db.SaveChanges();
-
-                    var checkextension = Path.GetExtension(ImagePath.FileName).ToLower();
-
-                    if(ImagePath == null)
-                    {
-                        infPost.Img = 0;
-                    }
-
-                    if (checkextension.ToLower().Contains(".jpg") || checkextension.ToLower().Contains(".jpeg") || checkextension.Contains(".png"))
-                    {
-                        // path skapar sökväg för att lägga in bilden i projektmappen Images
-                        //string path = System.IO.Path.Combine(Server.MapPath("~/Images"), System.IO.Path.GetFileName(ImagePath.FileName));
-                        // relativePath skapar den relativa sökvägen som läggs in i databasen
-                        string p = infPost.Id.ToString();
-                        string I = p + "informal";
-                        //string relativePath = System.IO.Path.Combine("~/Images/"), p);
-                        string path = Path.Combine(Server.MapPath("~/Images"), I);
-
-
-                        ImagePath.SaveAs(path + checkextension);
-                        infPost.Img = 1;
-                        ViewBag.FileStatus = "Photo uploaded successfully.";
-                        ViewBag.I = checkextension;
-
-                        db.SaveChanges();
-                    }
                     return RedirectToAction("InformalPosts");
                 }
                 return View(model);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
+        public ActionResult DownloadFile(string filePath)
+        {
+            string fullName = Server.MapPath("~/UploadedFiles/" + filePath);
+
+            byte[] fileBytes = GetFile(fullName);
+            return File(
+                fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, filePath);
+        }
+
+        byte[] GetFile(string s)
+        {
+            System.IO.FileStream fs = System.IO.File.OpenRead(s);
+            byte[] data = new byte[fs.Length];
+            int br = fs.Read(data, 0, data.Length);
+            if (br != fs.Length)
+                throw new System.IO.IOException(s);
+            return data;
+        }
+
+
+
 
         // GET: Posts/FillCategory
         public ActionResult FillCategory(int? type)
@@ -286,7 +323,9 @@ namespace scrum_and_xp.Controllers
                     post.Content = formal.Content;
                     post.PostTime = formal.PostTime;
                     post.AuthorId = formal.AuthorId;
+
                     post.Formal = true;
+
                     return View(post);
                 }
             }
@@ -339,8 +378,8 @@ namespace scrum_and_xp.Controllers
                     db.SaveChanges();
                     return RedirectToAction("InformalPost");
                 }
-                
-                
+
+
             }
             return View(post);
         }
