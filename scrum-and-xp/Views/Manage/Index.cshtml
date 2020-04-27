@@ -37,6 +37,12 @@
 
     </dd>
 
+    <dt>Phone number:</dt>
+    <dd>
+        @ViewBag.PhoneNumber
+
+    </dd>
+
 
 </dl>
 
@@ -49,7 +55,7 @@
         {
             <h4>Change your account settings</h4>
             <hr />
-            <dt>File Upload</dt>
+            <dt>Upload/change profile picture</dt>
             <dd>
                 @using (Html.BeginForm("Index", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
