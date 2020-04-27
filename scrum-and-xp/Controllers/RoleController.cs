@@ -91,7 +91,7 @@ namespace scrum_and_xp.Controllers
                 Id = role.Id,
                 RoleName = role.Name
             };
-
+            ViewBag.Rolename = role.Name;
             foreach (var users in UserManager.Users.ToList())
             {
                 if (await UserManager.IsInRoleAsync(users.Id, role.Name))
