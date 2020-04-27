@@ -33,12 +33,12 @@
                     var fileExt = Path.GetExtension(item.File).Substring(1);
                     if (supportedTypes.Contains(fileExt))
                     {
-                        <br /><br />
+                        <br />
                         <img src="~/UploadedFiles/@item.File" style="max-height:200px">
                     }
                     else
                     {
-                        <br /><br />
+                        <br />
                         <span>Attached file: <a href="~/Posts/DownloadFile?filePath=@item.File">@item.File</a></span>
                     }
                 }
