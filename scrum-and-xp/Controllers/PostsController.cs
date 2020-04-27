@@ -334,7 +334,7 @@ namespace scrum_and_xp.Controllers
                 var informal = db.InformalPosts.Find(id);
                 if (informal != null)
                 {
-                    if (formal.AuthorId == user || admin)
+                    if (informal.AuthorId == user || admin)
                     {
                         post.Id = informal.Id;
                         post.Title = informal.Title;
@@ -367,7 +367,7 @@ namespace scrum_and_xp.Controllers
                     formal.Content = post.Content;
                     formal.PostTime = DateTime.Now;
                     db.SaveChanges();
-                    return RedirectToAction("InformalPost");
+                    return RedirectToAction("FormalPosts");
                 }
                 else
                 {
@@ -376,7 +376,7 @@ namespace scrum_and_xp.Controllers
                     informal.Content = post.Content;
                     informal.PostTime = DateTime.Now;
                     db.SaveChanges();
-                    return RedirectToAction("InformalPost");
+                    return RedirectToAction("InformalPosts");
                 }
 
 
