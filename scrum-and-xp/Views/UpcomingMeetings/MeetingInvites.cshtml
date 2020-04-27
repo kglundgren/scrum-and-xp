@@ -142,7 +142,7 @@
                         @item.Option1@: - <br />
                         var endDate = new DateTime(Convert.ToDateTime(item.Option1).Ticks).AddHours(item.Duration.Hours);
                         @endDate
-                        @Html.RadioButton("SelectedResponse", item.Option1)
+                        @Html.RadioButton("SelectedResponse", item.Option1, new { style = "margin-left: 5px;"})
                     }
                 </td>
                 <td>
@@ -151,7 +151,7 @@
                         @item.Option2@:- <br />
                         var endDate2 = new DateTime(Convert.ToDateTime(item.Option2).Ticks).AddHours(item.Duration.Hours);
                         @endDate2
-                        @Html.RadioButton("SelectedResponse", item.Option2)
+                        @Html.RadioButton("SelectedResponse", item.Option2, new { style = "margin-left: 5px;"})
                     }
                 </td>
                 <td>
@@ -160,7 +160,7 @@
                         @item.Option3@: - <br />
                         var endDate3 = new DateTime(Convert.ToDateTime(item.Option3).Ticks).AddHours(item.Duration.Hours);
                         @endDate3
-                        @Html.RadioButton("SelectedResponse", item.Option3)
+                        @Html.RadioButton("SelectedResponse", item.Option3, new { style = "margin-left: 5px;"})
                     }
                 </td>
                 <td>
