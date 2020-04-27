@@ -212,6 +212,10 @@
     <Compile Include="Migrations\202004260949469_Nytt.Designer.cs">
       <DependentUpon>202004260949469_Nytt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004270726157_SistaMerge.cs" />
+    <Compile Include="Migrations\202004270726157_SistaMerge.Designer.cs">
+      <DependentUpon>202004270726157_SistaMerge.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
@@ -571,6 +575,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004260949469_Nytt.resx">
       <DependentUpon>202004260949469_Nytt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004270726157_SistaMerge.resx">
+      <DependentUpon>202004270726157_SistaMerge.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
